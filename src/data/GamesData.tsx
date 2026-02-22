@@ -30,7 +30,7 @@ export const gameCards: GameCardData[] = [
     id: 2,
     name: "Deductive Challenge",
     image: "/deductive.png",
-    rulesLink: "/play/Deductivechallenge",
+    rulesLink: "/play/Deductive-challenge",
     description:
       "Mental or logical puzzle that tests deductive reasoning ability, your skill in drawing specific conclusions based on general rules or facts.",
     isAvailable: true
@@ -38,7 +38,7 @@ export const gameCards: GameCardData[] = [
     {
     id: 4,
     name: "Motion Challenge",
-    image: "/games/MotionChallenge.jpeg",
+    image: "/games/motion.png",
     rulesLink: "/play/Motion-challenge",
     description:
       "A fast-paced memory game where objects move, and you must track their final positions — testing focus, recall, and spatial skills. (Game is not added yet)",

@@ -33,7 +33,7 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
     return (
         <div className="flex flex-col items-center select-none">
             <div
-                className="relative bg-gray-200 shadow-xl rounded-lg overflow-hidden border-4 border-gray-300"
+                className="relative bg-[#FAECE1]/30 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] rounded-3xl overflow-hidden border-2 border-[#E5DFD3] backdrop-blur-sm"
                 style={{ width: boardWidth, height: boardHeight }}
             >
                 {/* Render grid lines for visual clarity */}
@@ -41,7 +41,7 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
                     Array.from({ length: level.cols }).map((_, c) => (
                         <div
                             key={`grid-${r}-${c}`}
-                            className="absolute border border-gray-300/30"
+                            className="absolute border border-[#E5DFD3]/40"
                             style={{
                                 top: r * CELL_SIZE,
                                 left: c * CELL_SIZE,
@@ -54,7 +54,7 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
 
                 {/* Render the Hole */}
                 <div
-                    className="absolute flex items-center justify-center"
+                    className="absolute flex items-center justify-center transition-all duration-300"
                     style={{
                         top: level.hole.y * CELL_SIZE,
                         left: level.hole.x * CELL_SIZE,
@@ -62,7 +62,7 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
                         height: CELL_SIZE,
                     }}
                 >
-                    <div className="w-3/4 h-3/4 bg-gray-900 rounded-full shadow-inner z-0" />
+                    <div className="w-[65%] h-[65%] bg-[#2C241B] rounded-full shadow-[inset_0_5px_15px_rgba(0,0,0,0.8)] z-0 ring-4 ring-[#E5DFD3]/30" />
                 </div>
 
                 {/* Render Entities */}
@@ -71,25 +71,25 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
                     const validMoves = isSelected ? getValidMoves(level, entities, entity.id) : null;
 
                     // Entity styling based on type
-                    let entityClasses = 'absolute flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer';
+                    let entityClasses = 'absolute flex items-center justify-center transition-all duration-300 cursor-pointer';
                     let innerContent = null;
 
                     if (entity.type === 'obstacle') {
-                        entityClasses += ' bg-gray-300 cursor-not-allowed z-10';
+                        entityClasses += ' bg-[#EBE5DA] cursor-not-allowed z-10 rounded-[14px]';
                         innerContent = (
                             <div className="w-full h-full relative flex items-center justify-center">
-                                <X className="text-gray-400 w-10 h-10" />
-                                {/* Diagonal lines to match screenshot cross marks */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent opacity-50" />
+                                <X className="text-[#C2B7A9] w-8 h-8 opacity-40" />
                             </div>
                         );
                     } else if (entity.type === 'ball') {
-                        entityClasses += ` rounded-full ${entity.color} z-20 hover:scale-105 active:scale-95`;
-                        if (isSelected) entityClasses += ' ring-4 ring-yellow-400 ring-offset-2';
+                        entityClasses += ` rounded-full ${entity.color} z-20 hover:scale-[1.03] active:scale-95 shadow-[0_8px_16px_rgba(0,0,0,0.2)] border-2 border-white/20`;
+                        if (isSelected) entityClasses += ' ring-[3px] ring-[#C08457] ring-offset-2 ring-offset-[#FCF8F4]';
                     } else if (entity.type === 'block') {
-                        entityClasses += ` ${entity.color} rounded-md z-20 hover:brightness-110`;
-                        if (isSelected) entityClasses += ' ring-4 ring-yellow-400 ring-inset';
+                        entityClasses += ` ${entity.color} rounded-[14px] z-20 hover:brightness-110 shadow-[0_6px_12px_rgba(0,0,0,0.12)] border border-white/20`;
+                        if (isSelected) entityClasses += ' ring-[3px] ring-[#C08457] ring-offset-2 ring-offset-[#FCF8F4]';
                     }
+
+                    const arrowBtnClass = "absolute flex items-center justify-center bg-white/95 backdrop-blur-md rounded-full w-[28px] h-[28px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] pointer-events-auto hover:bg-[#C08457] hover:text-white transition-all text-[#3B3024] border border-[#E5DFD3]/50";
 
                     return (
                         <motion.div
@@ -105,50 +105,50 @@ const MotionChallengeBoard: React.FC<MotionChallengeBoardProps> = ({
                             className={entityClasses}
                             // Slight padding to scale blocks down a bit from absolute cell borders
                             style={{
-                                padding: entity.type === 'ball' ? '4px' : '2px',
+                                padding: entity.type === 'ball' ? '6px' : '3px',
                                 backgroundClip: 'content-box'
                             }}
                             onClick={() => handleEntityClick(entity.id, entity.type)}
                         >
                             {innerContent}
+                            {/* Inner gradient for balls & blocks to give 3D pop */}
+                            {(entity.type === 'ball' || entity.type === 'block') && (
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-inherit" style={{ borderRadius: 'inherit' }} />
+                            )}
 
                             {/* Arrow Controls for Selected Entity */}
                             {isSelected && !disabled && (
                                 <div className="absolute inset-0 z-30 pointer-events-none">
                                     {validMoves?.up && (
                                         <button
-                                            className="absolute top-0 left-1/2 -trangray-x-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-lg pointer-events-auto hover:bg-gray-100"
-                                            style={{ transform: 'translate(-50%, -50%)' }}
+                                            className={`${arrowBtnClass} top-0 left-1/2 -translate-x-1/2 -translate-y-1/2`}
                                             onClick={(e) => { e.stopPropagation(); onMove(entity.id, 0, -1); }}
                                         >
-                                            <ArrowUp className="w-4 h-4 text-gray-800" />
+                                            <ArrowUp className="w-[14px] h-[14px]" />
                                         </button>
                                     )}
                                     {validMoves?.down && (
                                         <button
-                                            className="absolute bottom-0 left-1/2 -trangray-x-1/2 translate-y-1/2 bg-white rounded-full p-1 shadow-lg pointer-events-auto hover:bg-gray-100"
-                                            style={{ transform: 'translate(-50%, 50%)' }}
+                                            className={`${arrowBtnClass} bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2`}
                                             onClick={(e) => { e.stopPropagation(); onMove(entity.id, 0, 1); }}
                                         >
-                                            <ArrowDown className="w-4 h-4 text-gray-800" />
+                                            <ArrowDown className="w-[14px] h-[14px]" />
                                         </button>
                                     )}
                                     {validMoves?.left && (
                                         <button
-                                            className="absolute left-0 top-1/2 -translate-x-1/2 -trangray-y-1/2 bg-white rounded-full p-1 shadow-lg pointer-events-auto hover:bg-gray-100"
-                                            style={{ transform: 'translate(-50%, -50%)' }}
+                                            className={`${arrowBtnClass} left-0 top-1/2 -translate-x-1/2 -translate-y-1/2`}
                                             onClick={(e) => { e.stopPropagation(); onMove(entity.id, -1, 0); }}
                                         >
-                                            <ArrowLeft className="w-4 h-4 text-gray-800" />
+                                            <ArrowLeft className="w-[14px] h-[14px]" />
                                         </button>
                                     )}
                                     {validMoves?.right && (
                                         <button
-                                            className="absolute right-0 top-1/2 translate-x-1/2 -trangray-y-1/2 bg-white rounded-full p-1 shadow-lg pointer-events-auto hover:bg-gray-100"
-                                            style={{ transform: 'translate(50%, -50%)' }}
+                                            className={`${arrowBtnClass} right-0 top-1/2 translate-x-1/2 -translate-y-1/2`}
                                             onClick={(e) => { e.stopPropagation(); onMove(entity.id, 1, 0); }}
                                         >
-                                            <ArrowRight className="w-4 h-4 text-gray-800" />
+                                            <ArrowRight className="w-[14px] h-[14px]" />
                                         </button>
                                     )}
                                 </div>

@@ -76,5 +76,5 @@ export const motionChallengeRules: RuleData = {
     "After they stop, you need to recall the position of a specific object.",
     "Answer accurately and quickly to earn a higher score.",
   ],
-  playLink: "/play/Motionchallenge",
+  playLink: "/play/Motion-challenge",
 };
