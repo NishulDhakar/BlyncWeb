@@ -98,7 +98,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## Need Help?
 
-- Open an [issue](https://github.com/NishulDhakar/CognitiveGamesWeb/issues) for bugs or feature requests
+- Open an [issue](https://github.com/NishulDhakar/BlyncWeb/issues) for bugs or feature requests
 - Check existing issues before creating new ones
 
 ---

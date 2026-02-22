@@ -7,8 +7,8 @@
 
   <p>
     <a href="https://www.cognitivegames.me" target="_blank">View Live Demo</a> ·
-    <a href="https://github.com/NishulDhakar/CognitiveGamesWeb/issues">Report a Bug</a> ·
-    <a href="https://github.com/NishulDhakar/CognitiveGamesWeb/issues">Request Feature</a>
+    <a href="https://github.com/NishulDhakar/BlyncWeb/issues">Report a Bug</a> ·
+    <a href="https://github.com/NishulDhakar/BlyncWeb/issues">Request Feature</a>
   </p>
 
   <p>
@@ -51,7 +51,7 @@ Get the project running locally in under 2 minutes:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/NishulDhakar/CognitiveGamesWeb.git
+git clone https://github.com/NishulDhakar/BlyncWeb.git
 cd CognitiveGamesWeb
 ```
 

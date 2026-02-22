@@ -34,7 +34,7 @@ export const siteConfig = {
     ],
     links: {
         twitter: "https://twitter.com/nishuldhakar",
-        github: "https://github.com/NishulDhakar/CognitiveGamesWeb",
+        github: "https://github.com/NishulDhakar/BlyncWeb",
     },
     creator: "@nishuldhakar",
     locale: "en_IN",
