@@ -22,17 +22,17 @@
 
 <hr />
 
-## ✨ Features
+## • Features
 
-- 🎮 **Interactive Cognitive Games** – Train your brain with memory, pattern recognition, and logical reasoning challenges exactly like the real exams.
-- 🎯 **Placement-Focused Curriculum** – Practice authentic assessment patterns: Switch Challenge, Grid Challenge, Digit Challenge, Motion Challenge, Spacio Challenge, and more.
-- 📊 **Progress & Leaderboards** – Monitor your improvement with global leaderboards and detailed performance analytics.
-- 📚 **Comprehensive Guides** – Access in-depth tutorials, rules, mock tests, and strategies for optimal test preparation.
-- 🤖 **AI-Powered Insights** – Leveraging Google Gemini for intelligent feedback and dynamic content generation.
-- ⚡ **Lightning Fast** – Built on Next.js 16 with Turbopack, optimized for instant interactions and zero-layout shift.
-- 🔒 **Secure Auth** – Seamless authentication via Google OAuth using Better Auth.
+- ▪ **Interactive Cognitive Games** – Train your brain with memory, pattern recognition, and logical reasoning challenges exactly like the real exams.
+- ▪ **Placement-Focused Curriculum** – Practice authentic assessment patterns: Switch Challenge, Grid Challenge, Digit Challenge, Motion Challenge, Spacio Challenge, and more.
+- ▪ **Progress & Leaderboards** – Monitor your improvement with global leaderboards and detailed performance analytics.
+- ▪ **Comprehensive Guides** – Access in-depth tutorials, rules, mock tests, and strategies for optimal test preparation.
+- ▪ **AI-Powered Insights** – Leveraging Google Gemini for intelligent feedback and dynamic content generation.
+- ▪ **Lightning Fast** – Built on Next.js 16 with Turbopack, optimized for instant interactions and zero-layout shift.
+- ▪ **Secure Auth** – Seamless authentication via Google OAuth using Better Auth.
 
-## 🛠 Active Technical Stack
+## • Active Technical Stack
 
 | Category | Technology | Description |
 |---|---|---|
@@ -45,7 +45,7 @@
 | **ORM** | Prisma | Type-safe database client and migrations. |
 | **AI Integration**| Google Gemini | Core AI engine for dynamic capabilities. |
 
-## 🚀 Quick Start
+## • Quick Start
 
 Get the project running locally in under 2 minutes:
 
@@ -78,7 +78,7 @@ pnpm dev
 ```
 Your application will be running at [http://localhost:3000](http://localhost:3000).
 
-## 🏗 Architecture Overview
+## • Architecture Overview
 
 The project follows a modern **feature-based architecture** combined with Next.js App Router conventions:
 
@@ -93,20 +93,20 @@ src/
 └── types/                # Global TypeScript definitions
 ```
 
-## 🤝 Contributing
+## • Contributing
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a feature, or writing code, your help is appreciated.
 
 Please read our [Contributing Guidelines](CONTRIBUTING.md) to get started on how to submit Pull Requests.
 
-## 📄 License
+## • License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
-  <p>Built with ❤️ by <a href="https://www.nishul.dev">Nishul Dhakar</a></p>
+  <p>Built with ♥ by <a href="https://www.nishul.dev">Nishul Dhakar</a></p>
   <p>
     <a href="https://twitter.com/nishuldhakar">Twitter</a> •
     <a href="https://github.com/Nishuldhakar">GitHub</a>

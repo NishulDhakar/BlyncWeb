@@ -56,7 +56,7 @@ function Navbar() {
         className={cn(
           "w-full md:max-w-7xl flex items-center justify-between px-6 h-16 rounded-full border transition-all duration-300",
           scrolled || mobileOpen
-            ? "bg-background/80 backdrop-blur-xl border-border/50 shadow-lg shadow-black/5"
+            ? "bg-background backdrop-blur-xl border-border/50 shadow-lg shadow-black/5"
             : "bg-background/20 backdrop-blur-md border-border/20"
         )}
       >

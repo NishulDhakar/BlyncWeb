@@ -7,19 +7,22 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { MorphingText } from "@/components/ui/morphing-text"
+import { DotPattern } from "../ui/dot-pattern";
 
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100vh] md:h-[calc(105vh-6rem)] overflow-hidden py-16 md:py-24">
-      <Image
+    <section className="relative overflow-hidden py-16 md:py-24">
+      {/* <Image
         src="/bg.jpg"
         alt="Nishul"
         fill
         className="object-cover"
         priority
         quality={180}
-      />
+      /> */}
+      {/* <DotPattern /> */}
 
       <div className="relative z-10 mt-20 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
 
@@ -85,10 +88,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <Button asChild size="lg" className="h-12 px-8 text-base">
-            <Link href="/memorygames">
-              Memory game <ArrowRight className="ml-2 w-4 h-4" />
+        > 
+         <Button asChild size="lg" className="h-12 px-8 text-base">
+            <Link href="https://github.com/NishulDhakar/BlyncApp" target="_blank">
+              Mobile App<ArrowRight className="ml-2 w-4 h-4" />
+               {/* <span className="text-xs font-normal text-muted-foreground">Soon in playstore</span>  */}
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
@@ -96,6 +100,8 @@ export default function Hero() {
               Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
+
+          
 
         </motion.div>
 

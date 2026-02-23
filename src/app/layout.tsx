@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import "./globals.css";
 import Script from "next/script";
 import { siteConfig } from "@/config/site";
+import { DotPattern } from "@/components/ui/dot-pattern";
 
 // Lazy load heavy components
 const ReactLenis = dynamic(() => import("lenis/react"));
@@ -164,7 +165,7 @@ export default function RootLayout({
 
       <body className="bg-white/50 relative">
         {/* The Gradient Approximation Element */}
-        <div className="absolute top-0 left-0 w-full h-[600px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden">
           {/* Pink/Red Blob */}
           <div
             className="absolute top-0 left-0 w-1/2 h-full bg-[#FF6B6B]/50 rounded-full blur-3xl"
@@ -176,6 +177,7 @@ export default function RootLayout({
             style={{ filter: "blur(100px)", transform: "translate(20%, -20%)" }}
           ></div>
         </div>
+
         <ReactLenis root>
           <main>{children}</main>
         </ReactLenis>
