@@ -10,8 +10,7 @@ export const deductiveChallengeRules: RuleData = {
     "Neither a row nor a column should have similar symbols.",
     "One mark is added for each correct attempt and one mark is subtracted for each wrong attempt.",
   ],
-  playLink:
-    "/play/Deductivechallenge",
+  playLink: "/play/deductive-challenge",
 };
 
 export const SwitchChallengeRules: RuleData = {
@@ -24,22 +23,21 @@ export const SwitchChallengeRules: RuleData = {
     "Gain points for correct matches. Wrong selections will reduce your score.",
   ],
   Solution: "/Switchchallenge-solution.png",
-  playLink: "/play/Switchchallenge",
+  playLink: "/play/switch-challenge",
 };
 
 export const DigitChallengeRules: RuleData = {
   title: "Digit Challenge",
   description:
     "Match the displayed color names with their actual colors as quickly as possible. Be alert — the text and color may differ to trick your mind.",
-howToPlay: [
-  "You will be given a mathematical operation to solve.",
-  "Use the available digits shown on the screen to form your answer.",
-  "Each digit can be used only once; no digit will repeat.",
-  "Correct answers earn you points, while wrong answers reduce your score.",
-  "Try to solve as many as possible before the timer runs out."
-]
-,
-  playLink: "/play/Digitchallenge",
+  howToPlay: [
+    "You will be given a mathematical operation to solve.",
+    "Use the available digits shown on the screen to form your answer.",
+    "Each digit can be used only once; no digit will repeat.",
+    "Correct answers earn you points, while wrong answers reduce your score.",
+    "Try to solve as many as possible before the timer runs out."
+  ],
+  playLink: "/play/digit-challenge",
 };
 
 export const gridChallengeRules: RuleData = {
@@ -52,7 +50,7 @@ export const gridChallengeRules: RuleData = {
     "Check if the columns are also in alphabetical order from top to bottom.",
     "Select 'YES' or 'NO' based on your answer.",
   ],
-  playLink: "/play/Gridchallenge",
+  playLink: "/play/grid-challenge",
 };
 
 export const inductiveChallengeRules: RuleData = {
@@ -64,7 +62,7 @@ export const inductiveChallengeRules: RuleData = {
     "Choose the figure that best continues the sequence.",
     "The faster and more accurate you are, the better your score.",
   ],
-  playLink: "/play/Inductivechallenge",
+  playLink: "/play/inductive-challenge",
 };
 
 export const motionChallengeRules: RuleData = {
@@ -76,5 +74,5 @@ export const motionChallengeRules: RuleData = {
     "After they stop, you need to recall the position of a specific object.",
     "Answer accurately and quickly to earn a higher score.",
   ],
-  playLink: "/play/Motion-challenge",
+  playLink: "/play/motion-challenge",
 };

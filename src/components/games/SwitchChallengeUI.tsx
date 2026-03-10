@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from "react";
-import { SwitchPuzzle } from "@/app/play/Switch-challenge/gameLogic";
+import { SwitchPuzzle } from "@/features/switch-challenge/gameLogic";
 import ResultCard from "../common/Result";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -57,7 +57,7 @@ const SwitchChallengeUI: React.FC<Props> = ({
           correct={correct}
           wrong={wrong}
           resetGame={resetGame}
-          onCheckRank={() => router.push("/Leaderboard")}
+          onCheckRank={() => router.push("/leaderboard")}
         />
       ) : (
         <motion.div

@@ -1,12 +1,24 @@
-import { getLeaderboard } from "@/actions/leaderboard";
+import { getLeaderboard } from "@/features/leaderboard/actions";
 import LeaderboardClient from "./client";
 import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Leaderboard | Cognitive Games",
-  description: "View the top performers in our cognitive training games.",
+  title: "Leaderboard — Top Capgemini Aptitude Scores | Blync",
+  description:
+    "See who's leading the Blync cognitive games leaderboard. Top scores across Switch, Digit, Motion, and Deductive Challenges for Capgemini placement prep.",
+  alternates: {
+    canonical: `${siteConfig.url}/leaderboard`,
+  },
+  openGraph: {
+    title: "Leaderboard | Blync Cognitive Games",
+    description:
+      "Top performers in Capgemini & Cognizant game-based aptitude practice on Blync.",
+    url: `${siteConfig.url}/leaderboard`,
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Blync Leaderboard" }],
+  },
 };
 
 export default async function LeaderboardPage(

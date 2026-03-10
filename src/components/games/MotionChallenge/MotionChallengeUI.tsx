@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MotionChallengeBoard from './MotionChallengeBoard';
-import { motionLevels, Entity, isValidMove, checkWinPattern, LevelDef } from '@/app/play/Motion-challenge/gameLogic';
+import { motionLevels, Entity, isValidMove, checkWinPattern, LevelDef } from '@/features/motion-challenge/gameLogic';
 import { ArrowRight, SkipForward, RefreshCw } from 'lucide-react';
 
 interface MotionChallengeUIProps {

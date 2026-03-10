@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { authClient } from "@/lib/auth-client";
 import { headers } from "next/headers";
 
 /**
@@ -25,12 +24,3 @@ export async function signOut() {
     }
 }
 
-/**
- * Client-side Google OAuth sign-in.
- * Note: This is a client action — re-exported here for co-location.
- */
-export const signInWithGoogle = async () => {
-    await authClient.signIn.social({
-        provider: "google",
-    });
-};

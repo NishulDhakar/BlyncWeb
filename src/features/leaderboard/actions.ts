@@ -29,7 +29,7 @@ export async function getLeaderboard(
                         score: "desc",
                     },
                 },
-                take: 50,
+                take: 30,
             });
 
             const userIds = scores.map((s: any) => s.userId);

@@ -47,8 +47,8 @@
 //     return [
 //       // Route casing fixes
 //       // {
-//       //   source: "/Leaderboard",
-//       //   destination: "/Leaderboard",
+//       //   source: "/leaderboard",
+//       //   destination: "/leaderboard",
 //       //   permanent: true,
 //       // },
 //       // SEO Keyword Cannibalization fixes

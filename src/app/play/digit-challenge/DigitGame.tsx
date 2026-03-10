@@ -1,35 +1,30 @@
-// app/play/DigitChallenge/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import Container from "@/components/common/Container";
 import GamePage from "@/components/common/GamePage";
-import { generateDigitProblem, checkAnswer, DigitProblem } from "./gameLogic";
+import { generateDigitProblem, checkAnswer, DigitProblem } from "@/features/digit-challenge/gameLogic";
 import DigitChallengeUI from "@/components/games/DigitGameUI";
-import { saveScore } from "@/actions/saveScore";
+import { saveScore } from "@/features/scoring/actions";
 import Image from "next/image";
 
-const TIME_PER_QUESTION = 30; // seconds
-const SESSION_TIME = 180; // total session seconds
-const MAX_WRONG = 3; // lives
+const TIME_PER_QUESTION = 30;
+const SESSION_TIME = 180;
+const MAX_WRONG = 3;
 
-export default function DigitChallengePage() {
+export default function DigitGame() {
   const [level, setLevel] = useState(1);
   const [problem, setProblem] = useState<DigitProblem | null>(null);
-
   const [userDigits, setUserDigits] = useState<number[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION);
   const [sessionTime, setSessionTime] = useState(SESSION_TIME);
   const [gameStatus, setGameStatus] = useState<"playing" | "results">("playing");
-
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
   const [isScoreSaved, setIsScoreSaved] = useState(false);
 
-  // --- save score on results ---
   useEffect(() => {
     if (gameStatus === "results" && !isScoreSaved) {
       saveScore("digit-challenge", correctCount);
@@ -37,7 +32,6 @@ export default function DigitChallengePage() {
     }
   }, [gameStatus, correctCount, isScoreSaved]);
 
-  // --- generate a problem whenever level changes ---
   useEffect(() => {
     if (gameStatus !== "playing") return;
     const p = generateDigitProblem(level);
@@ -48,33 +42,26 @@ export default function DigitChallengePage() {
     setTimeLeft(TIME_PER_QUESTION);
   }, [level, gameStatus]);
 
-  // --- per-question timer ---
   useEffect(() => {
     if (gameStatus !== "playing" || isAnswered) return;
-
     if (timeLeft <= 0) {
       markWrongAndNext();
       return;
     }
-
     const t = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearTimeout(t);
   }, [timeLeft, isAnswered, gameStatus]);
 
-  // --- session timer ---
   useEffect(() => {
     if (gameStatus !== "playing") return;
-
     if (sessionTime <= 0) {
       setGameStatus("results");
       return;
     }
-
     const t = setTimeout(() => setSessionTime((s) => s - 1), 1000);
     return () => clearTimeout(t);
   }, [sessionTime, gameStatus]);
 
-  // --- helpers ---
   const markWrongAndNext = () => {
     setIsAnswered(true);
     setIsCorrect(false);
@@ -86,11 +73,10 @@ export default function DigitChallengePage() {
     setTimeout(() => setLevel((l) => l + 1), 900);
   };
 
-  // --- handlers ---
   const handleDigitClick = (d: number) => {
     if (!problem || isAnswered) return;
     if (userDigits.length >= problem.blanks) return;
-    if (userDigits.includes(d)) return; // enforce unique-use
+    if (userDigits.includes(d)) return;
     setUserDigits((u) => [...u, d]);
   };
 
@@ -101,12 +87,10 @@ export default function DigitChallengePage() {
 
   const handleSubmit = () => {
     if (!problem || isAnswered) return;
-    if (userDigits.length !== problem.blanks) return; // must fill all blanks
-
+    if (userDigits.length !== problem.blanks) return;
     const { ok } = checkAnswer(problem, userDigits);
     setIsAnswered(true);
     setIsCorrect(ok);
-
     if (ok) {
       setCorrectCount((c) => c + 1);
     } else {
@@ -116,7 +100,6 @@ export default function DigitChallengePage() {
         return nw;
       });
     }
-
     setTimeout(() => {
       if (gameStatus === "playing") setLevel((l) => l + 1);
     }, 900);
@@ -137,62 +120,31 @@ export default function DigitChallengePage() {
   const formatTime = (t: number) =>
     `${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
 
-    const schema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Digit Memory Game",
-    "operatingSystem": "Web",
-    "applicationCategory": "EducationalApplication",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.7",
-      "ratingCount": "782"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  };
-
   return (
     <div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-           <div className="fixed inset-0 ">
-  <Image
-    src="/game.jpg"
-    alt="Background"
-    fill
-    priority
-    className="object-cover"
-  />
-</div>
-
-{/* Optional overlay */}
-<div className="fixed inset-0 -z-0 bg-black/20" />
-                        <Container>
-      <GamePage title="Digit Challenge" level={level} timer={formatTime(sessionTime)}>
-
-
-        <DigitChallengeUI
-          problem={problem}
-          userDigits={userDigits}
-          timeLeft={timeLeft}
-          sessionTime={sessionTime}
-          isAnswered={isAnswered}
-          isCorrect={isCorrect}
-          correctCount={correctCount}
-          wrongCount={wrongCount}
-          gameStatus={gameStatus}
-          handleDigitClick={handleDigitClick}
-          handleDelete={handleDelete}
-          handleSubmit={handleSubmit}
-          resetGame={resetGame}
-        />
-
-      </GamePage>
-    </Container>
+      <div className="fixed inset-0">
+        <Image src="/game.jpg" alt="Background" fill priority className="object-cover" />
+      </div>
+      <div className="fixed inset-0 -z-0 bg-black/20" />
+      <Container>
+        <GamePage title="Digit Challenge" level={level} timer={formatTime(sessionTime)}>
+          <DigitChallengeUI
+            problem={problem}
+            userDigits={userDigits}
+            timeLeft={timeLeft}
+            sessionTime={sessionTime}
+            isAnswered={isAnswered}
+            isCorrect={isCorrect}
+            correctCount={correctCount}
+            wrongCount={wrongCount}
+            gameStatus={gameStatus}
+            handleDigitClick={handleDigitClick}
+            handleDelete={handleDelete}
+            handleSubmit={handleSubmit}
+            resetGame={resetGame}
+          />
+        </GamePage>
+      </Container>
     </div>
-
   );
 }

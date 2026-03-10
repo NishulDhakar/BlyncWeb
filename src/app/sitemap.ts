@@ -112,13 +112,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ✅ MEMORY GAME PAGES
   const memoryGamePages: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/memory-games/memory-challenge`,
+      url: `${baseUrl}/memorygames`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.75,
     },
     {
-      url: `${baseUrl}/memory-games/recall-challenge`,
+      url: `${baseUrl}/memory-game/memory-challenge`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/memory-game/recall-challenge`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.75,

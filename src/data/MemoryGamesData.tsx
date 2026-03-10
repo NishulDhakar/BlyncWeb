@@ -15,7 +15,7 @@ export const memoryGameCards: GameCardData[] = [
     id: 1,
     name: "Recall Challenge",
     image: "/games/recallcolor.png",
-    rulesLink: "/memory-game/Recall-challenge",
+    rulesLink: "/memory-game/recall-challenge",
     description: "Memorize complex patterns and reproduce them under pressure.",
     isAvailable: true,
     level: "Lvl 5",

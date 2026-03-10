@@ -22,7 +22,7 @@ export const gamesData: GameData[] = [
       "Click the option that matches the actual color (not the text meaning).",
       "Gain points for correct matches. Wrong selections reduce your score.",
     ],
-    playLink: "/play/Switchchallenge",
+    playLink: "/play/switch-challenge",
   },
   {
     id: 1,
@@ -37,7 +37,7 @@ export const gamesData: GameData[] = [
       "Neither a row nor a column should have similar symbols.",
       "One mark is added for each correct attempt and one mark is subtracted for each wrong attempt.",
     ],
-    playLink: "/play/Deductivechallenge",
+    playLink: "/play/deductive-challenge",
   },
   {
     id: 2,
@@ -53,7 +53,7 @@ export const gamesData: GameData[] = [
       "Select the figure that best continues the sequence.",
       "The faster and more accurate you are, the better your score.",
     ],
-    playLink: "/play/Inductivechallenge",
+    playLink: "/play/inductive-challenge",
   },
   {
     id: 3,
@@ -69,7 +69,7 @@ export const gamesData: GameData[] = [
       "Check if the columns are also in alphabetical order from top to bottom.",
       "Select 'YES' or 'NO' based on your answer.",
     ],
-    playLink: "/play/Gridchallenge",
+    playLink: "/play/grid-challenge",
   },
   {
     id: 4,
@@ -85,7 +85,7 @@ export const gamesData: GameData[] = [
       "For path puzzles, find the path in the maze using the fewest steps.",
       "Answer accurately and quickly to earn a higher score.",
     ],
-    playLink: "/play/Motionchallenge",
+    playLink: "/play/motion-challenge",
   },
   {
     id: 6,
@@ -100,6 +100,6 @@ export const gamesData: GameData[] = [
       "Each digit can be used only once.",
       "Perform the calculation to arrive at the correct answer.",
     ],
-    playLink: "/play/Digitchallenge",
+    playLink: "/play/digit-challenge",
   },
 ];

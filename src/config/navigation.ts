@@ -5,8 +5,8 @@ import { siteConfig } from "./site";
  */
 export const mainNavItems = [
     { label: "Home", href: "/" },
-    { label: "Games", href: "/play/SwitchChallenge" },
-    { label: "Memory Games", href: "/memory-games/memory-challenge" },
+    { label: "Games", href: "/play/switch-challenge" },
+    { label: "Memory Games", href: "/memorygames" },
     { label: "IQ Tests", href: "/iq-tests" },
     { label: "Blog", href: "/blog" },
     { label: "Leaderboard", href: "/leaderboard" },
@@ -15,13 +15,12 @@ export const mainNavItems = [
 
 export const footerNavItems = {
     games: [
-        { label: "Switch Challenge", href: "/play/Switch-challenge" },
-        { label: "Grid Challenge", href: "/play/Grid-challenge" },
-        { label: "Digit Challenge", href: "/play/Digit-challenge" },
-        { label: "Motion Challenge", href: "/play/Motion-challenge" },
-        { label: "Spacio Challenge", href: "/play/Spacio-challenge" },
-        { label: "Inductive Challenge", href: "/play/Inductive-challenge" },
-        { label: "Deductive Challenge", href: "/play/Deductive-challenge" },
+        { label: "Switch Challenge", href: "/play/switch-challenge" },
+        { label: "Grid Challenge", href: "/play/grid-challenge" },
+        { label: "Digit Challenge", href: "/play/digit-challenge" },
+        { label: "Motion Challenge", href: "/play/motion-challenge" },
+        { label: "Inductive Challenge", href: "/play/inductive-challenge" },
+        { label: "Deductive Challenge", href: "/play/deductive-challenge" },
     ],
     resources: [
         { label: "Rules & Guides", href: "/rules/switch-challenge" },

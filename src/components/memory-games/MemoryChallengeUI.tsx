@@ -68,7 +68,7 @@ const MemoryChallengeUI: React.FC<Props> = ({
                 wrong={moves - matchedPairs}
                 score={score}
                 resetGame={resetGame}
-                onCheckRank={() => router.push("/Leaderboard")}
+                onCheckRank={() => router.push("/leaderboard")}
             />
         );
     }

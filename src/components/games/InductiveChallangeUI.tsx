@@ -1,14 +1,141 @@
+"use client";
+
 import React from 'react';
 import { Clock, Lightbulb } from 'lucide-react';
-import { Grid, InductivePuzzle, Shape } from '@/app/play/Inductive-challenge/gameLogic';
+import { FigureData, LinesFigure, CellGridFigure, ShapeRowFigure, InductivePuzzle } from '@/features/inductive-challenge/gameLogic';
 import ResultCard from '../common/Result';
 
-interface InductiveChallengeUIProps {
-  puzzle?: InductivePuzzle | null;
+// ─────────────────────────────────────────────
+// SVG Figure Renderers
+// ─────────────────────────────────────────────
+
+const W = 72;
+const H = 72;
+
+function LinesFigureDisplay({ fig }: { fig: LinesFigure }) {
+  const gap = H / (fig.count + 1);
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="block">
+      {Array.from({ length: fig.count }, (_, i) => {
+        const y = Math.round(gap * (i + 1));
+        const isBroken = fig.brokenIndex === i;
+        if (isBroken) {
+          return (
+            <g key={i}>
+              <line x1={5} y1={y} x2={W / 2 - 5} y2={y} stroke="#374151" strokeWidth={1.8} strokeLinecap="round" />
+              <line x1={W / 2 + 5} y1={y} x2={W - 5} y2={y} stroke="#374151" strokeWidth={1.8} strokeLinecap="round" />
+            </g>
+          );
+        }
+        return (
+          <line key={i} x1={5} y1={y} x2={W - 5} y2={y} stroke="#374151" strokeWidth={1.8} strokeLinecap="round" />
+        );
+      })}
+    </svg>
+  );
+}
+
+function CellGridDisplay({ fig }: { fig: CellGridFigure }) {
+  const cellW = (W - 8) / fig.cols;
+  const cellH = (H - 8) / fig.rows;
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="block">
+      {fig.filled.map((filled, idx) => {
+        const row = Math.floor(idx / fig.cols);
+        const col = idx % fig.cols;
+        const x = 4 + col * cellW;
+        const y = 4 + row * cellH;
+        return (
+          <rect
+            key={idx}
+            x={x + 2}
+            y={y + 2}
+            width={cellW - 4}
+            height={cellH - 4}
+            rx={2}
+            fill={filled ? '#1e293b' : 'none'}
+            stroke="#94a3b8"
+            strokeWidth={1.2}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+function ShapeSymbol({
+  form,
+  filled,
+  cx,
+  cy,
+  r,
+}: {
+  form: ShapeRowFigure['shapes'][number]['form'];
+  filled: boolean;
+  cx: number;
+  cy: number;
+  r: number;
+}) {
+  const fill = filled ? '#1e293b' : 'none';
+  const stroke = '#374151';
+  const sw = 1.5;
+
+  switch (form) {
+    case 'circle':
+      return <circle cx={cx} cy={cy} r={r} fill={fill} stroke={stroke} strokeWidth={sw} />;
+    case 'square':
+      return <rect x={cx - r} y={cy - r} width={r * 2} height={r * 2} rx={1} fill={fill} stroke={stroke} strokeWidth={sw} />;
+    case 'triangle': {
+      const pts = `${cx},${cy - r} ${cx + r},${cy + r} ${cx - r},${cy + r}`;
+      return <polygon points={pts} fill={fill} stroke={stroke} strokeWidth={sw} />;
+    }
+    case 'diamond': {
+      const pts = `${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}`;
+      return <polygon points={pts} fill={fill} stroke={stroke} strokeWidth={sw} />;
+    }
+    case 'plus':
+      return (
+        <g fill={fill} stroke={stroke} strokeWidth={sw}>
+          <rect x={cx - r * 0.35} y={cy - r} width={r * 0.7} height={r * 2} rx={1} />
+          <rect x={cx - r} y={cy - r * 0.35} width={r * 2} height={r * 0.7} rx={1} />
+        </g>
+      );
+  }
+}
+
+function ShapeRowDisplay({ fig }: { fig: ShapeRowFigure }) {
+  const n = fig.shapes.length;
+  const r = Math.min(10, (W - 12) / (n * 2));
+  const spacing = (W - 8) / n;
+  const cy = H / 2;
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="block">
+      {fig.shapes.map((s, i) => {
+        const cx = 4 + spacing * i + spacing / 2;
+        return (
+          <ShapeSymbol key={i} form={s.form} filled={s.filled} cx={cx} cy={cy} r={r} />
+        );
+      })}
+    </svg>
+  );
+}
+
+function FigureDisplay({ fig }: { fig: FigureData }) {
+  if (fig.type === 'lines') return <LinesFigureDisplay fig={fig} />;
+  if (fig.type === 'cellgrid') return <CellGridDisplay fig={fig} />;
+  return <ShapeRowDisplay fig={fig} />;
+}
+
+// ─────────────────────────────────────────────
+// Main UI
+// ─────────────────────────────────────────────
+
+interface Props {
+  puzzle: InductivePuzzle | null;
   isAnswered: boolean;
   isCorrect: boolean | null;
-  selectedCandidates: number[];
-  handleCandidateSelect: (index: number) => void;
+  selected: number | null;
+  handleSelect: (index: number) => void;
   timeLeft: number;
   gameStatus: 'playing' | 'results';
   correct: number;
@@ -21,284 +148,135 @@ export default function InductiveChallengeUI({
   puzzle,
   isAnswered,
   isCorrect,
-  selectedCandidates,
-  handleCandidateSelect,
+  selected,
+  handleSelect,
   timeLeft,
   gameStatus,
   correct,
   wrong,
   resetGame,
-  level
-}: InductiveChallengeUIProps) {
-
-  const getShapeDisplay = (shape: Shape) => {
-    const shapeMap = {
-      CIRCLE: { symbol: '●', color: 'text-purple-500' },
-      SQUARE: { symbol: '■', color: 'text-green-500' },
-      TRIANGLE: { symbol: '▲', color: 'text-blue-500' },
-      PLUS: { symbol: '+', color: 'text-red-500' },
-      DIAMOND: { symbol: '♦', color: 'text-orange-500' },
-      STAR: { symbol: '★', color: 'text-yellow-600' }
-    };
-    return shapeMap[shape];
-  };
-
-  const GridDisplay = ({ grid, title, isCandidate = false, candidateIndex = -1 }: {
-    grid: Grid;
-    title?: string;
-    isCandidate?: boolean;
-    candidateIndex?: number;
-  }) => {
-    const isSelected = isCandidate && selectedCandidates.includes(candidateIndex);
-    const isCorrectCandidate = isAnswered && puzzle?.correctIndices.includes(candidateIndex);
-    const isWrongSelection = isAnswered && isSelected && !puzzle?.correctIndices.includes(candidateIndex);
-
-    return (
-      <div className="text-center space-y-3">
-        {title && <h4 className="text-sm font-medium text-gray-600">{title}</h4>}
-        <div
-          className={`inline-block p-4 rounded-2xl transition-all duration-300 ${isCandidate ? 'cursor-pointer hover:scale-105' : ''
-            } ${isSelected && !isAnswered
-              ? 'bg-blue-50 border-2 border-blue-300 shadow-lg'
-              : isCorrectCandidate
-                ? 'bg-emerald-50 border-2 border-emerald-300 shadow-lg'
-                : isWrongSelection
-                  ? 'bg-rose-50 border-2 border-rose-300 shadow-lg'
-                  : 'bg-white border border-gray-200 shadow-md hover:shadow-lg'
-            }`}
-          onClick={isCandidate ? () => handleCandidateSelect(candidateIndex) : undefined}
-        >
-          <div className="grid grid-cols-3 gap-2">
-            {grid.map((row, rIdx) =>
-              row.map((cell, cIdx) => {
-                const shape = getShapeDisplay(cell);
-                return (
-                  <div
-                    key={`${rIdx}-${cIdx}`}
-                    className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-lg md:text-xl font-bold rounded-lg bg-gray-50 border border-gray-200 ${shape.color}`}
-                  >
-                    {shape.symbol}
-                  </div>
-                );
-              })
-            )}
-          </div>
-          {isAnswered && isCandidate && (
-            <div className="mt-2">
-              {isCorrectCandidate ? (
-                <div className="text-emerald-600 text-xs font-semibold">✓ Correct</div>
-              ) : isWrongSelection ? (
-                <div className="text-rose-600 text-xs font-semibold">✗ Wrong</div>
-              ) : null}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
+  level,
+}: Props) {
   if (gameStatus === 'results') {
-    return (
-
-      <ResultCard
-        correct={correct}
-        wrong={wrong}
-        resetGame={resetGame}
-      />
-
-    );
+    return <ResultCard correct={correct} wrong={wrong} resetGame={resetGame} />;
   }
 
   if (!puzzle) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-60 text-gray-400 text-sm">
+        Loading…
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-8">
-
-      <div className="flex justify-between items-center bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 border-white/30   p-4 shadow-lg border ">
-        <div className="flex items-center gap-4">
-          <div className="text-sm text-gray-600">
-            Difficulty <span className="font-semibold text-gray-900">{puzzle.difficulty}</span>
-          </div>
+    <div className="space-y-5">
+      {/* Stats bar */}
+      <div className="flex justify-between items-center bg-white/20 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/30 shadow-sm">
+        <div className="flex items-center gap-4 text-sm text-gray-600">
+          <span>
+            Difficulty <strong className="text-gray-900">{puzzle.difficulty}</strong>
+          </span>
+          <span className="text-green-600 font-semibold">✓ {correct}</span>
+          <span className="text-red-500 font-semibold">✗ {wrong}</span>
         </div>
-
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-gray-500" />
-          <span className={`font-mono text-sm font-semibold ${timeLeft <= 5 ? 'text-red-600' : 'text-gray-700'}`}>
+          <span className={`font-mono text-sm font-semibold ${timeLeft <= 8 ? 'text-red-600' : 'text-gray-700'}`}>
             {timeLeft}s
           </span>
         </div>
       </div>
 
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100 relative overflow-hidden">
-
-        <div className="block lg:hidden p-4 md:p-8">
-          <div className="mb-4">
-            <div className="text-center mb-2">
-            </div>
-
-            <div className="flex justify-center gap-8">
-              <GridDisplay
-                grid={puzzle.examples[0]}
-                title="Example 1"
-              />
-              <GridDisplay
-                grid={puzzle.examples[1]}
-                title="Example 2"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex-1 h-px bg-gray-200"></div>
-            <div className="px-4 text-gray-500 text-sm font-medium">Find the Pattern</div>
-            <div className="flex-1 h-px bg-gray-200"></div>
-          </div>
-
-          <div className="">
-
-            <div className="grid grid-cols-2 gap-6">
-              {puzzle.candidates.map((grid, index) => (
-                <GridDisplay
-                  key={index}
-                  grid={grid}
-                  title={`Option ${String.fromCharCode(65 + index)}`}
-                  isCandidate={true}
-                  candidateIndex={index}
-                />
-              ))}
-            </div>
-
-            <div className=" mt-6 text-center ">
-              <p className="text-gray-600 text-sm">
-                Select 2 Correct Grids
-              </p>
-              <div className="mt-2 text-xs text-gray-500">
-                Selected: {selectedCandidates.length}/2
-              </div>
-            </div>
-          </div>
+      {/* Main card */}
+      <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+        {/* Heading */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-100 text-center">
+          <h2 className="text-lg font-bold text-gray-800">
+            {isAnswered
+              ? isCorrect
+                ? '✓ Correct! Well done.'
+                : `✗ Wrong — the odd one was Image ${(puzzle.oddIndex + 1)}`
+              : "Which figure doesn't follow the rule?"}
+          </h2>
+          {!isAnswered && (
+            <p className="text-sm text-gray-500 mt-1">Click the image that is the odd one out</p>
+          )}
         </div>
 
-        {/* Desktop Layout */}
-        <div className="hidden lg:grid lg:grid-cols-2 min-h-[600px]">
+        {/* Figures grid */}
+        <div className="p-5 sm:p-7">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            {puzzle.figures.map((fig, idx) => {
+              const isSelected = selected === idx;
+              const isOdd = puzzle.oddIndex === idx;
+              const showCorrect = isAnswered && isOdd;
+              const showWrong = isAnswered && isSelected && !isOdd;
 
-          {/* Left side - Examples */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-8 flex flex-col justify-center items-center">
-            <div className="text-center mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">These two grids follow a rule.</h3>
-              <p className=" text-gray-600 text-sm">Study the pattern carefully</p>
-            </div>
+              let borderClass =
+                'border-gray-200 bg-gray-50 hover:border-gray-400 hover:bg-white cursor-pointer';
+              if (!isAnswered && isSelected) {
+                borderClass = 'border-blue-400 bg-blue-50 shadow-md cursor-pointer';
+              } else if (showCorrect) {
+                borderClass = 'border-emerald-400 bg-emerald-50 shadow-md cursor-default';
+              } else if (showWrong) {
+                borderClass = 'border-red-400 bg-red-50 shadow-md cursor-default';
+              } else if (isAnswered) {
+                borderClass = 'border-gray-200 bg-gray-50 opacity-60 cursor-default';
+              }
 
-            <div className="space-y-8">
-              <GridDisplay
-                grid={puzzle.examples[0]}
-                title="Example 1"
-              />
-              <GridDisplay
-                grid={puzzle.examples[1]}
-                title="Example 2"
-              />
-            </div>
-          </div>
-
-          {/* Right side - Candidates */}
-          <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-8 flex flex-col justify-center items-center">
-            <div className="text-center mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Which two of these grids follow the same rule?</h3>
-              <p className="text-gray-600 text-sm">Select exactly 2 grids</p>
-              <div className="mt-2 text-xs text-gray-500">
-                Selected: {selectedCandidates.length}/2
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-8">
-              {puzzle.candidates.map((grid, index) => (
-                <GridDisplay
-                  key={index}
-                  grid={grid}
-                  title={`Option ${String.fromCharCode(65 + index)}`}
-                  isCandidate={true}
-                  candidateIndex={index}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Selection status */}
-        {selectedCandidates.length > 0 && !isAnswered && (
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-            <div className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg">
-              <div className="text-sm font-medium">
-                Selected: {selectedCandidates.map(i => String.fromCharCode(65 + i)).join(', ')}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Feedback overlay */}
-        {isAnswered && (
-          <div
-            className={`absolute inset-0 flex flex-col items-center justify-center 
-      bg-white/95 backdrop-blur-sm rounded-3xl 
-      transition-all duration-500 px-4 text-center
-      ${isCorrect ? 'border-4 border-emerald-300' : 'border-4 border-rose-300'}
-    `}
-            style={{ zIndex: 10, pointerEvents: 'none' }}
-          >
-            {/* Icon container */}
-            <div
-              className={`mb-6 flex items-center justify-center rounded-full 
-        ${isCorrect ? 'bg-emerald-100' : 'bg-rose-100'}
-        w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28
-      `}
-            >
-              <span
-                className={`${isCorrect ? 'text-emerald-600' : 'text-rose-600'
-                  } text-4xl sm:text-5xl md:text-6xl`}
-              >
-                {isCorrect ? '✓' : '✗'}
-              </span>
-            </div>
-
-            {/* Text content */}
-            <div className="space-y-2 max-w-sm sm:max-w-md mx-auto">
-              <div
-                className={`font-bold 
-          ${isCorrect ? 'text-emerald-700' : 'text-rose-700'} 
-          text-2xl sm:text-3xl md:text-4xl
-        `}
-              >
-                {isCorrect ? 'Excellent!' : 'Not Quite!'}
-              </div>
-              <div className="text-gray-600 text-base sm:text-lg md:text-xl">
-                {isCorrect
-                  ? 'You found the correct pattern!'
-                  : `The rule was: ${puzzle.rule}`}
-              </div>
-              {!isCorrect && (
-                <div className="text-xs sm:text-sm text-gray-500 mt-2">
-                  Correct answers:{' '}
-                  {puzzle.correctIndices.map((i) => String.fromCharCode(65 + i)).join(', ')}
+              return (
+                <div
+                  key={idx}
+                  onClick={() => !isAnswered && handleSelect(idx)}
+                  className={`flex flex-col items-center gap-1.5 rounded-xl border-2 p-2 transition-all duration-200 select-none ${borderClass}`}
+                  style={{ width: 96 }}
+                >
+                  {/* Figure number badge */}
+                  <div
+                    className={`text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center
+                      ${showCorrect ? 'bg-emerald-500 text-white' : showWrong ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+                  >
+                    {idx + 1}
+                  </div>
+                  {/* SVG figure */}
+                  <div className="rounded-lg overflow-hidden bg-white border border-gray-100 shadow-inner">
+                    <FigureDisplay fig={fig} />
+                  </div>
+                  {/* Feedback label */}
+                  {showCorrect && (
+                    <span className="text-[10px] font-semibold text-emerald-600">Odd one out</span>
+                  )}
+                  {showWrong && (
+                    <span className="text-[10px] font-semibold text-red-500">Wrong</span>
+                  )}
                 </div>
-              )}
+              );
+            })}
+          </div>
+
+          {/* Rule reveal after answer */}
+          {isAnswered && (
+            <div className="mt-5 text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
+              <p className="text-sm text-amber-800">
+                <span className="font-semibold">Rule: </span>{puzzle.rule}
+              </p>
             </div>
-          </div>
-        )}
-
-      </div>
-
-      {/* Hint section */}
-      <div className="hidden md:flex justify-center text-center">
-        <div className="inline-flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
-          <Lightbulb className="w-4 h-4 text-amber-600" />
-          <div className="text-amber-700 text-sm">
-            <span className="font-medium">Hint:</span> Look for patterns in rows, columns, or shape arrangements
-          </div>
+          )}
         </div>
       </div>
+
+      {/* Hint */}
+      {!isAnswered && (
+        <div className="flex justify-center">
+          <div className="inline-flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
+            <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
+            <p className="text-amber-700 text-xs">
+              <span className="font-medium">Hint:</span> Look for a difference in count, fill, or line pattern
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

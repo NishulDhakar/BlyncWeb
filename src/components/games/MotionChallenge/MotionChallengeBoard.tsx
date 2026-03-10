@@ -1,5 +1,5 @@
 import React from 'react';
-import { Entity, LevelDef, getValidMoves } from '@/app/play/Motion-challenge/gameLogic';
+import { Entity, LevelDef, getValidMoves } from '@/features/motion-challenge/gameLogic';
 import { motion } from 'framer-motion';
 import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, X } from 'lucide-react';
 

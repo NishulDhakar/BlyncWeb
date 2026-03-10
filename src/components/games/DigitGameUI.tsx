@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { DigitProblem } from "@/app/play/Digit-challenge/gameLogic";
+import { DigitProblem } from "@/features/digit-challenge/gameLogic";
 import ResultCard from "../common/Result";
 import { useRouter } from "next/navigation";
 
@@ -44,7 +44,7 @@ export default function DigitChallengeUI({
   if (gameStatus === "results") {
     return (
       <div className="flex items-center justify-center min-h-[70vh]">
-        <ResultCard correct={correctCount} wrong={wrongCount} resetGame={resetGame} onCheckRank={() => router.push("/Leaderboard")} />
+        <ResultCard correct={correctCount} wrong={wrongCount} resetGame={resetGame} onCheckRank={() => router.push("/leaderboard")} />
       </div>
     );
   }

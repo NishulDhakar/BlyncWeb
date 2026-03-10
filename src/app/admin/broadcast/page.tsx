@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { sendBroadcast } from "@/actions/send-broadcast";
+import { sendBroadcast } from "@/features/admin/actions";
 import { toast } from "sonner"; // Assuming sonner is installed as per package.json
 
 export default function BroadcastPage() {

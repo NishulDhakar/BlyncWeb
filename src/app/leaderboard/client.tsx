@@ -1,12 +1,12 @@
 'use client';
 
-import type { LeaderboardEntry } from "@/actions/leaderboard";
+import type { LeaderboardEntry } from "@/features/leaderboard/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Medal, Trophy, ArrowLeft, Gamepad2, LayoutGrid, Binary, ArrowRightLeft, ChevronDown } from "lucide-react";
+import { Crown, Medal, Trophy, ArrowLeft, Gamepad2, LayoutGrid, Binary, ArrowRightLeft, ChevronDown, Move, Brain } from "lucide-react";
 import { useRouter } from "next/navigation";
 import BackToDashboard from "@/components/common/BackToDashboard";
 import Container from "@/components/common/Container";
@@ -28,9 +28,9 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
 
     const handleTabChange = (value: string) => {
         if (value === 'overall') {
-            router.push('/Leaderboard');
+            router.push('/leaderboard');
         } else {
-            router.push(`/Leaderboard?game=${value}`);
+            router.push(`/leaderboard?game=${value}`);
         }
     };
 
@@ -210,7 +210,9 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                                         <li>• Switch Challenge: Best score = <span className="font-mono text-foreground">85</span> pts</li>
                                                         <li>• Digit Challenge: Best score = <span className="font-mono text-foreground">72</span> pts</li>
                                                         <li>• Deductive Challenge: Best score = <span className="font-mono text-foreground">63</span> pts</li>
-                                                        <li className="pt-1 border-t border-border/50 font-semibold text-foreground mb-2 mt-4">→ Total Score = <span className="font-mono">220</span> pts</li>
+                                                        <li>• Motion Challenge: Best score = <span className="font-mono text-foreground">54</span> pts</li>
+                                                        <li>• Inductive Challenge: Best score = <span className="font-mono text-foreground">47</span> pts</li>
+                                                        <li className="pt-1 border-t border-border/50 font-semibold text-foreground mb-2 mt-4">→ Total Score = <span className="font-mono">321</span> pts</li>
                                                     </ul>
                                                 </div>
                                             </>
@@ -272,6 +274,24 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                     <span>Deductive</span>
                                 </div>
                             </TabsTrigger>
+                            <TabsTrigger
+                                value="motion-challenge"
+                                className="rounded-full px-4 py-2 text-sm sm:px-6 sm:py-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 flex-1 sm:flex-none min-w-[100px]"
+                            >
+                                <div className="flex items-center justify-center gap-2">
+                                    <Move className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <span>Motion</span>
+                                </div>
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value="inductive-challenge"
+                                className="rounded-full px-4 py-2 text-sm sm:px-6 sm:py-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 flex-1 sm:flex-none min-w-[100px]"
+                            >
+                                <div className="flex items-center justify-center gap-2">
+                                    <Brain className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <span>Inductive</span>
+                                </div>
+                            </TabsTrigger>
                         </TabsList>
                     </div>
 
@@ -291,6 +311,8 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                             {gameId === 'switch-challenge' && <LayoutGrid className="h-6 w-6 text-primary" />}
                                             {gameId === 'digit-challenge' && <Binary className="h-6 w-6 text-primary" />}
                                             {gameId === 'deductive-challenge' && <ArrowRightLeft className="h-6 w-6 text-primary" />}
+                                            {gameId === 'motion-challenge' && <Move className="h-6 w-6 text-primary" />}
+                                            {gameId === 'inductive-challenge' && <Brain className="h-6 w-6 text-primary" />}
                                         </div>
                                         <span>Top Performers</span>
                                     </CardTitle>

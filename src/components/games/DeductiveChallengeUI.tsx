@@ -45,7 +45,7 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
         correct={correct}
         wrong={wrong}
         resetGame={resetGame}
-        onCheckRank={() => router.push("/Leaderboard")}
+        onCheckRank={() => router.push("/leaderboard")}
       />
     ) : (
       <div className="relative max-w-xl mx-auto

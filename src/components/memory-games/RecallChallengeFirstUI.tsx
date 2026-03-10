@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import ResultCard from '../common/Result';
 import { useRouter } from 'next/navigation';
-import { ColorItem } from '@/app/memory-game/Recall-challenge/gameLogic';
+import { ColorItem } from '@/app/memory-game/recall-challenge/gameLogic';
 
 interface Props {
     gameState: string;

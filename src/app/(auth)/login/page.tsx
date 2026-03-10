@@ -1,6 +1,6 @@
 "use client";
 
-import { signInWithGoogle } from "@/actions/google-auth-action";
+import { signInWithGoogle } from "@/features/auth/client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { type JSX, type SVGProps, useState } from "react";

@@ -24,8 +24,13 @@ export const navbarConfig = {
     },
     {
       label: 'Leaderboard',
-      href: '/Leaderboard',
+      href: '/leaderboard',
     },
+       {
+      label: 'Profile',
+      href: '/profile',
+    },
+
     // {
     //   label: 'IQ Tests',
     //   href: '/iq-tests',
