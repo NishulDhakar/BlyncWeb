@@ -96,7 +96,7 @@ export default function Hero() {
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
-            <Link href="/capgemini-games">
+            <Link href="/games/cognitive">
               Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
@@ -139,7 +139,7 @@ export default function Hero() {
           className="mt-16 pt-8 border-t border-[#111]/40 grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-2xl px-4 items-center justify-center text-center"
         >
           <div>
-            <h4 className="text-xl md:text-2xl font-bold text-foreground">4+</h4>
+            <h4 className="text-xl md:text-2xl font-bold text-foreground">6+</h4>
             <p className="text-xs md:text-sm text-muted-foreground">Cognitive Games</p>
           </div>
           <div>

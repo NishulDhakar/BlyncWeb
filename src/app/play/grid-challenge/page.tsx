@@ -60,7 +60,7 @@ export default function GridChallengePage() {
         </p>
         <div className="mt-12">
           <Link
-            href="/capgemini-games"
+            href="/games/cognitive"
             className="rounded-xl border border-black font-semibold transition-all duration-200 hover:bg-zinc-100 hover:text-black hover:shadow-md p-4"
           >
             Go Back to Games

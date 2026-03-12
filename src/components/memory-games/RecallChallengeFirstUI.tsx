@@ -99,7 +99,7 @@ const MemoryChallengeFirstUI: React.FC<Props> = ({
                             </button>
 
                             <button
-                                onClick={() => router.push('/memorygames')}
+                                onClick={() => router.push('/games/memory')}
                                 className="w-full rounded-xl border border-white/15 text-white/80 font-medium py-3 transition hover:bg-white/5"
                             >
                                 Exit Game

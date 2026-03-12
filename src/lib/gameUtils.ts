@@ -5,5 +5,3 @@ export function formatTime(t: number): string {
 export function shuffle<T>(arr: T[]): T[] {
   return arr.slice().sort(() => Math.random() - 0.5);
 }
-
-

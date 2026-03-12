@@ -14,13 +14,13 @@ export const navbarConfig = {
     //   label: 'Blog',
     //   href: '/capgemini-cognitive-ability-games',
     // },
+    // {
+    //   label: 'Memory Games',
+    //   href: '/games/memory',
+    // },
     {
-      label: 'Memory game',
-      href: '/memorygames',
-    },
-    {
-      label: 'Capgemini games',
-      href: '/capgemini-games',
+      label: 'All Games',
+      href: '/games',
     },
     {
       label: 'Leaderboard',

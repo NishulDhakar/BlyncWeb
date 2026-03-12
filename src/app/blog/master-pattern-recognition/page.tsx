@@ -340,7 +340,7 @@ export default function PatternRecognitionPage() {
                                     Apply these pattern recognition techniques on our platform with hundreds of practice problems designed to build your skills systematically.
                                 </p>
                                 <Link
-                                    href="/memorygames"
+                                    href="/games/memory"
                                     className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
                                 >
                                     Start Practicing Now

@@ -1,135 +1,66 @@
 import type { MetadataRoute } from "next";
-import { siteConfig, gameSlugs, ruleSlugs } from "@/config/site";
+import { siteConfig, gamesConfig, ruleSlugs } from "@/config/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
-  const lastModified = new Date();
+  const now = new Date();
 
-  // ✅ CORE SITE PAGES (HIGH PRIORITY)
+  // ── Core pages ─────────────────────────────────────────────────────────────
   const corePages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified,
-      changeFrequency: "daily",
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/leaderboard`,
-      lastModified,
-      changeFrequency: "daily",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/how-it-works`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/capgemini`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/capgemini-games`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/capgemini-cognitive-ability-games`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
-      url: `${baseUrl}/cognizant-games`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/iq-tests`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/feedback`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms-of-service`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
+    { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1.0 },
+    { url: `${baseUrl}/leaderboard`, lastModified: now, changeFrequency: "daily", priority: 0.85 },
+    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
+    { url: `${baseUrl}/capgemini`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/cognizant-games`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/iq-tests`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/feedback`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${baseUrl}/terms-of-service`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  // ✅ GAME PLAY PAGES
-  const gamePages: MetadataRoute.Sitemap = gameSlugs.map((slug) => ({
-    url: `${baseUrl}/play/${slug}`,
-    lastModified,
+  // ── /games/* — SEO money pages (fully indexed) ────────────────────────────
+  const gamesHubPages: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/games`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${baseUrl}/games/cognitive`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/games/memory`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+  ];
+
+  const gameDetailPages: MetadataRoute.Sitemap = gamesConfig.map((game) => ({
+    url: `${baseUrl}/games/${game.category}/${game.slug}`,
+    lastModified: now,
     changeFrequency: "weekly" as const,
-    priority: 0.8,
+    priority: 0.85,
   }));
 
-  // ✅ RULE / GUIDE PAGES (SEO GOLD — static content)
+  // ── Rules / guides (static content — good for long-tail SEO) ─────────────
   const rulePages: MetadataRoute.Sitemap = ruleSlugs.map((slug) => ({
     url: `${baseUrl}/rules/${slug}`,
-    lastModified,
+    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.75,
   }));
 
-  // ✅ MEMORY GAME PAGES
-  const memoryGamePages: MetadataRoute.Sitemap = [
+  // ── Blog posts ────────────────────────────────────────────────────────────
+  const blogPosts: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/memorygames`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.75,
+      url: `${baseUrl}/blog/complete-guide-capgemini-cognitive-games`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/memory-game/memory-challenge`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.75,
-    },
-    {
-      url: `${baseUrl}/memory-game/recall-challenge`,
-      lastModified,
-      changeFrequency: "weekly",
+      url: `${baseUrl}/blog/master-pattern-recognition`,
+      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.75,
     },
   ];
 
-  return [...corePages, ...gamePages, ...rulePages, ...memoryGamePages];
+  // NOTE: /play/* is intentionally excluded — those pages are noindex
+  // NOTE: /capgemini-games and /memorygames are excluded — they 301 to /games/*
+
+  return [...corePages, ...gamesHubPages, ...gameDetailPages, ...rulePages, ...blogPosts];
 }

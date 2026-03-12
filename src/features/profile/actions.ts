@@ -1,6 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
+import { gameScores, users } from "@/lib/schema";
+import { eq, max, sql } from "drizzle-orm";
 
 const GAME_NAMES: Record<string, string> = {
   "switch-challenge": "Switch Challenge",
@@ -27,14 +29,13 @@ export interface ProfileStats {
 
 export async function getProfileStats(userId: string): Promise<ProfileStats> {
   // All scores for this user
-  const allScores = await (prisma as any).gameScore.findMany({
-    where: { userId },
-    select: { gameId: true, score: true, createdAt: true },
-  });
+  const allScores = await db
+    .select({ gameId: gameScores.gameId, score: gameScores.score })
+    .from(gameScores)
+    .where(eq(gameScores.userId, userId));
 
   const totalGamesPlayed = allScores.length;
 
-  // Best score per game
   const bestByGame = new Map<string, number>();
   const countByGame = new Map<string, number>();
   for (const s of allScores) {
@@ -50,19 +51,21 @@ export async function getProfileStats(userId: string): Promise<ProfileStats> {
     bestScore,
     gamesPlayed: countByGame.get(gameId) ?? 0,
   }));
-
-  // Sort by best score desc
   gameStats.sort((a, b) => b.bestScore - a.bestScore);
 
-  // Compute overall rank: count users with higher total score
-  const allBest = await (prisma as any).gameScore.groupBy({
-    by: ["userId", "gameId"],
-    _max: { score: true },
-  });
+  // Compute overall rank
+  const allBest = await db
+    .select({
+      userId: gameScores.userId,
+      gameId: gameScores.gameId,
+      bestScore: max(gameScores.score),
+    })
+    .from(gameScores)
+    .groupBy(gameScores.userId, gameScores.gameId);
 
   const userTotals = new Map<string, number>();
   for (const entry of allBest) {
-    userTotals.set(entry.userId, (userTotals.get(entry.userId) ?? 0) + (entry._max.score ?? 0));
+    userTotals.set(entry.userId, (userTotals.get(entry.userId) ?? 0) + (entry.bestScore ?? 0));
   }
 
   const myTotal = userTotals.get(userId) ?? 0;
@@ -72,16 +75,17 @@ export async function getProfileStats(userId: string): Promise<ProfileStats> {
   }
 
   // Member since
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { createdAt: true },
-  });
+  const user = await db
+    .select({ createdAt: users.createdAt })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
 
   return {
     totalGamesPlayed,
     totalScore,
     rank: totalGamesPlayed > 0 ? rank : null,
     gameStats,
-    memberSince: user?.createdAt ?? new Date(),
+    memberSince: user[0]?.createdAt ?? new Date(),
   };
 }

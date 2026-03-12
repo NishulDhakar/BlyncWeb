@@ -16,7 +16,7 @@ export default async function DashboardLayout({
 
   const user = session?.user;
   return (
-    <UserProvider user={null}>
+    <UserProvider user={user ?? null}>
               <Header />
       <main className="flex-1 p-6">{children}</main>
 

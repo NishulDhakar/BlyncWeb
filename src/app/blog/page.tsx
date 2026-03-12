@@ -181,7 +181,7 @@ export default function BlogPage() {
                             Put your knowledge into action. Start practicing with our cognitive games and see your skills improve.
                         </p>
                         <Link
-                            href="/memorygames"
+                            href="/games/memory"
                             className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
                         >
                             Start Practicing

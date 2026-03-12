@@ -314,7 +314,7 @@ export default function AboutPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
-                                href="/memorygames"
+                                href="/games/memory"
                                 className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
                             >
                                 Start Practicing

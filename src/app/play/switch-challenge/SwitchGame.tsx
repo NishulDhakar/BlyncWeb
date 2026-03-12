@@ -5,7 +5,7 @@ import { generateSwitchPuzzle, checkSwitchAnswer, SwitchPuzzle } from "@/feature
 import Container from "@/components/common/Container";
 import GamePage from "@/components/common/GamePage";
 import SwitchChallengeUI from "@/components/games/SwitchChallengeUI";
-import { formatTime } from "@/utils/gameUtils";
+import { formatTime } from "@/lib/gameUtils";
 import { saveScore } from "@/features/scoring/actions";
 
 const TIME_PER_QUESTION = 20;

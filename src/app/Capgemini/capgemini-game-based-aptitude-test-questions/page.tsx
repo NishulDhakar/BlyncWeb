@@ -48,7 +48,7 @@ export default function BlogPage() {
             </p>
             <div className="mt-4 pt-4 border-t border-border/30 flex gap-2">
               <Button asChild size="sm" variant="default" className="gap-2">
-                <Link href="/capgemini-games">
+                <Link href="/games/cognitive">
                   <Gamepad2 className="w-4 h-4" /> Practice Games
                 </Link>
               </Button>

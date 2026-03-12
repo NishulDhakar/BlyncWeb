@@ -61,7 +61,7 @@ const GamePage: React.FC<GamePageProps> = ({
       <div className="w-full mt-12 mb-8 pt-8 border-t border-white/20 px-4 md:px-0">
         <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Looking for a different challenge?</h3>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/capgemini-games" className="hover:scale-105 transition-transform bg-white/40 shadow-sm px-4 py-2 rounded-lg text-sm font-medium text-gray-700">
+          <Link href="/games/cognitive" className="hover:scale-105 transition-transform bg-white/40 shadow-sm px-4 py-2 rounded-lg text-sm font-medium text-gray-700">
             Capgemini Assessments
           </Link>
           <Link href="/cognizant-games" className="hover:scale-105 transition-transform bg-white/40 shadow-sm px-4 py-2 rounded-lg text-sm font-medium text-gray-700">
