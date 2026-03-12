@@ -170,7 +170,7 @@ export default function ContactPage() {
                       <a href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                         → About our platform
                       </a>
-                      <a href="/memorygames" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                      <a href="/games/memory" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                         → Start practicing
                       </a>
                     </div>

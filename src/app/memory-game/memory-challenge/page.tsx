@@ -10,6 +10,7 @@ import {
     Heart, Star, Zap, Cloud, Moon, Sun,
     Music, Anchor, Bell, Snowflake, Ghost, Gamepad2
 } from 'lucide-react';
+import type { CardType } from '@/features/memory-challenge/types';
 
 // --- Constants & Config ---
 
@@ -31,14 +32,7 @@ const LEVELS = {
     4: { pairs: 12, gridCols: 6, time: 90, bonus: 400 }, // 4x6
 };
 
-export interface CardType {
-    id: string;
-    colorClass: string;
-    Icon: React.ElementType;
-    isFlipped: boolean;
-    isMatched: boolean;
-    colorId: number;
-}
+// CardType is defined in @/features/memory-challenge/types
 
 const GAME_STATES = {
     IDLE: 'idle',

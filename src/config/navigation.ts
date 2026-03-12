@@ -5,8 +5,8 @@ import { siteConfig } from "./site";
  */
 export const mainNavItems = [
     { label: "Home", href: "/" },
-    { label: "Games", href: "/play/switch-challenge" },
-    { label: "Memory Games", href: "/memorygames" },
+    { label: "Games", href: "/games" },
+    { label: "Memory Games", href: "/games/memory" },
     { label: "IQ Tests", href: "/iq-tests" },
     { label: "Blog", href: "/blog" },
     { label: "Leaderboard", href: "/leaderboard" },
@@ -24,7 +24,7 @@ export const footerNavItems = {
     ],
     resources: [
         { label: "Rules & Guides", href: "/rules/switch-challenge" },
-        { label: "Capgemini Prep", href: "/capgemini-games" },
+        { label: "Capgemini Prep", href: "/games/cognitive" },
         { label: "Cognizant Prep", href: "/cognizant-games" },
         { label: "Blog", href: "/blog" },
         { label: "About", href: "/about" },

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Container from "@/components/common/Container";
 import GamePage from "@/components/common/GamePage";
 import MotionChallengeUI from "@/components/games/MotionChallenge/MotionChallengeUI";
-import { formatTime } from "@/utils/gameUtils";
+import { formatTime } from "@/lib/gameUtils";
 import { saveScore } from "@/features/scoring/actions";
 
 const SESSION_TIME = 240;

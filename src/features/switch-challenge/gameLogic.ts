@@ -1,5 +1,5 @@
 import { Puzzle, Symbol } from "@/types/game";
-import { shuffle } from "@/utils/gameUtils";
+import { shuffle } from "@/lib/gameUtils";
 
 const SYMBOLS: Symbol[] = ["A", "B", "C", "D", "E", "F", "G", "H"];
 

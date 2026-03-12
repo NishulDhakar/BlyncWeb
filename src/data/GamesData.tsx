@@ -10,57 +10,56 @@ export interface GameCardData {
 export const gameCards: GameCardData[] = [
   {
     id: 1,
-    name: "Swich Challenge",
-    image: "/switch.png",
+    name: "Switch Challenge",
+    image: "/games/cognitive.png",
     rulesLink: "/play/switch-challenge",
     description:
       "A fast-paced game where you match color names with their actual displayed colors, testing speed and focus under tricky visual cues.",
-    isAvailable: true
+    isAvailable: true,
   },
   {
     id: 3,
     name: "Digit Challenge",
-    image: "/digit.png",
+    image: "/games/cognitive.png",
     rulesLink: "/play/digit-challenge",
     description:
-      "A mathematical Operation needs to be solved, by using a few available digits only once. One digit will come only once.",
-    isAvailable: true
+      "A mathematical operation where you must find the correct answer using only the given digits, each used exactly once.",
+    isAvailable: true,
   },
   {
     id: 2,
     name: "Deductive Challenge",
-    image: "/deductive.png",
+    image: "/games/cognitive.png",
     rulesLink: "/play/deductive-challenge",
     description:
-      "Mental or logical puzzle that tests deductive reasoning ability, your skill in drawing specific conclusions based on general rules or facts.",
-    isAvailable: true
+      "A logical puzzle that tests deductive reasoning — draw specific conclusions from general rules using a Sudoku-style symbol grid.",
+    isAvailable: true,
   },
   {
     id: 4,
     name: "Motion Challenge",
-    image: "/games/motion.png",
+    image: "/games/cognitive.png",
     rulesLink: "/play/motion-challenge",
     description:
-      "A fast-paced memory game where objects move, and you must track their final positions — testing focus, recall, and spatial skills. (Game is not added yet)",
-    isAvailable: true
+      "Objects move across the screen and you must track their final positions — testing focus, recall, and spatial reasoning.",
+    isAvailable: true,
   },
-
   {
     id: 6,
     name: "Inductive Challenge",
-    image: "/games/inductive.png",
+    image: "/games/cognitive.png",
     rulesLink: "/play/inductive-challenge",
     description:
-      "A visual puzzle where you find the next figure in a sequence by spotting hidden patterns — sharpens logical and abstract thinking.",
-    isAvailable: true
+      "A visual puzzle where you identify the next figure in a sequence by spotting hidden patterns — sharpens abstract thinking.",
+    isAvailable: true,
   },
   {
     id: 5,
     name: "Grid Challenge",
-    image: "/games/GridChallenge.jpeg",
+    image: "/games/cognitive.png",
     rulesLink: "/rules/grid-challenge",
     description:
-      "A logic-based game where you sort rows of letters and check if columns stay in order — testing pattern recognition and analytical speed. (Game is not added yet)",
-    isAvailable: false
+      "Sort rows of letters and verify if columns stay in alphabetical order — testing pattern recognition and analytical speed.",
+    isAvailable: false,
   },
 ];

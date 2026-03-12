@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import ResultCard from '../common/Result';
 import { useRouter } from 'next/navigation';
-import { CardType } from '@/app/memory-game/Memorychallenge/page';
+import type { CardType } from '@/features/memory-challenge/types';
 
 interface Props {
     cards: CardType[];

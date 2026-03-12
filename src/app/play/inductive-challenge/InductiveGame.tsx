@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { generatePuzzle, checkAnswer, InductivePuzzle } from "@/features/inductive-challenge/gameLogic";
 import Container from "@/components/common/Container";
 import GamePage from "@/components/common/GamePage";
-import InductiveChallengeUI from "@/components/games/InductiveChallangeUI";
-import { formatTime } from "@/utils/gameUtils";
+import InductiveChallengeUI from "@/components/games/InductiveChallengeUI";
+import { formatTime } from "@/lib/gameUtils";
 import { saveScore } from "@/features/scoring/actions";
 
 const TIME_PER_QUESTION = 30;

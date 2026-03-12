@@ -49,7 +49,6 @@ export const gameSlugs = [
     "grid-challenge",
     "digit-challenge",
     "motion-challenge",
-    "spacio-challenge",
     "inductive-challenge",
     "deductive-challenge",
 ] as const;
@@ -60,10 +59,98 @@ export const ruleSlugs = [
     "grid-challenge",
     "digit-challenge",
     "motion-challenge",
-    "spacio-challenge",
     "inductive-challenge",
     "deductive-challenge",
 ] as const;
 
 export type GameSlug = (typeof gameSlugs)[number];
 export type RuleSlug = (typeof ruleSlugs)[number];
+
+// ── SEO game pages config (/games/[category]/[slug]) ─────────────────────────
+// Each entry drives generateMetadata + JSON-LD + internal links on game SEO pages.
+// "related" = 3 game slugs to link from this game's page (internal linking).
+export const gamesConfig = [
+  {
+    slug: "switch-challenge",
+    name: "Switch Challenge",
+    category: "cognitive",
+    headline: "Switch Challenge — Free Online Cognitive Game",
+    description:
+      "Practice Switch Challenge for Capgemini & Cognizant placement tests. Train cognitive flexibility and fast pattern switching in free timed online sessions. No download needed.",
+    keywords: ["switch challenge", "capgemini switch challenge", "cognitive flexibility game online free"],
+    related: ["digit-challenge", "motion-challenge", "deductive-challenge"],
+  },
+  {
+    slug: "digit-challenge",
+    name: "Digit Challenge",
+    category: "cognitive",
+    headline: "Digit Challenge — Free Online Cognitive Game",
+    description:
+      "Solve Digit Challenge number sequences used in Capgemini & Cognizant aptitude tests. Practice numerical reasoning and pattern recognition for free online. No signup needed.",
+    keywords: ["digit challenge", "number sequence game", "capgemini digit challenge online free"],
+    related: ["switch-challenge", "inductive-challenge", "deductive-challenge"],
+  },
+  {
+    slug: "motion-challenge",
+    name: "Motion Challenge",
+    category: "cognitive",
+    headline: "Motion Challenge — Free Online Cognitive Game",
+    description:
+      "Practice Motion Challenge pattern movement puzzles for Capgemini placement. Identify moving patterns in free 4-minute timed sessions. Free cognitive game online, no download.",
+    keywords: ["motion challenge", "pattern movement game", "capgemini motion challenge free"],
+    related: ["switch-challenge", "grid-challenge", "deductive-challenge"],
+  },
+  {
+    slug: "deductive-challenge",
+    name: "Deductive Challenge",
+    category: "cognitive",
+    headline: "Deductive Challenge — Free Online Cognitive Game",
+    description:
+      "Sharpen deductive reasoning with free Deductive Challenge puzzles from Capgemini aptitude tests. Logical thinking practice online. Free cognitive game, no signup needed.",
+    keywords: ["deductive challenge", "logical reasoning game free", "capgemini deductive challenge"],
+    related: ["inductive-challenge", "digit-challenge", "switch-challenge"],
+  },
+  {
+    slug: "inductive-challenge",
+    name: "Inductive Challenge",
+    category: "cognitive",
+    headline: "Inductive Challenge — Free Online Cognitive Game",
+    description:
+      "Practice Inductive Challenge abstract reasoning for Capgemini & Cognizant tests. Identify patterns and complete sequences. Free online brain training, no download needed.",
+    keywords: ["inductive challenge", "abstract reasoning game free", "pattern completion game online"],
+    related: ["deductive-challenge", "digit-challenge", "motion-challenge"],
+  },
+  {
+    slug: "grid-challenge",
+    name: "Grid Challenge",
+    category: "cognitive",
+    headline: "Grid Challenge — Free Online Cognitive Game",
+    description:
+      "Practice Grid Challenge spatial reasoning puzzles for Capgemini placement. Train visual pattern recognition and spatial awareness. Free online cognitive game, no signup.",
+    keywords: ["grid challenge", "spatial reasoning game free", "capgemini grid challenge online"],
+    related: ["switch-challenge", "motion-challenge", "inductive-challenge"],
+  },
+  {
+    slug: "memory-challenge",
+    name: "Memory Challenge",
+    category: "memory",
+    headline: "Memory Challenge — Free Online Memory Game",
+    description:
+      "Train working memory with free online Memory Challenge games. Improve recall speed and short-term memory retention. Free brain training game online, no download needed.",
+    keywords: ["memory challenge", "memory games online free", "brain training memory game"],
+    related: ["recall-challenge", "digit-challenge", "switch-challenge"],
+  },
+  {
+    slug: "recall-challenge",
+    name: "Recall Challenge",
+    category: "memory",
+    headline: "Recall Challenge — Free Online Memory Game",
+    description:
+      "Sharpen recall ability with free Recall Challenge memory games. Test and improve episodic memory and recall speed online. Free cognitive brain training game.",
+    keywords: ["recall challenge", "recall memory game free", "free memory training online"],
+    related: ["memory-challenge", "digit-challenge", "inductive-challenge"],
+  },
+] as const;
+
+export type GameConfig = (typeof gamesConfig)[number];
+export type GameCategorySlug = GameConfig["category"];
