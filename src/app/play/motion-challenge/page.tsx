@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import MotionGame from "./MotionGame";
+import ProGate from "@/components/subscription/ProGate";
 
 export const metadata: Metadata = {
   title: "Motion Challenge — Pattern Movement Aptitude Practice",
@@ -44,7 +45,7 @@ export default function MotionChallengePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <MotionGame />
+      <ProGate gameSlug="motion-challenge"><MotionGame /></ProGate>
     </>
   );
 }

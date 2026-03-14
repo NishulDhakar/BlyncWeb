@@ -59,10 +59,10 @@ export default function DigitChallengeUI({
         {isAnswered && (
           <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center rounded-3xl
           backdrop-blur-md transition-all
-          ${isCorrect ? "bg-emerald-50/80" : "bg-rose-50/80"}`}>
+          ${isCorrect ? "bg-emerald-950/80" : "bg-rose-950/80"}`}>
             <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4
-            ${isCorrect ? "bg-emerald-100" : "bg-rose-100"}`}>
-              <span className={`text-4xl font-bold ${isCorrect ? "text-emerald-600" : "text-rose-600"}`}>
+            ${isCorrect ? "bg-emerald-500/20" : "bg-rose-500/20"}`}>
+              <span className={`text-4xl font-bold ${isCorrect ? "text-emerald-400" : "text-rose-400"}`}>
                 {isCorrect ? "✓" : "✗"}
               </span>
             </div>
@@ -76,9 +76,9 @@ export default function DigitChallengeUI({
         )}
 
         {/* Main Card */}
-        <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl
-        border border-white/40
-        shadow-[0_20px_60px_rgba(0,0,0,0.12)]
+        <div className="relative rounded-3xl bg-white/5 backdrop-blur-xl
+        border border-white/10
+        shadow-[0_20px_60px_rgba(0,0,0,0.3)]
         p-6 md:p-8">
 
           {/* Equation */}
@@ -93,7 +93,7 @@ export default function DigitChallengeUI({
                     <div
                       key={i}
                       className="w-14 h-14 rounded-xl flex items-center justify-center
-                      bg-white shadow-sm border border-slate-200 text-xl font-bold"
+                      bg-white/10 border border-white/20 text-xl font-bold"
                     >
                       {val ?? ""}
                     </div>
@@ -155,7 +155,7 @@ export default function DigitChallengeUI({
             <span>Blanks: {problem.blanks}</span>
             <span>
               Time:{" "}
-              <strong className={timeLeft <= 5 ? "text-red-600 animate-pulse" : ""}>
+              <strong className={timeLeft <= 5 ? "text-rose-400 animate-pulse" : ""}>
                 {timeLeft}s
               </strong>
             </span>

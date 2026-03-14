@@ -115,7 +115,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         {/* ✅ Google AdSense */}
         <script
@@ -163,7 +163,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
 
-      <body className="bg-white/50 relative">
+      <body className="relative">
         {/* The Gradient Approximation Element */}
         <div className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden">
           {/* Pink/Red Blob */}

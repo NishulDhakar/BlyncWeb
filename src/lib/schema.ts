@@ -5,6 +5,7 @@ import {
   integer,
   timestamp,
   index,
+  unique,
 } from "drizzle-orm/pg-core";
 
 // ── Better Auth Tables ──────────────────────────────────────────────────────
@@ -18,6 +19,12 @@ export const users = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("createdAt").notNull(),
   updatedAt: timestamp("updatedAt").notNull(),
+  // ── Subscription fields ───────────────────────────────────────────────────
+  isPro: boolean("isPro").default(false).notNull(),
+  razorpaySubscriptionId: text("razorpaySubscriptionId"),
+  razorpayCustomerId: text("razorpayCustomerId"),
+  // 'active' | 'halted' | 'cancelled' | null
+  subscriptionStatus: text("subscriptionStatus"),
 });
 
 export const sessions = pgTable("session", {
@@ -74,6 +81,30 @@ export const gameScores = pgTable(
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },
   (table) => [index("game_score_user_game_idx").on(table.userId, table.gameId)]
+);
+
+// ── Game Attempts (free-tier daily limit tracking) ────────────────────────────
+export const gameAttempts = pgTable(
+  "game_attempt",
+  {
+    id: text("id").primaryKey(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    // e.g. 'switch-challenge', 'digit-challenge'
+    gameSlug: text("gameSlug").notNull(),
+    // ISO date string YYYY-MM-DD (UTC)
+    date: text("date").notNull(),
+    count: integer("count").default(0).notNull(),
+  },
+  (table) => [
+    unique("game_attempt_unique").on(table.userId, table.gameSlug, table.date),
+    index("game_attempt_user_slug_date_idx").on(
+      table.userId,
+      table.gameSlug,
+      table.date
+    ),
+  ]
 );
 
 export const polls = pgTable("poll", {

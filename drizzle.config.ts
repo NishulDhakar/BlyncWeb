@@ -7,5 +7,6 @@ export default defineConfig({
   dbCredentials: {
     // Use DIRECT_URL (non-pooled) for migrations with Supabase
     url: process.env.DIRECT_URL!,
+    ssl: true,
   },
 });

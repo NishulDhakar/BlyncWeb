@@ -88,9 +88,9 @@ export default function DeductiveGame() {
 
   return (
     <div>
-      <div className="fixed inset-0">
+      {/* <div className="fixed inset-0">
         <Image src="/game.jpg" alt="Background" fill priority className="object-cover" />
-      </div>
+      </div> */}
       <div className="fixed inset-0 -z-0 bg-black/20" />
       <Container>
         <GamePage title="Deductive Challenge" level={level} timer={formatTime(sessionTime)}>

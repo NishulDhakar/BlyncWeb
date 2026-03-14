@@ -103,7 +103,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              Why Practice With Us?
+              Why Practice Capgemini Games on Blync?
             </motion.h2>
           </motion.div>
 
@@ -114,7 +114,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            Our platform provides the most accurate and engaging preparation experience for your upcoming cognitive assessments.
+            Blync is built specifically for candidates preparing for Capgemini and Cognizant game-based aptitude tests. Our practice modules simulate the exact cognitive challenges from these placement rounds — so you walk in confident, not surprised.
           </motion.p>
         </div>
 

@@ -75,31 +75,31 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
         const totalAttempted = correct + wrong;
         const finalScore = correct * 4 - wrong * 1;
         return (
-            <div className="flex flex-col items-center justify-center p-8 bg-[#f5f0e3] rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-[#D6CDBE]/50 w-full max-w-md mx-auto relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-[#C08457] rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/3" />
-                <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#8A9A5B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-y-1/3 -translate-x-1/3" />
+            <div className="flex flex-col items-center justify-center p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 w-full max-w-md mx-auto relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+                <div className="absolute bottom-0 left-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
 
-                <h2 className="text-4xl font-extrabold text-[#3B3024] mb-8 z-10 drop-shadow-sm">Time's Up!</h2>
+                <h2 className="text-4xl font-extrabold text-foreground mb-8 z-10">Time's Up!</h2>
 
                 <div className="w-full space-y-4 mb-8 z-10 relative">
-                    <div className="flex justify-between items-center bg-white/70 backdrop-blur-md p-5 rounded-2xl border border-white shadow-sm">
-                        <span className="text-[#756b60] font-semibold text-lg">Levels Complete</span>
-                        <span className="text-3xl font-extrabold text-[#8A9A5B]">{correct}</span>
+                    <div className="flex justify-between items-center bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10">
+                        <span className="text-muted-foreground font-semibold text-lg">Levels Complete</span>
+                        <span className="text-3xl font-extrabold text-emerald-400">{correct}</span>
                     </div>
-                    <div className="flex justify-between items-center bg-white/70 backdrop-blur-md p-5 rounded-2xl border border-white shadow-sm">
-                        <span className="text-[#756b60] font-semibold text-lg">Levels Skipped</span>
-                        <span className="text-3xl font-extrabold text-[#c05f57]">{wrong}</span>
+                    <div className="flex justify-between items-center bg-white/5 backdrop-blur-md p-5 rounded-2xl border border-white/10">
+                        <span className="text-muted-foreground font-semibold text-lg">Levels Skipped</span>
+                        <span className="text-3xl font-extrabold text-rose-400">{wrong}</span>
                     </div>
-                    <div className="flex justify-between items-center bg-white backdrop-blur-md p-6 rounded-2xl border border-[#D6CDBE] shadow-md mt-6 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C08457]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        <span className="text-[#3B3024] font-bold text-xl">Total Score</span>
-                        <span className="text-4xl font-black text-[#C08457] drop-shadow-sm">{finalScore}</span>
+                    <div className="flex justify-between items-center bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 mt-6 relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                        <span className="text-foreground font-bold text-xl">Total Score</span>
+                        <span className="text-4xl font-black text-amber-400">{finalScore}</span>
                     </div>
                 </div>
 
                 <button
                     onClick={resetGame}
-                    className="group relative w-full py-4 bg-neutral-900 text-white rounded-2xl font-bold text-xl hover:bg-neutral-800 transition-all duration-300 shadow-[0_8px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_25px_rgba(0,0,0,0.3)] hover:-translate-y-1 flex items-center justify-center gap-3 z-10 overflow-hidden"
+                    className="group relative w-full py-4 bg-primary text-primary-foreground rounded-2xl font-bold text-xl hover:bg-primary/90 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-3 z-10 overflow-hidden"
                 >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                     <RefreshCw className="w-6 h-6 group-hover:rotate-180 transition-transform duration-500 ease-out" />
@@ -113,15 +113,15 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
         <div className="flex flex-col items-center w-full">
             {/* Game Header Controls */}
             <div className="w-full max-w-[400px] flex justify-between items-center mb-8 px-4">
-                <div className="flex flex-col bg-white/60 backdrop-blur-md px-5 py-2 rounded-2xl border border-[#D6CDBE]/50 shadow-sm">
-                    <span className="text-xs text-[#756b60] font-bold uppercase tracking-widest mb-1">Moves</span>
-                    <span className="text-3xl font-black text-[#3B3024] leading-none">{movesCount}</span>
+                <div className="flex flex-col bg-white/5 backdrop-blur-md px-5 py-2 rounded-2xl border border-white/10">
+                    <span className="text-xs text-muted-foreground font-bold uppercase tracking-widest mb-1">Moves</span>
+                    <span className="text-3xl font-black text-foreground leading-none">{movesCount}</span>
                 </div>
 
                 <div className="flex gap-3">
                     <button
                         onClick={handleResetLevel}
-                        className="p-3 rounded-2xl bg-white/60 backdrop-blur-md text-[#756b60] border border-[#D6CDBE]/50 hover:bg-white hover:text-[#3B3024] transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                        className="p-3 rounded-2xl bg-white/5 backdrop-blur-md text-foreground/60 border border-white/10 hover:bg-white/10 hover:text-foreground transition-all duration-300 hover:-translate-y-0.5"
                         title="Reset Level"
                         aria-label="Reset Level"
                     >
@@ -129,7 +129,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                     </button>
                     <button
                         onClick={onSkipLevel}
-                        className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#f5f0e3] border border-[#D6CDBE]/80 text-[#C08457] hover:bg-[#C08457] hover:text-white transition-all duration-300 font-bold shadow-sm hover:shadow-md hover:-translate-y-0.5 text-sm"
+                        className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 transition-all duration-300 font-bold hover:-translate-y-0.5 text-sm"
                     >
                         Skip <SkipForward className="w-4 h-4" />
                     </button>

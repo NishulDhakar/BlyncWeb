@@ -49,20 +49,20 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
       />
     ) : (
       <div className="relative max-w-xl mx-auto
-        rounded-3xl bg-white/75 backdrop-blur-xl
-        border border-white/40
-        shadow-[0_20px_60px_rgba(0,0,0,0.12)]
+        rounded-3xl bg-white/5 backdrop-blur-xl
+        border border-white/10
+        shadow-[0_20px_60px_rgba(0,0,0,0.3)]
         p-6 md:p-8">
 
         {/* Feedback */}
         {isAnswered && (
           <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center
-            rounded-3xl backdrop-blur-sm
-            ${isCorrect ? "bg-emerald-50/80" : "bg-rose-50/80"}`}>
+            rounded-3xl backdrop-blur-md
+            ${isCorrect ? "bg-emerald-950/80" : "bg-rose-950/80"}`}>
             <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-3
-              ${isCorrect ? "bg-emerald-100" : "bg-rose-100"}`}>
+              ${isCorrect ? "bg-emerald-500/20" : "bg-rose-500/20"}`}>
               <span className={`text-3xl font-bold
-                ${isCorrect ? "text-emerald-600" : "text-rose-600"}`}>
+                ${isCorrect ? "text-emerald-400" : "text-rose-400"}`}>
                 {isCorrect ? "✓" : "✗"}
               </span>
             </div>
@@ -87,7 +87,7 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
         {puzzle && (
           <div className="flex justify-center mb-8">
             <div
-              className="grid gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200"
+              className="grid gap-3 p-4 rounded-2xl bg-white/5 border border-white/10"
               style={{ gridTemplateColumns: `repeat(${puzzle.grid.length}, 1fr)` }}
             >
               {puzzle.grid.map((row, rIdx) =>
@@ -110,7 +110,7 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
                       <div
                         key={`${rIdx}-${cIdx}`}
                         className="w-12 h-12 md:w-14 md:h-14
-                          rounded-xl bg-slate-200/60"
+                          rounded-xl bg-white/10"
                       />
                     );
                   }
@@ -119,7 +119,7 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
                       key={`${rIdx}-${cIdx}`}
                       className="w-12 h-12 md:w-14 md:h-14
                         flex items-center justify-center
-                        rounded-xl bg-white border border-slate-200
+                        rounded-xl bg-white/5 border border-white/10
                         text-xl font-semibold">
                       {cell}
                     </div>
@@ -146,7 +146,7 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
                       ? isCorrect
                         ? "bg-emerald-500 text-white"
                         : "bg-rose-500 text-white"
-                      : "bg-white border border-slate-300 hover:border-primary hover:bg-primary/5"}
+                      : "bg-white/5 border border-white/15 hover:border-primary hover:bg-primary/5"}
                     ${isAnswered ? "cursor-not-allowed" : ""}`}
                 >
                   {option}
@@ -161,8 +161,8 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
           <div className={`px-5 py-2 rounded-full text-sm font-mono font-semibold
             border
             ${timeLeft <= 5
-              ? "border-red-400 text-red-600 animate-pulse"
-              : "border-slate-300 text-slate-700"}`}>
+              ? "border-rose-500/50 text-rose-400 animate-pulse"
+              : "border-white/15 text-foreground/70"}`}>
             ⏱ {timeLeft}s
           </div>
         </div>

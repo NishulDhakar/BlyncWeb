@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import DeductiveGame from "./DeductiveGame";
+import ProGate from "@/components/subscription/ProGate";
 
 export const metadata: Metadata = {
   title: "Deductive Challenge — Logical Reasoning Aptitude Practice",
@@ -44,7 +45,7 @@ export default function DeductiveChallengePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <DeductiveGame />
+      <ProGate gameSlug="deductive-challenge"><DeductiveGame /></ProGate>
     </>
   );
 }

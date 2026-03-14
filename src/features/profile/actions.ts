@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { gameScores, users } from "@/lib/schema";
-import { eq, max, sql } from "drizzle-orm";
+import { desc, eq, max } from "drizzle-orm";
 
 const GAME_NAMES: Record<string, string> = {
   "switch-challenge": "Switch Challenge",
@@ -19,15 +19,22 @@ export interface GameStat {
   gamesPlayed: number;
 }
 
+export interface ScoreEntry {
+  score: number;
+  createdAt: Date;
+}
+
 export interface ProfileStats {
   totalGamesPlayed: number;
   totalScore: number;
   rank: number | null;
   gameStats: GameStat[];
   memberSince: Date;
+  // Only populated for Pro users
+  scoreHistory: Record<string, ScoreEntry[]>;
 }
 
-export async function getProfileStats(userId: string): Promise<ProfileStats> {
+export async function getProfileStats(userId: string, isPro = false): Promise<ProfileStats> {
   // All scores for this user
   const allScores = await db
     .select({ gameId: gameScores.gameId, score: gameScores.score })
@@ -81,11 +88,30 @@ export async function getProfileStats(userId: string): Promise<ProfileStats> {
     .where(eq(users.id, userId))
     .limit(1);
 
+  // Score history — only for Pro users (last 30 per game)
+  let scoreHistory: Record<string, ScoreEntry[]> = {};
+  if (isPro) {
+    const history = await db
+      .select({ gameId: gameScores.gameId, score: gameScores.score, createdAt: gameScores.createdAt })
+      .from(gameScores)
+      .where(eq(gameScores.userId, userId))
+      .orderBy(desc(gameScores.createdAt))
+      .limit(30 * Object.keys(GAME_NAMES).length);
+
+    for (const row of history) {
+      if (!scoreHistory[row.gameId]) scoreHistory[row.gameId] = [];
+      if (scoreHistory[row.gameId].length < 30) {
+        scoreHistory[row.gameId].push({ score: row.score, createdAt: row.createdAt });
+      }
+    }
+  }
+
   return {
     totalGamesPlayed,
     totalScore,
     rank: totalGamesPlayed > 0 ? rank : null,
     gameStats,
     memberSince: user[0]?.createdAt ?? new Date(),
+    scoreHistory,
   };
 }

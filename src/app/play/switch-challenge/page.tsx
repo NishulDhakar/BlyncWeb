@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import SwitchGame from "./SwitchGame";
+import ProGate from "@/components/subscription/ProGate";
 
 export const metadata: Metadata = {
   title: "Switch Challenge — Capgemini Game-Based Aptitude Practice",
@@ -44,7 +45,7 @@ export default function SwitchChallengePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <SwitchGame />
+      <ProGate gameSlug="switch-challenge"><SwitchGame /></ProGate>
     </>
   );
 }

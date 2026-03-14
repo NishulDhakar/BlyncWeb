@@ -8,7 +8,7 @@ export default function Music() {
 
   useEffect(() => {
     if (!audioRef.current) {
-      audioRef.current = new Audio("/music/game.mp3"); 
+      audioRef.current = new Audio("/music/game.mp3");
       audioRef.current.loop = true;
     }
   }, []);
@@ -29,8 +29,13 @@ export default function Music() {
   return (
     <button
       onClick={toggleMusic}
-      className=" bg-white/10 backdrop-blur-sm p-2 rounded-full hover:bg-white/40 transition">
-      {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
+      title={isPlaying ? "Mute music" : "Play music"}
+      className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+    >
+      {isPlaying
+        ? <Volume2 size={16} className="text-white/70" />
+        : <VolumeX size={16} className="text-white/30" />
+      }
     </button>
   );
 }

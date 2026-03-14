@@ -223,7 +223,7 @@ export default function MemoryChallengePage() {
     return (
         <div className="min-h-screen w-full relative">
             {/* Background */}
-            <div className="fixed inset-0 z-0">
+            {/* <div className="fixed inset-0 z-0">
                 <Image
                     src="/game.jpg"
                     alt="Background"
@@ -232,7 +232,7 @@ export default function MemoryChallengePage() {
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-[2px]" />
-            </div>
+            </div> */}
 
             <div className="relative z-10 pt-24">
                 <Container>

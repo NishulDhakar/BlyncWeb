@@ -15,7 +15,7 @@ export default function BackToDashboard({ className }: BackToDashboardProps) {
         <button
             onClick={() => router.push("/")}
             className={cn(
-                "group flex items-center gap-2 px-5 py-2.5 rounded-full text-black bg-white backdrop-blur-md border border-border/50 text-sm font-medium hover:text-white/80 hover:bg-accent/10 transition-all hover:pl-4 hover:pr-6 shadow-sm hover:shadow-md",
+                "group flex items-center gap-2 px-5 py-2.5 rounded-full text-white/70 backdrop-blur-md border border-border/50 text-sm font-medium hover:text-white/80 hover:bg-accent/10 transition-all hover:pl-4 hover:pr-6 shadow-sm hover:shadow-md",
                 className
             )}
         >

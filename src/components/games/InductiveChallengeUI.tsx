@@ -163,7 +163,7 @@ export default function InductiveChallengeUI({
 
   if (!puzzle) {
     return (
-      <div className="flex items-center justify-center h-60 text-gray-400 text-sm">
+      <div className="flex items-center justify-center h-60 text-muted-foreground text-sm">
         Loading…
       </div>
     );
@@ -172,27 +172,27 @@ export default function InductiveChallengeUI({
   return (
     <div className="space-y-5">
       {/* Stats bar */}
-      <div className="flex justify-between items-center bg-white/20 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/30 shadow-sm">
-        <div className="flex items-center gap-4 text-sm text-gray-600">
+      <div className="flex justify-between items-center bg-white/5 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/10 shadow-sm">
+        <div className="flex items-center gap-4 text-sm text-foreground/70">
           <span>
-            Difficulty <strong className="text-gray-900">{puzzle.difficulty}</strong>
+            Difficulty <strong className="text-foreground">{puzzle.difficulty}</strong>
           </span>
-          <span className="text-green-600 font-semibold">✓ {correct}</span>
-          <span className="text-red-500 font-semibold">✗ {wrong}</span>
+          <span className="text-emerald-400 font-semibold">✓ {correct}</span>
+          <span className="text-rose-400 font-semibold">✗ {wrong}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-gray-500" />
-          <span className={`font-mono text-sm font-semibold ${timeLeft <= 8 ? 'text-red-600' : 'text-gray-700'}`}>
+          <Clock className="w-4 h-4 text-muted-foreground" />
+          <span className={`font-mono text-sm font-semibold ${timeLeft <= 8 ? 'text-rose-400' : 'text-foreground/70'}`}>
             {timeLeft}s
           </span>
         </div>
       </div>
 
       {/* Main card */}
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="bg-white/5 backdrop-blur-sm rounded-3xl border border-white/10 overflow-hidden">
         {/* Heading */}
-        <div className="px-6 pt-6 pb-4 border-b border-gray-100 text-center">
-          <h2 className="text-lg font-bold text-gray-800">
+        <div className="px-6 pt-6 pb-4 border-b border-white/10 text-center">
+          <h2 className="text-lg font-bold text-foreground">
             {isAnswered
               ? isCorrect
                 ? '✓ Correct! Well done.'
@@ -200,7 +200,7 @@ export default function InductiveChallengeUI({
               : "Which figure doesn't follow the rule?"}
           </h2>
           {!isAnswered && (
-            <p className="text-sm text-gray-500 mt-1">Click the image that is the odd one out</p>
+            <p className="text-sm text-muted-foreground mt-1">Click the image that is the odd one out</p>
           )}
         </div>
 
@@ -214,15 +214,15 @@ export default function InductiveChallengeUI({
               const showWrong = isAnswered && isSelected && !isOdd;
 
               let borderClass =
-                'border-gray-200 bg-gray-50 hover:border-gray-400 hover:bg-white cursor-pointer';
+                'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 cursor-pointer';
               if (!isAnswered && isSelected) {
-                borderClass = 'border-blue-400 bg-blue-50 shadow-md cursor-pointer';
+                borderClass = 'border-blue-500 bg-blue-500/10 shadow-md cursor-pointer';
               } else if (showCorrect) {
-                borderClass = 'border-emerald-400 bg-emerald-50 shadow-md cursor-default';
+                borderClass = 'border-emerald-500 bg-emerald-500/10 shadow-md cursor-default';
               } else if (showWrong) {
-                borderClass = 'border-red-400 bg-red-50 shadow-md cursor-default';
+                borderClass = 'border-rose-500 bg-rose-500/10 shadow-md cursor-default';
               } else if (isAnswered) {
-                borderClass = 'border-gray-200 bg-gray-50 opacity-60 cursor-default';
+                borderClass = 'border-white/10 bg-white/5 opacity-50 cursor-default';
               }
 
               return (
@@ -235,7 +235,7 @@ export default function InductiveChallengeUI({
                   {/* Figure number badge */}
                   <div
                     className={`text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center
-                      ${showCorrect ? 'bg-emerald-500 text-white' : showWrong ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+                      ${showCorrect ? 'bg-emerald-500 text-white' : showWrong ? 'bg-rose-500 text-white' : 'bg-white/10 text-foreground/60'}`}
                   >
                     {idx + 1}
                   </div>
@@ -245,10 +245,10 @@ export default function InductiveChallengeUI({
                   </div>
                   {/* Feedback label */}
                   {showCorrect && (
-                    <span className="text-[10px] font-semibold text-emerald-600">Odd one out</span>
+                    <span className="text-[10px] font-semibold text-emerald-400">Odd one out</span>
                   )}
                   {showWrong && (
-                    <span className="text-[10px] font-semibold text-red-500">Wrong</span>
+                    <span className="text-[10px] font-semibold text-rose-400">Wrong</span>
                   )}
                 </div>
               );
@@ -257,8 +257,8 @@ export default function InductiveChallengeUI({
 
           {/* Rule reveal after answer */}
           {isAnswered && (
-            <div className="mt-5 text-center p-3 rounded-xl bg-amber-50 border border-amber-200">
-              <p className="text-sm text-amber-800">
+            <div className="mt-5 text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+              <p className="text-sm text-amber-300">
                 <span className="font-semibold">Rule: </span>{puzzle.rule}
               </p>
             </div>
@@ -269,9 +269,9 @@ export default function InductiveChallengeUI({
       {/* Hint */}
       {!isAnswered && (
         <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
-            <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
-            <p className="text-amber-700 text-xs">
+          <div className="inline-flex items-center gap-2 bg-amber-500/10 px-4 py-2 rounded-lg border border-amber-500/30">
+            <Lightbulb className="w-4 h-4 text-amber-400 shrink-0" />
+            <p className="text-amber-300 text-xs">
               <span className="font-medium">Hint:</span> Look for a difference in count, fill, or line pattern
             </p>
           </div>

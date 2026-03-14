@@ -7,7 +7,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { Button } from "../ui/button";
-import { LogIn, LogOut, Menu, X, User } from "lucide-react";
+import { LogIn, LogOut, Menu, X, Zap } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -117,7 +117,7 @@ function Navbar() {
             <Button
               asChild
               variant="default"
-              className="font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:scale-105 transition-all duration-300 h-9 px-4 md:h-11 md:px-8 md:text-base"
+              className="font-semibold hover:scale-100 hover:translate-y-0 transition-all duration-300 h-9 px-4 md:h-11 md:px-8 md:text-base"
             >
               <Link href="/register">
                 <LogIn className="w-4 h-4 md:w-5 md:h-5 mr-2" />
@@ -142,9 +142,17 @@ function Navbar() {
               <DropdownMenuContent align="end" className="w-56 glass-effect">
                 <div className="flex items-center justify-start gap-2 p-2">
                   <div className="flex flex-col space-y-1 leading-none">
-                    {user.name && (
-                      <p className="font-medium">{user.name}</p>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {user.name && (
+                        <p className="font-medium">{user.name}</p>
+                      )}
+                      {user.isPro && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
+                          <Zap className="w-2.5 h-2.5" />
+                          PRO
+                        </span>
+                      )}
+                    </div>
                     {user.email && (
                       <p className="w-[200px] truncate text-xs text-muted-foreground">
                         {user.email}
@@ -153,13 +161,12 @@ function Navbar() {
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild className="cursor-pointer">
+                {/* <DropdownMenuItem asChild className="cursor-pointer">
                   <Link href="/profile">
                     <User className="w-4 h-4 mr-2" />
                     My Profile
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                </DropdownMenuItem> */}
                 <DropdownMenuItem
                   onSelect={handleSignOut}
                   className="text-red-500 focus:text-red-500 cursor-pointer"

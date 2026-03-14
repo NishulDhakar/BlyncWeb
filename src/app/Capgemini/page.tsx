@@ -59,8 +59,8 @@ export default function CapgeminiPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12 mt-12"
         >
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-8 md:mb-10 px-2">
-            Capgemini Game Based Aptitude
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-6 md:mb-8 px-2">
+            Capgemini Game Based Aptitude Test — Free Practice 2025
           </h1>
 
           <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-card/40 backdrop-blur-md border border-border/50 shadow-sm text-left">
@@ -70,7 +70,8 @@ export default function CapgeminiPage() {
               process. Candidates play{" "}
               <strong className="text-foreground">4 randomly selected games</strong> out of 24
               available, measuring logical thinking, problem-solving, multitasking, memory, and
-              decision-making.
+              decision-making. Practicing here gives you a real advantage — every game on Blync
+              mirrors the actual format and difficulty used in the Capgemini cognitive assessment round.
             </p>
             <div className="mt-4 pt-4 border-t border-border/30">
               <Button asChild size="sm" variant="default" className="gap-2">
@@ -80,6 +81,21 @@ export default function CapgeminiPage() {
               </Button>
             </div>
           </div>
+        </motion.div>
+
+        {/* H2 for SEO — Available Practice Games */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="mb-6"
+        >
+          <h2 className="text-2xl font-bold tracking-tight text-foreground mb-2">
+            Available Practice Games
+          </h2>
+          <p className="text-muted-foreground text-base">
+            Select any game below to start practicing. Each challenge is designed to closely replicate what you&apos;ll encounter in the Capgemini game-based aptitude round.
+          </p>
         </motion.div>
 
         {/* Game cards — full-bleed image style */}
@@ -148,7 +164,23 @@ export default function CapgeminiPage() {
             );
           })}
         </div>
+
+        {/* H2 — How It Works section for SEO depth */}
+        <motion.section
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="mt-16 pt-10 border-t border-border/40"
+        >
+          <h2 className="text-2xl font-bold tracking-tight text-foreground mb-3">
+            How Capgemini&apos;s Gaming Round Works
+          </h2>
+          <p className="text-muted-foreground text-base leading-relaxed max-w-3xl">
+            The Capgemini game-based aptitude test is administered through the Aon/cut-e platform and typically takes place early in the hiring process as an elimination stage. Candidates are randomly assigned 4 games from a pool of 24, each measuring a different cognitive ability — from logical deduction and spatial reasoning to working memory and numerical pattern recognition. Scores are benchmarked against other candidates, so speed and accuracy together determine your cut-off. Regular practice with our free mock games significantly improves your baseline performance.
+          </p>
+        </motion.section>
       </div>
     </div>
+
   );
 }

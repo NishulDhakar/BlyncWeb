@@ -64,7 +64,7 @@ const SwitchChallengeUI: React.FC<Props> = ({
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-3xl bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-12 border border-white/20 relative overflow-hidden ring-1 ring-black/5"
+          className="w-full max-w-3xl  backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-12 border border-white/20 relative overflow-hidden ring-1 ring-black/5"
         >
           {/* Background Decorative Blobs */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
@@ -77,14 +77,14 @@ const SwitchChallengeUI: React.FC<Props> = ({
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                className={`absolute inset-0 flex flex-col items-center justify-center z-20 backdrop-blur-md rounded-3xl transition-colors duration-300 ${isCorrect ? 'bg-emerald-50/90' : 'bg-rose-50/90'
+                className={`absolute inset-0 flex flex-col items-center justify-center z-20 backdrop-blur-md rounded-3xl transition-colors duration-300 ${isCorrect ? 'bg-emerald-950/90' : 'bg-rose-950/90'
                   }`}
               >
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                  className={`mb-6 p-6 rounded-full shadow-lg ${isCorrect ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'
+                  className={`mb-6 p-6 rounded-full shadow-lg ${isCorrect ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
                     }`}
                 >
                   {isCorrect ? <CheckCircle size={64} /> : <XCircle size={64} />}
@@ -96,11 +96,11 @@ const SwitchChallengeUI: React.FC<Props> = ({
                   transition={{ delay: 0.1 }}
                   className="text-center"
                 >
-                  <h2 className={`text-4xl font-extrabold mb-2 ${isCorrect ? 'text-emerald-800' : 'text-rose-800'
+                  <h2 className={`text-4xl font-extrabold mb-2 ${isCorrect ? 'text-emerald-300' : 'text-rose-300'
                     }`}>
                     {isCorrect ? 'Excellent!' : 'Incorrect'}
                   </h2>
-                  <p className={`text-lg font-medium ${isCorrect ? 'text-emerald-600' : 'text-rose-600'
+                  <p className={`text-lg font-medium ${isCorrect ? 'text-emerald-400' : 'text-rose-400'
                     }`}>
                     {isCorrect ? 'Keep up the momentum!' : 'Don’t worry, try the next one.'}
                   </p>
@@ -112,25 +112,25 @@ const SwitchChallengeUI: React.FC<Props> = ({
           {/* Puzzle Info */}
           <div className="text-center mb-10 space-y-4 relative z-10">
             <div className="flex justify-center flex-wrap gap-4 text-lg">
-              <div className="px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <span className="text-slate-400 font-medium text-xs uppercase tracking-wider block mb-1">Input</span>
-                <span className="font-mono font-bold text-slate-800 text-xl">{puzzle.input.join(" ")}</span>
+              <div className="px-6 py-3 bg-white/5 rounded-2xl border border-white/10">
+                <span className="text-white/40 font-medium text-xs uppercase tracking-wider block mb-1">Input</span>
+                <span className="font-mono font-bold text-foreground text-xl">{puzzle.input.join(" ")}</span>
               </div>
 
               {puzzle.layers === 2 && (
-                <div className="px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
-                  <span className="text-slate-400 font-medium text-xs uppercase tracking-wider block mb-1">First Operator</span>
-                  <span className="font-mono font-bold text-slate-800 text-xl">{puzzle.operators[0].join(" ")}</span>
+                <div className="px-6 py-3 bg-white/5 rounded-2xl border border-white/10">
+                  <span className="text-white/40 font-medium text-xs uppercase tracking-wider block mb-1">First Operator</span>
+                  <span className="font-mono font-bold text-foreground text-xl">{puzzle.operators[0].join(" ")}</span>
                 </div>
               )}
 
-              <div className="px-6 py-3 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <span className="text-slate-400 font-medium text-xs uppercase tracking-wider block mb-1">Output</span>
-                <span className="font-mono font-bold text-slate-800 text-xl">{puzzle.output.join(" ")}</span>
+              <div className="px-6 py-3 bg-white/5 rounded-2xl border border-white/10">
+                <span className="text-white/40 font-medium text-xs uppercase tracking-wider block mb-1">Output</span>
+                <span className="font-mono font-bold text-foreground text-xl">{puzzle.output.join(" ")}</span>
               </div>
             </div>
 
-            <h3 className="text-xl font-semibold text-slate-700 mt-6">
+            <h3 className="text-xl font-semibold text-foreground/70 mt-6">
               Which operator produces this output?
             </h3>
           </div>
@@ -153,9 +153,9 @@ const SwitchChallengeUI: React.FC<Props> = ({
                     border-[1.5px] overflow-hidden group
                     ${showResult
                       ? isCorrect
-                        ? "bg-emerald-50 border-emerald-400 text-emerald-700 shadow-emerald-100" // Correct state styling handled by overlay mostly, but keep meaningful base
-                        : "bg-rose-50 border-rose-400 text-rose-700 shadow-rose-100"
-                      : "bg-white border-slate-200 text-slate-600 hover:border-primary/50 hover:shadow-lg hover:text-primary"
+                        ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
+                        : "bg-rose-500/10 border-rose-500 text-rose-400"
+                      : "bg-white/5 border-white/10 text-foreground/70 hover:border-primary/50 hover:shadow-lg hover:text-primary"
                     }
                     ${isAnswered ? 'cursor-default' : 'cursor-pointer'}
                   `}
@@ -174,8 +174,8 @@ const SwitchChallengeUI: React.FC<Props> = ({
             <div className={`
               flex items-center space-x-3 px-6 py-3 rounded-full border-2 transition-colors duration-300 shadow-sm
               ${timeLeft <= 5
-                ? 'bg-rose-50 border-rose-200 text-rose-600 animate-pulse'
-                : 'bg-slate-50 border-slate-200 text-slate-600'
+                ? 'bg-rose-500/10 border-rose-500/50 text-rose-400 animate-pulse'
+                : 'bg-white/5 border-white/15 text-foreground/70'
               }
             `}>
               <Timer className={`w-5 h-5 ${timeLeft <= 5 ? 'animate-bounce' : ''}`} />

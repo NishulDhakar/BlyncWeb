@@ -58,7 +58,7 @@ export default function Hero() {
 
 
         <motion.h1
-          className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-6 leading-tight flex flex-col md:flex-row items-center justify-center md:gap-8"
+          className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex flex-col md:flex-row items-center justify-center md:gap-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -66,7 +66,7 @@ export default function Hero() {
           <span className="text-transparent bg-clip-text bg-[#FF3F8F]">
             Play.
           </span>
-          <span className="text-transparent bg-clip-text bg-neutral-900">
+          <span className="text-transparent bg-clip-text bg-neutral-100">
             Train.
           </span>
           <span className="text-transparent bg-clip-text bg-[#0586C8]">
@@ -74,13 +74,23 @@ export default function Hero() {
           </span>
         </motion.h1>
 
+        {/* SEO subtitle — primary keyword in first 100 words, visible to users and search engines */}
         <motion.p
-          className="text-lg md:text-sm lg:text-md font-bold text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-base md:text-lg font-semibold text-foreground/70 max-w-2xl mx-auto mb-3 leading-snug"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          Free Game-Based Aptitude Practice for Capgemini &amp; Cognizant Placements
+        </motion.p>
+
+        <motion.p
+          className="text-base md:text-sm lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Enhance logical reasoning, pattern recognition, and problem-solving skills with our scientifically designed game suite. Prepare for success with precision.
+          Practice Switch, Grid, Digit, Motion, Inductive &amp; Deductive challenges — the exact games used in Capgemini &amp; Cognizant cognitive aptitude rounds. Improve your speed, accuracy, and logical reasoning with our free online mock tests.
         </motion.p>
 
         <motion.div
@@ -88,11 +98,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-        > 
-         <Button asChild size="lg" className="h-12 px-8 text-base">
+        >
+          <Button asChild size="lg" className="h-12 px-8 text-base">
             <Link href="https://github.com/NishulDhakar/BlyncApp" target="_blank">
               Mobile App<ArrowRight className="ml-2 w-4 h-4" />
-               {/* <span className="text-xs font-normal text-muted-foreground">Soon in playstore</span>  */}
+              {/* <span className="text-xs font-normal text-muted-foreground">Soon in playstore</span>  */}
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
@@ -101,7 +111,7 @@ export default function Hero() {
             </Link>
           </Button>
 
-          
+
 
         </motion.div>
 

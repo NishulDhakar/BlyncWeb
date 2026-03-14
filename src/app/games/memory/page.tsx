@@ -128,7 +128,7 @@ export default function MemoryGamesPage() {
               <p className="text-sm text-muted-foreground flex-1 mb-4">{game.description}</p>
               <div className="mt-auto">
                 <Link
-                  href={`/play/${game.slug}`}
+                  href={`/memory-game/${game.slug}`}
                   className="text-sm font-medium text-primary hover:underline"
                 >
                   Play Free →

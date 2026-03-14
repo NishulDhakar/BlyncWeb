@@ -50,7 +50,7 @@ export default function FAQ() {
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-500/5 to-transparent rounded-full blur-[120px] -z-10 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-purple-500/5 to-transparent rounded-full blur-[120px] -z-10 pointer-events-none" />
-      
+
       <Container className="max-w-4xl">
         <motion.div
           className="mb-12 text-center"
@@ -72,7 +72,7 @@ export default function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-            Everything you need to know about your preparation journey.
+            Common questions about preparing for Capgemini &amp; Cognizant game-based aptitude tests.
           </p>
         </motion.div>
 
@@ -85,16 +85,16 @@ export default function FAQ() {
         >
           <Accordion type="single" collapsible className="w-full">
             {faqData.map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`} 
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
                 className="border-b border-border/30 last:border-0"
               >
                 <AccordionTrigger className="text-left text-base md:text-lg font-semibold py-5 hover:text-primary transition-colors group">
-                  <span className="flex items-start gap-3">
+                  <h3 className="flex items-start gap-3 text-base md:text-lg font-semibold m-0 text-left">
                     <span className="text-primary/60 group-hover:text-primary transition-colors">Q{index + 1}.</span>
                     <span>{faq.question}</span>
-                  </span>
+                  </h3>
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground text-sm md:text-base leading-relaxed pb-5 pl-9">
                   {faq.answer}
