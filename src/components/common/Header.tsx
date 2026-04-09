@@ -191,7 +191,7 @@ function Navbar() {
             {/* Standard display with full numbers */}
             <GitHubStarsButton
               username="NishulDhakar"
-              repo="CognitiveGamesWeb"
+              repo="BlyncWeb"
             ></GitHubStarsButton></div>
 
         </div>

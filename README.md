@@ -52,7 +52,7 @@ Get the project running locally in under 2 minutes:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/NishulDhakar/BlyncWeb.git
-cd CognitiveGamesWeb
+cd BlyncWeb
 ```
 
 ### 2. Install dependencies

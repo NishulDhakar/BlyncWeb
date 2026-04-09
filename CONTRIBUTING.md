@@ -13,8 +13,8 @@ Thank you for your interest in contributing to **Blync Cognitive Games**! This g
 
 1. **Fork & Clone**
    ```bash
-   git clone https://github.com/<your-username>/CognitiveGamesWeb.git
-   cd CognitiveGamesWeb
+   git clone https://github.com/<your-username>/BlyncWeb.git
+   cd BlyncWeb
    ```
 
 2. **Install Dependencies**
