@@ -46,6 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ── Blog posts ────────────────────────────────────────────────────────────
   const blogPosts: MetadataRoute.Sitemap = [
     {
+      url: `${baseUrl}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/blog/complete-guide-capgemini-cognitive-games`,
       lastModified: now,
       changeFrequency: "monthly",
