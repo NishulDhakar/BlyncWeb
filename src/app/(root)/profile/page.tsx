@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { users } from "@/lib/schema";
-import { eq } from "drizzle-orm";
+// All features are free — no need to check subscription status
 import { headers } from "next/headers";
 import { getProfileStats } from "@/features/profile/actions";
 import ProfileClient from "./ProfileClient";
@@ -18,13 +16,8 @@ export default async function ProfilePage() {
 
   if (!session) redirect("/register");
 
-  const [dbUser] = await db
-    .select({ isPro: users.isPro })
-    .from(users)
-    .where(eq(users.id, session.user.id));
+  // All features are free — everyone gets full access
+  const stats = await getProfileStats(session.user.id);
 
-  const isPro = dbUser?.isPro ?? false;
-  const stats = await getProfileStats(session.user.id, isPro);
-
-  return <ProfileClient user={{ ...session.user, isPro }} stats={stats} />;
+  return <ProfileClient user={{ ...session.user }} stats={stats} />;
 }

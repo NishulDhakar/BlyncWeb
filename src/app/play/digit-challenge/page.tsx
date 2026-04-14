@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import DigitGame from "./DigitGame";
-import ProGate from "@/components/subscription/ProGate";
 
 export const metadata: Metadata = {
   title: "Digit Challenge — Number Sequence Aptitude Practice",
@@ -45,7 +44,7 @@ export default function DigitChallengePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <ProGate gameSlug="digit-challenge"><DigitGame /></ProGate>
+      <DigitGame />
     </>
   );
 }

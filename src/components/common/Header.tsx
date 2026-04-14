@@ -7,7 +7,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { Button } from "../ui/button";
-import { LogIn, LogOut, Menu, X, Zap } from "lucide-react";
+import { LogIn, LogOut, Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -145,12 +145,6 @@ function Navbar() {
                     <div className="flex items-center gap-2">
                       {user.name && (
                         <p className="font-medium">{user.name}</p>
-                      )}
-                      {user.isPro && (
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
-                          <Zap className="w-2.5 h-2.5" />
-                          PRO
-                        </span>
                       )}
                     </div>
                     {user.email && (

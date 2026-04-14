@@ -23,7 +23,6 @@ export default function Navbar() {
                     <Link href="#" className="hover:text-white hover:underline decoration-cyan-400 underline-offset-4">Features</Link>
                     <Link href="#" className="hover:text-white hover:underline decoration-purple-400 underline-offset-4">Showcase</Link>
                     <Link href="#" className="hover:text-white hover:underline decoration-green-400 underline-offset-4">Docs</Link>
-                    <Link href="#" className="hover:text-white hover:underline decoration-yellow-400 underline-offset-4">Pricing</Link>
                 </div>
 
                 {/* CTA */}

@@ -30,6 +30,11 @@ export const navbarConfig = {
       label: 'Profile',
       href: '/profile',
     },
+    //        {
+    //   label: 'More stuff',
+    //   href: '/morestuff',
+    // },
+
 
     // {
     //   label: 'IQ Tests',

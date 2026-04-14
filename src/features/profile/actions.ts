@@ -30,11 +30,11 @@ export interface ProfileStats {
   rank: number | null;
   gameStats: GameStat[];
   memberSince: Date;
-  // Only populated for Pro users
+  // Score history available to all users — everything is free
   scoreHistory: Record<string, ScoreEntry[]>;
 }
 
-export async function getProfileStats(userId: string, isPro = false): Promise<ProfileStats> {
+export async function getProfileStats(userId: string): Promise<ProfileStats> {
   // All scores for this user
   const allScores = await db
     .select({ gameId: gameScores.gameId, score: gameScores.score })
@@ -88,21 +88,19 @@ export async function getProfileStats(userId: string, isPro = false): Promise<Pr
     .where(eq(users.id, userId))
     .limit(1);
 
-  // Score history — only for Pro users (last 30 per game)
-  let scoreHistory: Record<string, ScoreEntry[]> = {};
-  if (isPro) {
-    const history = await db
-      .select({ gameId: gameScores.gameId, score: gameScores.score, createdAt: gameScores.createdAt })
-      .from(gameScores)
-      .where(eq(gameScores.userId, userId))
-      .orderBy(desc(gameScores.createdAt))
-      .limit(30 * Object.keys(GAME_NAMES).length);
+  // Score history — available to all users (last 30 per game), everything is free
+  const scoreHistory: Record<string, ScoreEntry[]> = {};
+  const history = await db
+    .select({ gameId: gameScores.gameId, score: gameScores.score, createdAt: gameScores.createdAt })
+    .from(gameScores)
+    .where(eq(gameScores.userId, userId))
+    .orderBy(desc(gameScores.createdAt))
+    .limit(30 * Object.keys(GAME_NAMES).length);
 
-    for (const row of history) {
-      if (!scoreHistory[row.gameId]) scoreHistory[row.gameId] = [];
-      if (scoreHistory[row.gameId].length < 30) {
-        scoreHistory[row.gameId].push({ score: row.score, createdAt: row.createdAt });
-      }
+  for (const row of history) {
+    if (!scoreHistory[row.gameId]) scoreHistory[row.gameId] = [];
+    if (scoreHistory[row.gameId].length < 30) {
+      scoreHistory[row.gameId].push({ score: row.score, createdAt: row.createdAt });
     }
   }
 

@@ -21,7 +21,6 @@ import {
   Brain,
   LayoutGrid,
   ChevronRight,
-  Zap,
   TrendingUp,
 } from "lucide-react";
 
@@ -172,12 +171,6 @@ export default function ProfileClient({ user, stats }: Props) {
                   <div className="mb-1">
                     <div className="flex items-center gap-2">
                       <h1 className="text-xl font-bold">{user.name ?? "Anonymous"}</h1>
-                      {user.isPro && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
-                          <Zap className="w-3 h-3" />
-                          PRO
-                        </span>
-                      )}
                     </div>
                     <p className="text-sm text-muted-foreground">{user.email}</p>
                   </div>
@@ -281,8 +274,8 @@ export default function ProfileClient({ user, stats }: Props) {
           </Card>
         </motion.div>
 
-        {/* Pro: score history charts */}
-        {user.isPro && gamesWithHistory.length > 0 && (
+        {/* Score history charts — available to all users for free */}
+        {gamesWithHistory.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -329,31 +322,7 @@ export default function ProfileClient({ user, stats }: Props) {
           </motion.div>
         )}
 
-        {/* Free user upgrade CTA */}
-        {!user.isPro && (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-          >
-            <Card className="border border-yellow-500/30 bg-yellow-500/5">
-              <CardContent className="p-5 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center shrink-0">
-                    <Zap className="w-4 h-4 text-yellow-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold">Upgrade to Pro</p>
-                    <p className="text-xs text-muted-foreground">Unlimited attempts + score history for ₹49/month</p>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="shrink-0">
-                  <Link href="/pricing">View Plans</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
+
 
         {/* quick links */}
         <motion.div

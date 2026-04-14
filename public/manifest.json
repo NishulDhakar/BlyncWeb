@@ -1,0 +1,29 @@
+{
+  "name": "Blync — Game-Based Aptitude Practice",
+  "short_name": "Blync",
+  "description": "Free game-based aptitude practice for Capgemini & Cognizant placements. Play Switch, Digit, Grid, Motion, Inductive & Deductive challenges.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
