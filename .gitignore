@@ -1,7 +1,32 @@
-node_modules
-.next
+# dependencies
+/node_modules
+
+# next.js
+/.next
+/out
+
+# environment variables
 .env
 .env.local
 .env*.local
+
+# system files
 .DS_Store
+
+# build / cache
 *.tsbuildinfo
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# SEO / local analysis files
+SEO_*.md
+SEO_*.txt
+SEO_*.MD
+SEO_*.TXT
+
+# specific file (if fixed name)
+SEO_LATEST_ANALYSIS.TXT

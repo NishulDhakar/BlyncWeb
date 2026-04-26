@@ -103,7 +103,7 @@ export default function CognitiveGamesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="max-w-6xl mx-auto px-4 py-12">
+      <main className="max-w-6xl mx-auto px-4 py-12 mt-16 overflow-hidden">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-10">
           <ol className="flex items-center gap-1.5">
@@ -126,11 +126,11 @@ export default function CognitiveGamesPage() {
         {/* ── Hero ── */}
         <div className="relative mb-16">
           {/* Ambient glow */}
-          <div
+          {/* <div
             aria-hidden="true"
             className="pointer-events-none absolute -top-20 -left-10 w-[500px] h-[280px] rounded-full blur-[100px] opacity-30"
             style={{ background: "radial-gradient(ellipse, #FF3F8F 0%, #7C3AED 70%, transparent 100%)" }}
-          />
+          /> */}
 
           {/* Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-6">

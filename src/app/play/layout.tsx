@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
+import { getUserIsPro } from "@/lib/subscription";
 import HlsVideo from "@/components/common/HlsVideo";
 
 // Gameplay pages are not SEO targets — the /games/* pages are.
@@ -25,8 +26,11 @@ export default async function DashboardLayout({
     return redirect("/register");
   }
 
-  const user = session?.user;
-  
+  const sessionUser = session.user;
+
+  const isPro = await getUserIsPro(sessionUser.id);
+  const user = { ...sessionUser, isPro };
+
   return (
     <UserProvider user={user}>
               <Header />

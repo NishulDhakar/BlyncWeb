@@ -82,10 +82,10 @@ export default function HowItWorks() {
             {steps.map((step, i) => (
               <motion.div
                 key={step.number}
-                initial={{ opacity: 0, x: 32 }}
+                initial={{ opacity: 0, x: 2 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.55, delay: 0.15 + i * 0.12, ease: "easeOut" as const }}
-                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-7 hover:border-white/20 hover:bg-white/8 transition-all duration-300"
+               
+                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-7 hover:border-white/20 hover:bg-white/8 "
               >
                 <div className="flex items-start gap-4">
                   <div

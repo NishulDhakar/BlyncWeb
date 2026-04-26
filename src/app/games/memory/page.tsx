@@ -87,7 +87,7 @@ export default function MemoryGamesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="max-w-6xl mx-auto px-4 py-12">
+      <main className="max-w-6xl mx-auto px-4 py-12 mt-16">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-10">
           <ol className="flex items-center gap-1.5">
@@ -110,11 +110,11 @@ export default function MemoryGamesPage() {
         {/* ── Hero ── */}
         <div className="relative mb-16">
           {/* Ambient glow */}
-          <div
+          {/* <div
             aria-hidden="true"
             className="pointer-events-none absolute -top-20 -left-10 w-[500px] h-[280px] rounded-full blur-[100px] opacity-30"
             style={{ background: "radial-gradient(ellipse, #0586C8 0%, #6366F1 70%, transparent 100%)" }}
-          />
+          /> */}
 
           {/* Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-6">

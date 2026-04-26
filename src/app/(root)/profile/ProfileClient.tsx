@@ -22,6 +22,8 @@ import {
   LayoutGrid,
   ChevronRight,
   TrendingUp,
+  Zap,
+  Crown,
 } from "lucide-react";
 
 import { signOut } from "@/features/auth/actions";
@@ -79,16 +81,22 @@ function ScoreChart({ scores }: { scores: number[] }) {
 /* types                                            */
 /* ------------------------------------------------ */
 
+interface Subscription {
+  planType: string;
+  expiresAt: Date | null;
+}
+
 interface Props {
-  user: User;
+  user: User & { isPro?: boolean };
   stats: ProfileStats;
+  subscription: Subscription | null;
 }
 
 /* ------------------------------------------------ */
 /* component                                        */
 /* ------------------------------------------------ */
 
-export default function ProfileClient({ user, stats }: Props) {
+export default function ProfileClient({ user, stats, subscription }: Props) {
   const handleSignOut = useCallback(async () => {
     await signOut();
     location.href = "/";
@@ -171,6 +179,12 @@ export default function ProfileClient({ user, stats }: Props) {
                   <div className="mb-1">
                     <div className="flex items-center gap-2">
                       <h1 className="text-xl font-bold">{user.name ?? "Anonymous"}</h1>
+                      {user.isPro && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
+                          <Zap className="w-3 h-3" />
+                          PRO
+                        </span>
+                      )}
                     </div>
                     <p className="text-sm text-muted-foreground">{user.email}</p>
                   </div>
@@ -210,6 +224,52 @@ export default function ProfileClient({ user, stats }: Props) {
               </Card>
             );
           })}
+        </motion.div>
+
+        {/* subscription card */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.08 }}
+        >
+          <Card className={`border overflow-hidden ${user.isPro ? "border-yellow-500/30 bg-yellow-500/5" : "border-border/50 bg-card/80"} backdrop-blur-xl shadow-xl`}>
+            <CardContent className="p-6 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className={`p-3 rounded-xl border ${user.isPro ? "bg-yellow-500/10 border-yellow-500/30" : "bg-muted border-border"}`}>
+                  <Crown className={`w-5 h-5 ${user.isPro ? "text-yellow-400" : "text-muted-foreground"}`} />
+                </div>
+                <div>
+                  {user.isPro ? (
+                    <>
+                      <p className="text-sm font-semibold text-yellow-400">
+                        Pro — {subscription?.planType === "biannual" ? "6-Month Plan" : "Monthly Plan"}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {subscription?.expiresAt
+                          ? `Renews ${new Date(subscription.expiresAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`
+                          : "Active subscription"}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-sm font-semibold">Free Plan</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">Switch &amp; Memory games only</p>
+                    </>
+                  )}
+                </div>
+              </div>
+              <Button asChild variant={user.isPro ? "outline" : "default"} size="sm" className={user.isPro ? "border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/10" : ""}>
+                <Link href="/pricing">
+                  {user.isPro ? "Manage Plan" : (
+                    <>
+                      <Zap className="w-3.5 h-3.5 mr-1.5" />
+                      Upgrade
+                    </>
+                  )}
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* game performance */}

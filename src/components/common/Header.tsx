@@ -7,7 +7,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useStreak } from "@/context/UserContext";
 import { Button } from "../ui/button";
-import { LogIn, LogOut, Flame } from "lucide-react";
+import { LogIn, LogOut, Flame, Zap, Crown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -235,11 +235,22 @@ function Navbar() {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52">
+                <DropdownMenuContent align="end" className="w-56">
                   <div className="px-2 py-1.5">
-                    {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
+                    <div className="flex items-center gap-1.5">
+                      {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
+                      {user?.isPro && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 shrink-0">
+                          <Zap className="w-2.5 h-2.5" />
+                          PRO
+                        </span>
+                      )}
+                    </div>
                     {user.email && (
                       <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    )}
+                    {user?.isPro && (
+                      <p className="text-[11px] text-yellow-400/70 mt-0.5">Active subscription</p>
                     )}
                     {streak.currentStreak > 0 && (
                       <div className="mt-1.5 flex items-center gap-1.5">
@@ -253,6 +264,22 @@ function Navbar() {
                       </div>
                     )}
                   </div>
+                  <DropdownMenuSeparator />
+                  {user?.isPro ? (
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link href="/pricing" className="flex items-center">
+                        <Crown className="w-4 h-4 mr-2 text-yellow-400" />
+                        <span>Manage Plan</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link href="/pricing" className="flex items-center">
+                        <Zap className="w-4 h-4 mr-2 text-yellow-400" />
+                        <span className="text-yellow-400 font-medium">Upgrade to Pro</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onSelect={handleSignOut}
@@ -369,7 +396,15 @@ function Navbar() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
+                      <div className="flex items-center gap-1.5">
+                        {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
+                        {user?.isPro && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 shrink-0">
+                            <Zap className="w-2.5 h-2.5" />
+                            PRO
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                     </div>
                     <button

@@ -32,23 +32,15 @@ export default function Hero() {
 
        <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
         {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          disableRemotePlayback
-          webkit-playsinline="true"
-          x5-playsinline="true"
-          poster="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=60"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        >
-          <source
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_115655_b4d9cd77-feed-43cd-a198-af78ebdf1f7a.mp4"
-            type="video/mp4"
-          />
-        </video>
+           <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="none"
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_115655_b4d9cd77-feed-43cd-a198-af78ebdf1f7a.mp4"
+      />
    
 
       <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">

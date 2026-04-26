@@ -64,9 +64,28 @@ const PLANS = [
   },
 ];
 
+// Poll /api/subscription/status until isPro is true, then redirect.
+// Gives the Razorpay webhook time to fire and update the DB.
+async function waitForActivation(maxWaitMs = 30_000): Promise<boolean> {
+  const interval = 2_000;
+  const deadline = Date.now() + maxWaitMs;
+  while (Date.now() < deadline) {
+    await new Promise((r) => setTimeout(r, interval));
+    try {
+      const res = await fetch("/api/subscription/status");
+      const data = await res.json();
+      if (data.isPro) return true;
+    } catch {
+      // network blip — keep polling
+    }
+  }
+  return false;
+}
+
 export default function PricingClient() {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "biannual">("biannual");
   const [loading, setLoading] = useState(false);
+  const [activating, setActivating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const activePlan = PLANS.find((p) => p.id === selectedPlan)!;
@@ -111,8 +130,18 @@ export default function PricingClient() {
         image: "/images/og/og-logo.png",
         prefill,
         theme: { color: "#000000" },
-        handler: () => {
-          window.location.reload();
+        handler: async () => {
+          // Don't reload immediately — the webhook fires async.
+          // Poll until the DB confirms isPro, then redirect.
+          setLoading(false);
+          setActivating(true);
+          const activated = await waitForActivation();
+          if (activated) {
+            window.location.href = "/games/cognitive";
+          } else {
+            // Webhook took too long — still redirect, user can refresh if needed
+            window.location.href = "/games/cognitive";
+          }
         },
       });
       rzp.open();
@@ -245,16 +274,26 @@ export default function PricingClient() {
 
             {error && <p className="text-sm text-red-400">{error}</p>}
 
-            <Button
-              className="w-full h-11 font-semibold gap-2"
-              onClick={handleUpgrade}
-              disabled={loading}
-            >
-              <Crown className="w-4 h-4" />
-              {loading
-                ? "Opening checkout…"
-                : `Upgrade — ${activePlan.price}${activePlan.period}`}
-            </Button>
+            {activating ? (
+              <div className="w-full h-11 flex items-center justify-center gap-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-sm font-semibold">
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                Activating your subscription…
+              </div>
+            ) : (
+              <Button
+                className="w-full h-11 font-semibold gap-2"
+                onClick={handleUpgrade}
+                disabled={loading}
+              >
+                <Crown className="w-4 h-4" />
+                {loading
+                  ? "Opening checkout…"
+                  : `Upgrade — ${activePlan.price}${activePlan.period}`}
+              </Button>
+            )}
 
             <p className="text-xs text-center text-muted-foreground">
               Secured by Razorpay · Cancel anytime from dashboard
