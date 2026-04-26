@@ -11,7 +11,7 @@ import { upsertStreak } from "@/features/streak/actions";
 export const metadata: Metadata = {
    title: "Free Game-Based Aptitude Practice for Capgemini & Cognizant | Blync",
    description:
-      "Practice free Capgemini game-based aptitude tests online. Play Switch, Grid, Digit, Motion, Inductive & Deductive challenges — the exact cognitive games used in Capgemini & Cognizant placement rounds. No signup needed.",
+      "Practice Capgemini game-based aptitude tests online. Play Switch, Grid, Digit, Motion, Inductive & Deductive challenges — the exact cognitive games used in Capgemini & Cognizant placement rounds. No signup needed.",
    keywords: [
       "capgemini gaming",
       "capgemini games",

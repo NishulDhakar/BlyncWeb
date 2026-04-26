@@ -11,6 +11,7 @@ import { MorphingText } from "@/components/ui/morphing-text"
 import { DotPattern } from "../ui/dot-pattern";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useState } from "react";
+import HlsVideo from "@/components/common/HlsVideo";
 
 
 export default function Hero() {

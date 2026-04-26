@@ -79,7 +79,7 @@ const faqPageSchema = {
 };
 
 export const metadata: Metadata = {
-  title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+  title: "Capgemini Cognitive Games Practice 2026 | Blync",
   description:
     "Master all 6 Capgemini cognitive games free. Switch, Grid, Digit, Motion, Inductive & Deductive challenges — no signup required. Trusted by 5,000+ students for 2026 placement prep.",
   keywords: [
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     canonical: `${siteConfig.url}/`,
   },
   openGraph: {
-    title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+    title: "Capgemini Cognitive Games Practice 2026 | Blync",
     description: "5,000+ students practicing. All 6 Capgemini games free. No signup required. Start now.",
     url: `${siteConfig.url}/`,
     type: "website",
@@ -109,13 +109,13 @@ export const metadata: Metadata = {
         url: `${siteConfig.url}/og-logo.png`,
         width: 1200,
         height: 630,
-        alt: "Blync – Free Capgemini Cognitive Games Practice",
+        alt: "Blync – Capgemini Cognitive Games Practice",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+    title: "Capgemini Cognitive Games Practice 2026 | Blync",
     description: "Master all 6 Capgemini cognitive games free. No signup. 5,000+ students preparing.",
     images: [`${siteConfig.url}/og-logo.png`],
   },

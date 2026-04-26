@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
+import HlsVideo from "@/components/common/HlsVideo";
 
 // Gameplay pages are not SEO targets — the /games/* pages are.
 // noindex prevents Google from indexing auth-gated gameplay URLs.
