@@ -87,7 +87,7 @@ export default function MemoryGamesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="max-w-6xl mx-auto px-4 py-12 mt-16">
+      <main className="max-w-6xl mx-auto px-4 py-12 mt-12">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-10">
           <ol className="flex items-center gap-1.5">
