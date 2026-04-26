@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserIsPro } from "@/lib/subscription";
 import DeductiveGame from "./DeductiveGame";
 
 export const metadata: Metadata = {
@@ -37,7 +41,13 @@ const schema = {
     "Symbol-based logical reasoning practice for Capgemini placement tests.",
 };
 
-export default function DeductiveChallengePage() {
+export default async function DeductiveChallengePage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) redirect("/register?redirect=/play/deductive-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=deductive-challenge");
+
   return (
     <>
       <script

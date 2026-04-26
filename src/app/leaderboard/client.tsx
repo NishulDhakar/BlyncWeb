@@ -88,14 +88,14 @@ function Podium({ top3 }: { top3: LeaderboardEntry[] }) {
                         key={entry.userId}
                         initial={{ opacity: 0, y: 50, scale: 0.8 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.6, delay, type: "spring", stiffness: 120, damping: 14 }}
+                        transition={{ duration: 0.6, delay, type: "spring" as const, stiffness: 120, damping: 14 }}
                         className="flex flex-col items-center"
                     >
                         {/* Medal icon */}
                         <motion.div
                             initial={{ scale: 0, rotate: -20 }}
                             animate={{ scale: 1, rotate: 0 }}
-                            transition={{ duration: 0.5, delay: delay + 0.2, type: "spring" }}
+                            transition={{ duration: 0.5, delay: delay + 0.2, type: "spring" as const }}
                             className="mb-2"
                         >
                             {cfg.icon}
@@ -285,7 +285,7 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                 >
                     <Tabs defaultValue={gameId} onValueChange={handleTabChange} className="w-full">
                         {/* Tab bar */}
-                        <div className="flex justify-center mb-8">
+                        <div className="hidden md:flex justify-center mb-8">
                             <TabsList className="bg-white/5 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl h-auto shadow-2xl flex-wrap gap-1 justify-center">
                                 {GAME_TABS.map(({ value, label, icon: Icon }) => (
                                     <TabsTrigger

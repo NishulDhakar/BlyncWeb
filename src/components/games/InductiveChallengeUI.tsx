@@ -1,9 +1,11 @@
 "use client";
 
 import React from 'react';
-import { Clock, Lightbulb } from 'lucide-react';
+import { Timer, Lightbulb, CheckCircle2, XCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FigureData, LinesFigure, CellGridFigure, ShapeRowFigure, InductivePuzzle } from '@/features/inductive-challenge/gameLogic';
 import ResultCard from '../common/Result';
+import { cn } from '@/lib/utils';
 
 // ─────────────────────────────────────────────
 // SVG Figure Renderers
@@ -170,113 +172,144 @@ export default function InductiveChallengeUI({
   }
 
   return (
-    <div className="space-y-5">
-      {/* Stats bar */}
-      <div className="flex justify-between items-center bg-white/5 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/10 shadow-sm">
-        <div className="flex items-center gap-4 text-sm text-foreground/70">
-          <span>
-            Difficulty <strong className="text-foreground">{puzzle.difficulty}</strong>
+    <motion.div
+      key={puzzle.oddIndex}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="space-y-4"
+    >
+      {/* ── Stats bar ── */}
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-3 text-sm font-medium">
+          <span className="flex items-center gap-1.5 text-emerald-400">
+            <CheckCircle2 className="w-4 h-4" /> {correct}
           </span>
-          <span className="text-emerald-400 font-semibold">✓ {correct}</span>
-          <span className="text-rose-400 font-semibold">✗ {wrong}</span>
+          <span className="flex items-center gap-1.5 text-rose-400">
+            <XCircle className="w-4 h-4" /> {wrong}
+          </span>
+          <span className="text-xs text-muted-foreground border border-border/40 rounded-full px-2 py-0.5">
+            {puzzle.difficulty}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-muted-foreground" />
-          <span className={`font-mono text-sm font-semibold ${timeLeft <= 8 ? 'text-rose-400' : 'text-foreground/70'}`}>
-            {timeLeft}s
-          </span>
+        <div className={cn(
+          'flex items-center gap-1.5 px-3 py-1 rounded-full border text-sm font-mono font-semibold transition-colors duration-300',
+          timeLeft <= 8
+            ? 'border-rose-500/50 text-rose-400 bg-rose-500/10 animate-pulse'
+            : 'border-border/50 text-muted-foreground'
+        )}>
+          <Timer className="w-3.5 h-3.5" />
+          {timeLeft}s
         </div>
       </div>
 
-      {/* Main card */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-3xl border border-white/10 overflow-hidden">
-        {/* Heading */}
-        <div className="px-6 pt-6 pb-4 border-b border-white/10 text-center">
-          <h2 className="text-lg font-bold text-foreground">
-            {isAnswered
-              ? isCorrect
-                ? '✓ Correct! Well done.'
-                : `✗ Wrong — the odd one was Image ${(puzzle.oddIndex + 1)}`
-              : "Which figure doesn't follow the rule?"}
-          </h2>
-          {!isAnswered && (
-            <p className="text-sm text-muted-foreground mt-1">Click the image that is the odd one out</p>
+      {/* ── Main card ── */}
+      <div className={cn(
+        'rounded-2xl border bg-card transition-colors duration-300',
+        isAnswered
+          ? isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40'
+          : 'border-border/50'
+      )}>
+        {/* Feedback strip */}
+        <AnimatePresence>
+          {isAnswered && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className={cn(
+                'flex items-center gap-2 px-5 py-3 rounded-t-2xl text-sm font-semibold border-b',
+                isCorrect
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+              )}
+            >
+              {isCorrect
+                ? <><CheckCircle2 className="w-4 h-4" /> Correct! Well done.</>
+                : <><XCircle className="w-4 h-4" /> The odd one was Image {puzzle.oddIndex + 1}.</>
+              }
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
 
-        {/* Figures grid */}
-        <div className="p-5 sm:p-7">
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+        <div className="p-5 sm:p-6 space-y-5">
+          {/* Prompt */}
+          {!isAnswered && (
+            <p className="text-center text-sm font-medium text-muted-foreground">
+              Which figure doesn&apos;t follow the rule?
+            </p>
+          )}
+
+          {/* Figures */}
+          <div className="flex flex-wrap justify-center gap-3">
             {puzzle.figures.map((fig, idx) => {
               const isSelected = selected === idx;
               const isOdd = puzzle.oddIndex === idx;
               const showCorrect = isAnswered && isOdd;
               const showWrong = isAnswered && isSelected && !isOdd;
 
-              let borderClass =
-                'border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10 cursor-pointer';
-              if (!isAnswered && isSelected) {
-                borderClass = 'border-blue-500 bg-blue-500/10 shadow-md cursor-pointer';
-              } else if (showCorrect) {
-                borderClass = 'border-emerald-500 bg-emerald-500/10 shadow-md cursor-default';
-              } else if (showWrong) {
-                borderClass = 'border-rose-500 bg-rose-500/10 shadow-md cursor-default';
-              } else if (isAnswered) {
-                borderClass = 'border-white/10 bg-white/5 opacity-50 cursor-default';
-              }
-
               return (
-                <div
+                <motion.div
                   key={idx}
+                  whileHover={!isAnswered ? { scale: 1.04 } : {}}
+                  whileTap={!isAnswered ? { scale: 0.97 } : {}}
                   onClick={() => !isAnswered && handleSelect(idx)}
-                  className={`flex flex-col items-center gap-1.5 rounded-xl border-2 p-2 transition-all duration-200 select-none ${borderClass}`}
+                  className={cn(
+                    'flex flex-col items-center gap-1.5 rounded-xl border-2 p-2 transition-all duration-200 select-none',
+                    showCorrect ? 'border-emerald-500 bg-emerald-500/10 cursor-default' :
+                    showWrong   ? 'border-rose-500 bg-rose-500/10 cursor-default' :
+                    !isAnswered && isSelected ? 'border-primary bg-primary/10 cursor-pointer' :
+                    isAnswered  ? 'border-border/20 bg-muted/20 opacity-40 cursor-default' :
+                                  'border-border/40 bg-muted/30 hover:border-border cursor-pointer'
+                  )}
                   style={{ width: 96 }}
                 >
-                  {/* Figure number badge */}
-                  <div
-                    className={`text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center
-                      ${showCorrect ? 'bg-emerald-500 text-white' : showWrong ? 'bg-rose-500 text-white' : 'bg-white/10 text-foreground/60'}`}
-                  >
+                  <div className={cn(
+                    'text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center',
+                    showCorrect ? 'bg-emerald-500 text-white' :
+                    showWrong   ? 'bg-rose-500 text-white' :
+                                  'bg-muted text-muted-foreground'
+                  )}>
                     {idx + 1}
                   </div>
-                  {/* SVG figure */}
-                  <div className="rounded-lg overflow-hidden bg-white border border-gray-100 shadow-inner">
+                  <div className="rounded-lg overflow-hidden bg-white border border-gray-100">
                     <FigureDisplay fig={fig} />
                   </div>
-                  {/* Feedback label */}
-                  {showCorrect && (
-                    <span className="text-[10px] font-semibold text-emerald-400">Odd one out</span>
-                  )}
-                  {showWrong && (
-                    <span className="text-[10px] font-semibold text-rose-400">Wrong</span>
-                  )}
-                </div>
+                  {showCorrect && <span className="text-[10px] font-semibold text-emerald-400">Odd one</span>}
+                  {showWrong   && <span className="text-[10px] font-semibold text-rose-400">Wrong</span>}
+                </motion.div>
               );
             })}
           </div>
 
-          {/* Rule reveal after answer */}
-          {isAnswered && (
-            <div className="mt-5 text-center p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
-              <p className="text-sm text-amber-300">
-                <span className="font-semibold">Rule: </span>{puzzle.rule}
-              </p>
-            </div>
-          )}
+          {/* Rule reveal */}
+          <AnimatePresence>
+            {isAnswered && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center"
+              >
+                <p className="text-sm text-amber-300">
+                  <span className="font-semibold">Rule: </span>{puzzle.rule}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/* Hint */}
       {!isAnswered && (
         <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 bg-amber-500/10 px-4 py-2 rounded-lg border border-amber-500/30">
-            <Lightbulb className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="inline-flex items-center gap-2 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
+            <Lightbulb className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <p className="text-amber-300 text-xs">
-              <span className="font-medium">Hint:</span> Look for a difference in count, fill, or line pattern
+              Look for a difference in count, fill, or line pattern
             </p>
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

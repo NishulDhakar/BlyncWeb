@@ -234,7 +234,7 @@ export default function Poll() {
                                                         <motion.div
                                                             initial={{ width: 0 }}
                                                             animate={{ width: `${percentage}%` }}
-                                                            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                                                            transition={{ duration: 1, ease: "easeOut" as const, delay: 0.2 }}
                                                             className={cn(
                                                                 "h-full rounded-full relative",
                                                                 selected === option.id ? "bg-primary" : "bg-primary/50"

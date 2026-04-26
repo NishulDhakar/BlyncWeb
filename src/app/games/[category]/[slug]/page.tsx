@@ -116,12 +116,12 @@ export default async function GameSeoPage({ params }: Props) {
           >
             Play Free Now
           </Link>
-          <Link
+          {/* <Link
             href={`/rules/${game.slug}`}
             className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-border hover:bg-accent transition-colors font-medium"
           >
             View Rules
-          </Link>
+          </Link> */}
         </div>
 
         {/* About section */}

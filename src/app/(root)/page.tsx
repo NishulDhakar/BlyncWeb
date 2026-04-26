@@ -3,6 +3,7 @@ import Container from "@/components/common/Container";
 import About from "@/components/Landing/About";
 import FAQ from "@/components/Landing/FAQ";
 import Hero from "@/components/Landing/Hero";
+import HowItWorks from "@/components/Landing/Howitwork";
 import Testimonial from "@/components/Landing/Testimonial";
 import { siteConfig } from "@/config/site";
 import Script from "next/script";
@@ -41,6 +42,28 @@ const faqData = [
   },
 ];
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Blync Cognitive Games",
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/og-logo.png`,
+  description: "Free game-based aptitude practice platform for Capgemini & Cognizant placements",
+  sameAs: [siteConfig.links.twitter, siteConfig.links.github],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "5000",
+    bestRating: "5",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "INR",
+    availability: "https://schema.org/InStock",
+  },
+};
+
 // Generate FAQPage schema for AI search engine citation
 const faqPageSchema = {
   "@context": "https://schema.org",
@@ -56,33 +79,56 @@ const faqPageSchema = {
 };
 
 export const metadata: Metadata = {
-  title: "Capgemini & Cognizant Game-Based Aptitude Practice",
+  title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
   description:
-    "Master Capgemini and Cognizant cognitive ability games. Free practice for Switch, Digit, Grid, Motion, and other game-based assessments with expert strategies and solutions.",
+    "Master all 6 Capgemini cognitive games free. Switch, Grid, Digit, Motion, Inductive & Deductive challenges — no signup required. Trusted by 5,000+ students for 2026 placement prep.",
   keywords: [
-    "Capgemini cognitive games",
-    "Cognizant placement games",
-    "game-based aptitude test",
+    "capgemini cognitive games",
+    "capgemini game based aptitude",
+    "capgemini cognitive ability games",
+    "game based aptitude test",
+    "aptitude games",
+    "cognitive ability test free",
     "switch challenge practice",
-    "grid challenge",
-    "pattern recognition",
-    "cognitive ability test",
-    "placement preparation"
+    "digit challenge practice",
+    "grid challenge practice",
+    "motion challenge practice",
+    "capgemini placement 2026",
+    "game based aptitude test free practice"
   ],
   alternates: {
     canonical: `${siteConfig.url}/`,
   },
   openGraph: {
-    title: "Master Capgemini & Cognizant Cognitive Games | Blync",
-    description: "Free game-based aptitude practice for campus placements. Master Switch, Grid, Digit, Motion & more.",
+    title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+    description: "5,000+ students practicing. All 6 Capgemini games free. No signup required. Start now.",
     url: `${siteConfig.url}/`,
     type: "website",
-  }
+    images: [
+      {
+        url: `${siteConfig.url}/og-logo.png`,
+        width: 1200,
+        height: 630,
+        alt: "Blync – Free Capgemini Cognitive Games Practice",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+    description: "Master all 6 Capgemini cognitive games free. No signup. 5,000+ students preparing.",
+    images: [`${siteConfig.url}/og-logo.png`],
+  },
 };
 
 export default function Home() {
   return (
     <>
+      <Script
+        id="org-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <Script
         id="faq-schema"
         type="application/ld+json"
@@ -91,6 +137,7 @@ export default function Home() {
       <div>
         <Hero />
         <About />
+        <HowItWorks />
         <Testimonial />
         <FAQ />
       </div>

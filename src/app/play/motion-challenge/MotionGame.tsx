@@ -10,6 +10,7 @@ import { saveScore } from "@/features/scoring/actions";
 const SESSION_TIME = 240;
 
 export default function MotionGame() {
+  const [gameKey, setGameKey] = useState(0);
   const [level, setLevel] = useState(1);
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
@@ -48,6 +49,7 @@ export default function MotionGame() {
   };
 
   const resetGame = () => {
+    setGameKey((k) => k + 1);
     setLevel(1);
     setCorrect(0);
     setWrong(0);
@@ -60,6 +62,7 @@ export default function MotionGame() {
     <Container>
       <GamePage title="Motion Challenge" level={level} timer={formatTime(sessionTime)}>
         <MotionChallengeUI
+          key={gameKey}
           levelIndex={level - 1}
           onLevelComplete={handleLevelComplete}
           onSkipLevel={handleSkipLevel}

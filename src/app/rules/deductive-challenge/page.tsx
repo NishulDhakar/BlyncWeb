@@ -3,8 +3,27 @@ import { deductiveChallengeRules } from "@/data/rules";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Deductive Logic Puzzles Guide | Crack the Assessment Round",
-  description: "Step-by-step guide to solving deductive reasoning and logic puzzles used in technical placements. Practice for your next interview test here.",
+  title: "Deductive Challenge Practice Free 2026 — Capgemini Prep | Blync",
+  description: "Master Deductive Challenge for Capgemini cognitive test. Free practice games, logic reasoning tips & complete guide. Improve deductive thinking fast. Start now!",
+  keywords: [
+    "deductive challenge",
+    "deductive challenge practice",
+    "capgemini deductive challenge",
+    "deductive reasoning game free",
+    "deductive challenge capgemini",
+    "logical reasoning game",
+    "capgemini game based aptitude test",
+    "deductive challenge free"
+  ],
+  alternates: {
+    canonical: "https://www.cognitivegames.me/rules/deductive-challenge",
+  },
+  openGraph: {
+    title: "Deductive Challenge Practice Free 2026 — Capgemini Prep",
+    description: "Free Deductive Challenge practice for Capgemini placement. Logic tips & unlimited attempts.",
+    url: "https://www.cognitivegames.me/rules/deductive-challenge",
+    type: "article",
+  },
 };
 
 export default function Page() {

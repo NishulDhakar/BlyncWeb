@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserIsPro } from "@/lib/subscription";
 import MotionGame from "./MotionGame";
 
 export const metadata: Metadata = {
   title: "Motion Challenge — Pattern Movement Aptitude Practice",
   description:
-    "Practice Motion Challenge used in Capgemini game-based aptitude rounds. Identify movement patterns across 4-minute sessions with level-based difficulty scaling. Free.",
+    "Practice Motion Challenge used in Capgemini game-based aptitude rounds. Identify movement patterns across 4-minute sessions with level-based difficulty scaling.",
   alternates: {
     canonical: `${siteConfig.url}/play/motion-challenge`,
   },
@@ -37,7 +41,13 @@ const schema = {
     "Movement pattern recognition practice for Capgemini placement tests.",
 };
 
-export default function MotionChallengePage() {
+export default async function MotionChallengePage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) redirect("/register?redirect=/play/motion-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=motion-challenge");
+
   return (
     <>
       <script

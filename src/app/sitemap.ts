@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1.0 },
     { url: `${baseUrl}/leaderboard`, lastModified: now, changeFrequency: "daily", priority: 0.85 },
     { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
-    { url: `${baseUrl}/capgemini`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/Capgemini`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/cognizant-games`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/iq-tests`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

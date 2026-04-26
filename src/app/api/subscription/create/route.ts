@@ -1,19 +1,23 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { users } from "@/lib/schema";
+import { users, subscriptions } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID!;
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET!;
-const RAZORPAY_PLAN_ID = process.env.RAZORPAY_PLAN_ID!;
+// Monthly plan: ₹49/month
+const RAZORPAY_PLAN_ID_MONTHLY = process.env.RAZORPAY_PLAN_ID!;
+// Biannual plan: ₹199/6 months — create this plan in Razorpay dashboard
+const RAZORPAY_PLAN_ID_6M = process.env.RAZORPAY_PLAN_ID_6M ?? process.env.RAZORPAY_PLAN_ID!;
 
 const razorpayAuth = Buffer.from(
   `${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`
 ).toString("base64");
 
-export async function POST() {
+export async function POST(req: Request) {
   try {
     let session;
     try {
@@ -25,20 +29,19 @@ export async function POST() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const body = await req.json().catch(() => ({}));
+    const planType: "monthly" | "biannual" =
+      body.plan === "monthly" ? "monthly" : "biannual";
+
     const { id: userId, email, name } = session.user;
 
-    // Fetch user to check for existing Razorpay customer ID
     const [user] = await db.select().from(users).where(eq(users.id, userId));
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // If already Pro with an active subscription, return early
     if (user.isPro && user.subscriptionStatus === "active") {
-      return NextResponse.json(
-        { error: "Already subscribed" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Already subscribed" }, { status: 400 });
     }
 
     // Create or reuse Razorpay customer
@@ -55,21 +58,15 @@ export async function POST() {
       if (!customerRes.ok) {
         const err = await customerRes.json();
         console.error("Razorpay create customer error:", err);
-        return NextResponse.json(
-          { error: "Failed to create customer" },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: "Failed to create customer" }, { status: 500 });
       }
       const customer = await customerRes.json();
       customerId = customer.id;
-
-      await db
-        .update(users)
-        .set({ razorpayCustomerId: customerId })
-        .where(eq(users.id, userId));
+      await db.update(users).set({ razorpayCustomerId: customerId }).where(eq(users.id, userId));
     }
 
-    // Create subscription
+    const planId = planType === "monthly" ? RAZORPAY_PLAN_ID_MONTHLY : RAZORPAY_PLAN_ID_6M;
+
     const subRes = await fetch("https://api.razorpay.com/v1/subscriptions", {
       method: "POST",
       headers: {
@@ -77,32 +74,36 @@ export async function POST() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        plan_id: RAZORPAY_PLAN_ID,
+        plan_id: planId,
         customer_notify: 1,
         quantity: 1,
-        total_count: 12, // 12 months; Razorpay auto-renews after this too
+        total_count: planType === "monthly" ? 12 : 4, // 12 months or 4 × 6-month cycles
       }),
     });
 
     if (!subRes.ok) {
       const err = await subRes.json();
       console.error("Razorpay create subscription error:", err);
-      return NextResponse.json(
-        { error: "Failed to create subscription" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to create subscription" }, { status: 500 });
     }
 
     const subscription = await subRes.json();
 
-    // Persist subscription ID immediately so webhook can match it
-    await db
-      .update(users)
-      .set({
-        razorpaySubscriptionId: subscription.id,
-        subscriptionStatus: "created",
-      })
-      .where(eq(users.id, userId));
+    // Persist on users table (for backwards compat + quick isPro checks)
+    await db.update(users).set({
+      razorpaySubscriptionId: subscription.id,
+      subscriptionStatus: "created",
+    }).where(eq(users.id, userId));
+
+    // Insert into dedicated subscriptions table
+    await db.insert(subscriptions).values({
+      id: randomUUID(),
+      userId,
+      planType,
+      razorpaySubscriptionId: subscription.id,
+      status: "created",
+      expiresAt: null,
+    });
 
     return NextResponse.json({
       subscriptionId: subscription.id,
@@ -111,9 +112,6 @@ export async function POST() {
     });
   } catch (error) {
     console.error("Subscription create error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

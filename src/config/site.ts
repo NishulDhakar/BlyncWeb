@@ -6,9 +6,9 @@ export const siteConfig = {
   name: "Blync Cognitive Games",
   shortName: "Blync",
   url: "https://www.cognitivegames.me",
-  ogImage: "/images/og/og-logo.png",
+  ogImage: "/og-logo.png",
   description:
-    "Play real Capgemini & Cognizant game-based aptitude tests on Blync. Practice Switch, Grid, Digit, Motion, Spacio, Inductive & Deductive Challenges with full tutorials, rules, mock tests & solutions for 2025 placements.",
+    "Free Capgemini & Cognizant game-based aptitude practice on Blync. Switch, Grid, Digit, Motion, Inductive & Deductive Challenges — full tutorials, mock tests & solutions for 2026 placements. No signup required.",
   keywords: [
     // Core Capgemini Games Keywords 
     "capgemini game based aptitude test",

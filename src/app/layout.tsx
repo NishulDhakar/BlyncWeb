@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import Script from "next/script";
 import { siteConfig } from "@/config/site";
-import { DotPattern } from "@/components/ui/dot-pattern";
-
-// Lazy load heavy components
-const ReactLenis = dynamic(() => import("lenis/react"));
+import LenisProvider from "@/components/common/LenisProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -117,12 +113,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        {/* ✅ Google AdSense */}
-        <script
+        {/* ✅ Google AdSense — afterInteractive keeps it off the critical path */}
+        <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsenseId}`}
           crossOrigin="anonymous"
-        ></script>
+          strategy="afterInteractive"
+        />
 
         {/* ✅ Google Analytics config */}
         <Script id="google-analytics" strategy="afterInteractive">
@@ -160,35 +157,36 @@ export default function RootLayout({
 
         {/* ✅ PWA */}
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#0a0a0a" />
+        <meta name="theme-color" content="#131221" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Blync" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
 
-        {/* ✅ PERFORMANCE */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {/* ✅ PERFORMANCE — preconnect for video CDN and analytics */}
+        <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://d8j0ntlcm91z4.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://cloud.umami.is" />
       </head>
 
       <body className="relative">
-        {/* The Gradient Approximation Element */}
-        <div className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden">
-          {/* Pink/Red Blob */}
+        {/* Gradient blobs — CSS-only blur, no inline style duplication */}
+        <div className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden" aria-hidden="true">
           <div
-            className="absolute top-0 left-0 w-1/2 h-full bg-[#FF6B6B]/50 rounded-full blur-3xl"
+            className="absolute top-0 left-0 w-1/2 h-full bg-[#FF6B6B]/50 rounded-full"
             style={{ filter: "blur(100px)", transform: "translate(-20%, -20%)" }}
-          ></div>
-          {/* Blue/Cyan Blob */}
+          />
           <div
-            className="absolute top-0 right-0 w-1/2 h-full bg-[#4F46E5]/50 rounded-full blur-3xl"
+            className="absolute top-0 right-0 w-1/2 h-full bg-[#4F46E5]/50 rounded-full"
             style={{ filter: "blur(100px)", transform: "translate(20%, -20%)" }}
-          ></div>
+          />
         </div>
 
-        <ReactLenis root>
+        <LenisProvider>
           <main>{children}</main>
-        </ReactLenis>
+        </LenisProvider>
 
         {/* ✅ Service Worker registration for PWA */}
         <Script id="sw-register" strategy="afterInteractive">

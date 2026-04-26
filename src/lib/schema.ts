@@ -8,6 +8,7 @@ import {
   unique,
 } from "drizzle-orm/pg-core";
 
+
 // ── Better Auth Tables ──────────────────────────────────────────────────────
 // Column names match the existing DB (Prisma without @map = camelCase columns)
 
@@ -124,3 +125,38 @@ export const pollOptions = pgTable("poll_option", {
     .notNull()
     .references(() => polls.id, { onDelete: "cascade" }),
 });
+
+// ── User Streaks ─────────────────────────────────────────────────────────────
+// One row per user. currentStreak resets to 1 if lastActivityDate is not yesterday.
+export const userStreaks = pgTable("user_streak", {
+  userId: text("userId")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  currentStreak: integer("currentStreak").default(1).notNull(),
+  longestStreak: integer("longestStreak").default(1).notNull(),
+  // YYYY-MM-DD in UTC — timezone-agnostic day comparison
+  lastActivityDate: text("lastActivityDate").notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+// ── Premium Subscriptions ─────────────────────────────────────────────────────
+// One row per subscription purchase. Users may have multiple over time.
+// planType: 'monthly' (₹49/mo) | 'biannual' (₹199/6mo)
+// status mirrors Razorpay: 'created' | 'active' | 'halted' | 'cancelled' | 'completed'
+export const subscriptions = pgTable(
+  "subscription",
+  {
+    id: text("id").primaryKey(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    planType: text("planType").notNull(), // 'monthly' | 'biannual'
+    razorpaySubscriptionId: text("razorpaySubscriptionId").notNull().unique(),
+    status: text("status").notNull().default("created"),
+    // Set when subscription.activated fires; updated on each charge event
+    expiresAt: timestamp("expiresAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (t) => [index("subscription_user_idx").on(t.userId)]
+);

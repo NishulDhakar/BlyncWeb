@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Check, X, Zap } from "lucide-react";
+import { Check, X, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 declare global {
   interface Window {
@@ -24,39 +26,66 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 const FREE_FEATURES = [
-  { text: "3 attempts per game per day", included: true },
-  { text: "Score shown after each game", included: true },
-  { text: "All 6 cognitive games", included: true },
-  { text: "Unlimited attempts", included: false },
-  { text: "Full score history", included: false },
-  { text: "Performance chart", included: false },
-  { text: "Pro badge on profile", included: false },
+  { text: "Switch Challenge (unlimited)", included: true },
+  { text: "Memory / Recall games (unlimited)", included: true },
+  { text: "Leaderboard access", included: true },
+  { text: "Digit Challenge", included: false },
+  { text: "Deductive Challenge", included: false },
+  { text: "Motion Challenge", included: false },
+  { text: "Inductive Challenge", included: false },
 ];
 
 const PRO_FEATURES = [
-  { text: "Unlimited attempts on all games", included: true },
-  { text: "Score shown after each game", included: true },
-  { text: "All 6 cognitive games", included: true },
-  { text: "Full score history (last 30 sessions)", included: true },
-  { text: "Performance chart per game", included: true },
-  { text: "Pro badge on profile", included: true },
+  { text: "All free games (unlimited)", included: true },
+  { text: "Digit Challenge", included: true },
+  { text: "Deductive Challenge", included: true },
+  { text: "Motion Challenge", included: true },
+  { text: "Inductive Challenge", included: true },
+  { text: "Full score history", included: true },
   { text: "Cancel anytime", included: true },
 ];
 
+const PLANS = [
+  {
+    id: "monthly" as const,
+    label: "Monthly",
+    price: "₹49",
+    period: "/month",
+    sub: "Billed monthly · cancel anytime",
+    badge: null,
+  },
+  {
+    id: "biannual" as const,
+    label: "6 Months",
+    price: "₹199",
+    period: "/6 months",
+    sub: "Save ₹95 vs monthly · billed once",
+    badge: "Best Value",
+  },
+];
+
 export default function PricingClient() {
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "biannual">("biannual");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const activePlan = PLANS.find((p) => p.id === selectedPlan)!;
 
   const handleUpgrade = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch("/api/subscription/create", { method: "POST" });
+      const res = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: selectedPlan }),
+      });
+
       if (!res.ok) {
         const body = await res.json();
         if (body.error === "Already subscribed") {
-          setError("You already have an active Pro subscription.");
+          setError("You already have an active subscription.");
         } else if (body.error === "Unauthorized") {
           window.location.href = "/register?redirect=/pricing";
         } else {
@@ -64,6 +93,7 @@ export default function PricingClient() {
         }
         return;
       }
+
       const { subscriptionId, keyId, prefill } = await res.json();
 
       const loaded = await loadRazorpayScript();
@@ -76,7 +106,8 @@ export default function PricingClient() {
         key: keyId,
         subscription_id: subscriptionId,
         name: "Blync",
-        description: "Pro — ₹49/month",
+        description:
+          selectedPlan === "monthly" ? "Pro — ₹49/month" : "Pro — ₹199/6 months",
         image: "/images/og/og-logo.png",
         prefill,
         theme: { color: "#000000" },
@@ -90,7 +121,7 @@ export default function PricingClient() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [selectedPlan]);
 
   return (
     <div className="min-h-screen pt-28 pb-20 px-4">
@@ -105,8 +136,38 @@ export default function PricingClient() {
         >
           <h1 className="text-3xl sm:text-4xl font-bold">Simple pricing</h1>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Start free. Upgrade when you want unlimited practice.
+            Free forever for Switch &amp; Memory games. Upgrade to unlock all 5 cognitive games.
           </p>
+        </motion.div>
+
+        {/* Plan toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.05 }}
+          className="flex justify-center"
+        >
+          <div className="inline-flex items-center gap-1 bg-muted/50 border border-border/50 rounded-xl p-1">
+            {PLANS.map((plan) => (
+              <button
+                key={plan.id}
+                onClick={() => setSelectedPlan(plan.id)}
+                className={cn(
+                  "relative px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
+                  selectedPlan === plan.id
+                    ? "bg-background text-foreground shadow-sm border border-border/50"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {plan.label}
+                {plan.badge && (
+                  <span className="absolute -top-2.5 -right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-yellow-500 text-black leading-none">
+                    {plan.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Cards */}
@@ -116,7 +177,7 @@ export default function PricingClient() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.05 }}
+            transition={{ duration: 0.4, delay: 0.08 }}
             className="rounded-2xl border border-border/50 bg-card/60 p-8 space-y-6"
           >
             <div>
@@ -142,13 +203,19 @@ export default function PricingClient() {
             <Button variant="outline" className="w-full" disabled>
               Current plan
             </Button>
+
+            <Link href="/games" className="w-full">
+              <Button variant="default" className="w-full">
+              Play now 
+            </Button>
+            </Link>
           </motion.div>
 
           {/* Pro */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.4, delay: 0.12 }}
             className="rounded-2xl border border-yellow-500/40 bg-yellow-500/5 p-8 space-y-6 relative overflow-hidden"
           >
             <div className="absolute top-4 right-4">
@@ -161,10 +228,10 @@ export default function PricingClient() {
             <div>
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Pro</p>
               <div className="mt-2 flex items-end gap-1">
-                <p className="text-4xl font-bold">₹49</p>
-                <p className="text-muted-foreground mb-1">/month</p>
+                <p className="text-4xl font-bold">{activePlan.price}</p>
+                <p className="text-muted-foreground mb-1">{activePlan.period}</p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">Billed monthly, cancel anytime</p>
+              <p className="text-sm text-muted-foreground mt-1">{activePlan.sub}</p>
             </div>
 
             <ul className="space-y-3">
@@ -179,11 +246,14 @@ export default function PricingClient() {
             {error && <p className="text-sm text-red-400">{error}</p>}
 
             <Button
-              className="w-full h-11 font-semibold"
+              className="w-full h-11 font-semibold gap-2"
               onClick={handleUpgrade}
               disabled={loading}
             >
-              {loading ? "Opening checkout…" : "Upgrade to Pro — ₹49/month"}
+              <Crown className="w-4 h-4" />
+              {loading
+                ? "Opening checkout…"
+                : `Upgrade — ${activePlan.price}${activePlan.period}`}
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">

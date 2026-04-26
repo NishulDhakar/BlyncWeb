@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserIsPro } from "@/lib/subscription";
 import InductiveGame from "./InductiveGame";
 
 export const metadata: Metadata = {
@@ -37,7 +41,13 @@ const schema = {
     "Visual inductive reasoning game for Capgemini and Cognizant placement test practice.",
 };
 
-export default function InductiveChallengePage() {
+export default async function InductiveChallengePage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) redirect("/register?redirect=/play/inductive-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=inductive-challenge");
+
   return (
     <>
       <script

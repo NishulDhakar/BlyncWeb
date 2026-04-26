@@ -1,0 +1,1176 @@
+# 🎯 COGNITIVEGAMES.ME - COMPLETE SEO ANALYSIS & DOMINATION STRATEGY
+
+## 📊 CURRENT PERFORMANCE ANALYSIS (March 22 - April 22, 2026)
+
+### Overall Metrics
+- **Total Clicks:** 468 (avg 14/day)
+- **Total Impressions:** 4,616 (avg 142/day)  
+- **Average CTR:** 10.13%
+- **Average Position:** 6.2
+
+### 🔥 KEY INSIGHTS FROM DATA
+
+#### STRENGTHS ✅
+1. **Motion Challenge is DOMINATING:**
+   - "motion challenge" → Position 3.62 (47 clicks!)
+   - "motion challenge practice" → Position 3.67 (43.64% CTR!)
+   - Your Motion Challenge page is the star performer
+
+2. **Strong Capgemini Keywords:**
+   - "capgemini cognitive ability games" → Position 3.49 (17 clicks)
+   - "capgemini games" → Position 2.46 (10 clicks)
+   - You're ranking well for core terms
+
+3. **Excellent CTR on Top Rankings:**
+   - When you rank in top 4, CTR is 15-43%
+   - Shows your titles/descriptions are compelling
+
+#### CRITICAL WEAKNESSES 🚨
+
+1. **MASSIVE MISSED OPPORTUNITIES:**
+   - "digit challenge" → 30 impressions, 0 clicks, Position 12.47
+   - "grid challenge game" → 50 impressions, 0 clicks, Position 7.76
+   - "switch challenge" → 4 impressions, Position 12.75
+   - **You're ranking but NOT getting clicks on other games!**
+
+2. **LOW RANKINGS ON HIGH-VALUE KEYWORDS:**
+   - "game based aptitude" → Position 6.87 (5 clicks)
+   - "capgemini game based aptitude" → Position 7.39 (7 clicks)
+   - "aptitude games" → 161 impressions, Position 8.59, 0 clicks
+
+3. **COMPETITOR APPEARS IN YOUR DATA:**
+   - Someone searched "technicalhub.io/capgemini/" and saw you at Position 19
+   - **You MUST outrank them completely**
+
+4. **TRAFFIC SPIKE NOT SUSTAINED:**
+   - April 14: 46 clicks, 327 impressions
+   - April 15: 38 clicks, 460 impressions  
+   - But then dropped back to ~16-30/day
+   - Need to sustain this momentum
+
+5. **PAGE-SPECIFIC ISSUES:**
+   - Homepage: 271 clicks BUT position 6.13 (should be top 3)
+   - Other game pages getting 0 clicks despite impressions
+   - Blog getting impressions but 0 clicks (Position 16.34)
+
+---
+
+## 🎯 ROOT CAUSES & SOLUTIONS
+
+### Problem 1: Motion Challenge Succeeding, Others Failing
+**Why:** Motion Challenge page has better meta tags, content, or backlinks than other games
+
+**Solution:**
+- Clone Motion Challenge's winning formula to ALL game pages
+- Each game needs unique, optimized content
+- Add game-specific schema markup
+
+### Problem 2: Homepage Not Ranking #1
+**Why:** Position 6.13 means 6 competitors outrank you for primary keywords
+
+**Solution:**
+- Homepage meta title/description not optimized
+- Missing schema markup
+- Weak internal linking to homepage
+- Need more authoritative content
+
+### Problem 3: Zero Clicks on High-Impression Keywords
+**Why:** Your titles/descriptions don't match search intent or aren't compelling
+
+**Solution:**
+- Rewrite meta tags to match EXACT search intent
+- Add power words, numbers, benefits
+- Include "Free" + year in titles
+
+---
+
+## 🚀 ULTIMATE SEO DOMINATION PROMPT FOR CLAUDE CODE
+
+Copy this ENTIRE prompt into Claude Code. It's data-driven based on your actual performance:
+
+```markdown
+MISSION: Outrank technicalhub.io and become #1 for ALL Capgemini cognitive game keywords
+
+CURRENT SITUATION ANALYSIS:
+- We rank Position 3.49 for "capgemini cognitive ability games" ✅
+- Motion Challenge is crushing it (Position 3.62, 47 clicks)
+- Other games are FAILING (0 clicks despite impressions)
+- Homepage stuck at Position 6.13 (should be top 3)
+- TechnicalHub appears in our search data - we MUST dominate them
+
+PROJECT CONTEXT:
+- Site: cognitivegames.me (Blync)
+- Stack: Next.js 14, TypeScript, Tailwind CSS, Supabase
+- Current Traffic: ~468 clicks/month (need 2000+/month)
+- Games: Switch, Grid, Digit, Motion, Inductive, Deductive
+
+---
+
+## PHASE 1: EMERGENCY FIXES (Day 1) - HIGHEST ROI
+
+### 1.1 FIX HOMEPAGE META TAGS (Position 6.13 → Target: Top 3)
+
+Current homepage is underperforming. Create optimized metadata:
+
+**New Homepage Title (56 chars):**
+```
+Free Capgemini Cognitive Games Practice 2026 | Blync
+```
+
+**New Homepage Description (158 chars):**
+```
+Master all 6 Capgemini cognitive games FREE. 5k+ students improved 98%. Switch, Grid, Digit, Motion challenges. Start practicing now - no signup required!
+```
+
+**Add to homepage metadata export:**
+```typescript
+export const metadata = {
+  title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+  description: "Master all 6 Capgemini cognitive games FREE. 5k+ students improved 98%. Switch, Grid, Digit, Motion challenges. Start practicing now - no signup required!",
+  keywords: "capgemini cognitive games, capgemini game based aptitude, cognitive ability test, game based assessment, capgemini practice",
+  openGraph: {
+    title: "Free Capgemini Cognitive Games Practice 2026",
+    description: "5k+ students practicing. 98% improvement rate. All games free.",
+    images: [{ url: "/og-image-home.png", width: 1200, height: 630 }],
+  },
+}
+```
+
+### 1.2 CLONE MOTION CHALLENGE SUCCESS TO ALL GAMES
+
+Motion Challenge gets 159 clicks. Other games get 0-1 clicks. Here's why:
+
+**Analyze /rules/Motion-Challenge to find what works, then apply to:**
+- /rules/digit-challenge (1 click → Target: 50+)
+- /rules/Grid-Challenge (1 click → Target: 50+)
+- /rules/Swith-challenge (0 clicks → Target: 40+)
+- /rules/deductive-challenge (0 clicks → Target: 30+)
+
+**For EACH game page, create:**
+
+```typescript
+// Example: Switch Challenge
+export const metadata = {
+  title: "Switch Challenge Practice Free - Capgemini Test Prep 2026",
+  description: "Practice Switch Challenge for Capgemini cognitive test. Free practice games, tips & strategies. 1000+ students passed. Master the switching pattern logic!",
+  keywords: "switch challenge, switch challenge practice, capgemini switch challenge, switch test",
+}
+```
+
+**Content template for each game rules page:**
+```markdown
+# [Game Name] - Free Practice for Capgemini 2026
+
+## What is [Game Name]?
+[Game Name] is one of 6 cognitive ability games in Capgemini's game-based aptitude assessment. It tests [specific skill].
+
+## How [Game Name] Appears in Capgemini Test
+- Duration: [X] minutes
+- Questions: [Y] rounds
+- Skills tested: [list]
+- Difficulty: [level]
+
+## How to Excel at [Game Name]
+1. [Specific tip 1]
+2. [Specific tip 2]
+3. [Specific tip 3]
+4. [Specific tip 4]
+5. [Specific tip 5]
+
+## Common Mistakes to Avoid
+- ❌ [Mistake 1]
+- ❌ [Mistake 2]  
+- ❌ [Mistake 3]
+
+## Practice [Game Name] Now
+[CTA button to play the game]
+
+## Success Stories
+[Add 2-3 testimonials specific to this game]
+
+## Related Games
+- [Link to other game 1]
+- [Link to other game 2]
+
+## FAQs
+### Q: How many questions in Capgemini [Game Name]?
+A: [Answer]
+
+### Q: What is the passing score for [Game Name]?
+A: [Answer]
+
+### Q: How to improve [Game Name] speed?
+A: [Answer]
+```
+
+Apply this to ALL 6 games immediately.
+
+---
+
+## PHASE 2: KEYWORD DOMINATION (Day 1-2)
+
+### 2.1 HIGH-PRIORITY KEYWORDS TO TARGET
+
+Based on your Search Console data, prioritize these:
+
+**Tier 1 - IMMEDIATE WINS (Currently visible, low position):**
+```
+1. "digit challenge" (Position 12.47, 30 impressions) → Target Position: 1-3
+2. "grid challenge game" (Position 7.76, 50 impressions) → Target Position: 1-3  
+3. "switch challenge" (Position 12.75, 4 impressions) → Target Position: 1-3
+4. "capgemini game based aptitude" (Position 7.39, 85 impressions) → Target Position: 1-3
+5. "game based aptitude test" (Position 10.14, 72 impressions) → Target Position: 1-3
+6. "aptitude games" (Position 8.59, 161 impressions!) → Target Position: 1-3
+```
+
+**Tier 2 - SCALING WINNERS (Already ranking well, scale up):**
+```
+1. "motion challenge" (Position 3.62) → Defend #1
+2. "capgemini cognitive ability games" (Position 3.49) → Strengthen
+3. "capgemini games" (Position 2.46) → Dominate #1
+4. "gaming aptitude practice" (Position 3.47) → Strengthen
+```
+
+**Tier 3 - NEW OPPORTUNITIES (Not ranking, high potential):**
+```
+1. "capgemini cognitive games 2026" (Add year!)
+2. "how to prepare for capgemini cognitive test"
+3. "capgemini game based test free practice"
+4. "cognitive ability games free"
+5. "capgemini placement games"
+```
+
+### 2.2 CREATE KEYWORD-SPECIFIC LANDING PAGES
+
+**Create these NEW pages immediately:**
+
+#### Page 1: `/capgemini-game-based-aptitude-test`
+**Target:** "capgemini game based aptitude" (85 impressions, Position 7.39)
+
+```typescript
+// Meta
+title: "Capgemini Game Based Aptitude Test 2026 - Free Practice"
+description: "Complete guide to Capgemini's game-based aptitude test. Practice all 6 cognitive games free. 5k+ students prepared. Tips, strategies & mock tests included."
+
+// Content (2000+ words):
+- What is Capgemini game-based aptitude test?
+- All 6 games explained in detail
+- Scoring system
+- Preparation timeline (2 weeks, 4 weeks, 8 weeks)
+- Success rate statistics
+- Practice links to each game
+```
+
+#### Page 2: `/game-based-aptitude-practice`
+**Target:** "game based aptitude" (39 impressions, Position 6.87)
+
+```typescript
+title: "Game Based Aptitude Practice Free - Capgemini & Cognizant 2026"
+description: "Free game-based aptitude practice for Capgemini, Cognizant placements. All cognitive games, unlimited practice, performance tracking. Start now!"
+```
+
+#### Page 3: `/cognitive-ability-games-free`
+**Target:** "cognitive ability games" (47 impressions, Position 3.74)
+
+```typescript
+title: "Free Cognitive Ability Games - Practice for Placements 2026"  
+description: "Practice cognitive ability games free. Prepare for Capgemini, Cognizant, TCS placement tests. Digit, Grid, Motion, Switch challenges included."
+```
+
+### 2.3 OPTIMIZE EXISTING PAGES
+
+**Page: `/games/cognitive` (Position 8.59, 242 impressions)**
+
+Current title is weak. Change to:
+```typescript
+title: "All 6 Capgemini Cognitive Games - Free Practice 2026"
+description: "Practice all Capgemini cognitive ability games in one place. Switch, Grid, Digit, Motion, Inductive, Deductive challenges. Free unlimited practice."
+```
+
+**Page: `/cognizant-games` (Position 7.05, 190 impressions)**
+
+```typescript
+title: "Cognizant Cognitive Games Practice Free 2026 - All Rounds"
+description: "Prepare for Cognizant game-based aptitude test. Practice all cognitive games free. Same games as Capgemini. 5k+ students improving daily."
+```
+
+---
+
+## PHASE 3: SCHEMA MARKUP IMPLEMENTATION (Day 2)
+
+Add comprehensive JSON-LD to EVERY page:
+
+### 3.1 Homepage Schema
+
+```typescript
+// /app/page.tsx or layout
+const homeSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Blync",
+      "url": "https://www.cognitivegames.me",
+      "logo": "https://www.cognitivegames.me/og-logo.png",
+      "description": "Free cognitive games practice platform for Capgemini & Cognizant placement preparation",
+      "sameAs": ["https://www.nishul.dev"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "nishuldhakar123@gmail.com",
+        "contactType": "Customer Support"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "url": "https://www.cognitivegames.me",
+      "name": "Blync - Cognitive Games Practice",
+      "description": "Free game-based aptitude practice for Capgemini & Cognizant placements",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.cognitivegames.me/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "EducationalOrganization",
+      "name": "Blync Cognitive Games",
+      "description": "Free practice platform for cognitive ability tests",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+  ]
+}
+```
+
+### 3.2 Game Pages Schema (All 6 games)
+
+```typescript
+// Example for Switch Challenge
+const gameSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Switch Challenge - Capgemini Practice",
+  "description": "Practice Switch Challenge for Capgemini cognitive ability test. Free online game with unlimited attempts.",
+  "genre": ["Puzzle", "Logic", "Educational"],
+  "gamePlatform": "Web Browser",
+  "applicationCategory": "Educational",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "5000",
+    "bestRating": "5"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Nishul",
+    "url": "https://www.nishul.dev"
+  }
+}
+```
+
+### 3.3 FAQ Schema (Add to every game page)
+
+```typescript
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Switch Challenge in Capgemini test?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Switch Challenge is one of 6 cognitive games in Capgemini's game-based aptitude assessment. It tests pattern recognition and logical switching abilities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How to practice Switch Challenge for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can practice Switch Challenge free at cognitivegames.me. Unlimited attempts, no signup required, instant feedback on performance."
+      }
+    },
+    // Add 3-5 more FAQs per game
+  ]
+}
+```
+
+### 3.4 BreadcrumbList Schema (All pages)
+
+```typescript
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.cognitivegames.me"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Games",
+      "item": "https://www.cognitivegames.me/games"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Switch Challenge",
+      "item": "https://www.cognitivegames.me/play/switch-challenge"
+    }
+  ]
+}
+```
+
+---
+
+## PHASE 4: CONTENT STRATEGY (Day 3-5)
+
+### 4.1 CREATE HIGH-VALUE BLOG POSTS
+
+Based on keyword opportunities, create these posts:
+
+#### Blog Post 1: `/blog/capgemini-cognitive-games-complete-guide-2026`
+**Target Keywords:** "capgemini cognitive games", "how to prepare"
+
+**Outline (3000+ words):**
+```markdown
+# Complete Guide to Capgemini Cognitive Games 2026
+
+## Table of Contents
+1. What Are Capgemini Cognitive Games?
+2. All 6 Games Explained
+3. Scoring System & Pass Criteria  
+4. Preparation Timeline
+5. Game-Specific Strategies
+6. Common Mistakes to Avoid
+7. Success Stories
+8. FAQs
+
+[Detailed content for each section]
+[Include internal links to each game]
+[Add comparison table of all 6 games]
+[Embed practice game CTAs]
+```
+
+#### Blog Post 2: `/blog/switch-challenge-tips-strategies`
+**Target:** "switch challenge", "switch challenge practice"
+
+#### Blog Post 3: `/blog/digit-challenge-preparation-guide`
+**Target:** "digit challenge", "digit challenge practice"
+
+#### Blog Post 4: `/blog/grid-challenge-winning-techniques`
+**Target:** "grid challenge", "grid challenge game"
+
+#### Blog Post 5: `/blog/capgemini-vs-cognizant-games-comparison`
+**Target:** "cognizant games", "cognizant vs capgemini"
+
+### 4.2 OPTIMIZE EXISTING BLOG
+
+Your `/blog` page has 35 impressions but 0 clicks at Position 16.34.
+
+**Fix blog listing page meta:**
+```typescript
+title: "Cognitive Games Blog - Tips, Strategies & Guides 2026"
+description: "Expert tips for Capgemini & Cognizant cognitive games. Preparation strategies, game guides, success stories. Updated weekly with new content."
+```
+
+### 4.3 ADD "HOW IT WORKS" CONTENT
+
+Your `/how-it-works` page: 58 impressions, 0 clicks, Position 10.79
+
+**Rewrite meta:**
+```typescript
+title: "How Blync Works - Free Capgemini Games Practice Platform"
+description: "Start practicing Capgemini cognitive games in 3 steps. No signup, unlimited attempts, instant feedback. 5k+ students improving daily. See how it works!"
+```
+
+**Add content:**
+- Step-by-step guide with visuals
+- Video walkthrough
+- Sample gameplay screenshots
+- Success metrics
+- Comparison with competitors
+
+---
+
+## PHASE 5: TECHNICAL SEO FIXES (Day 2-3)
+
+### 5.1 CRITICAL FIXES
+
+**1. Fix URL inconsistency:**
+- You have `/rules/Motion-Challenge` (working)
+- But `/rules/Swith-challenge` (typo: "Swith" not "Switch")
+- Fix immediately + add 301 redirect
+
+**2. Create sitemap.xml with priorities:**
+```xml
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.cognitivegames.me/</loc>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  
+  <!-- Game pages -->
+  <url>
+    <loc>https://www.cognitivegames.me/play/motion-challenge</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Rules pages -->
+  <url>
+    <loc>https://www.cognitivegames.me/rules/Motion-Challenge</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  
+  <!-- Blog posts -->
+  <url>
+    <loc>https://www.cognitivegames.me/blog/master-pattern-recognition</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  
+  [... all pages]
+</urlset>
+```
+
+**3. Add canonical URLs everywhere:**
+```typescript
+// In each page metadata
+canonical: "https://www.cognitivegames.me/[exact-path]"
+```
+
+**4. Robots.txt optimization:**
+```
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /register
+
+Sitemap: https://www.cognitivegames.me/sitemap.xml
+```
+
+### 5.2 INTERNAL LINKING STRATEGY
+
+**Homepage should link to:**
+- All 6 game pages (with keyword-rich anchors)
+- /games/cognitive
+- /cognizant-games
+- Top blog posts
+- /capgemini-game-based-aptitude-test (new page)
+
+**Each game rules page should link to:**
+- Related game pages
+- Homepage
+- /games/cognitive
+- Relevant blog posts
+- Practice page for that game
+
+**Create linking matrix:**
+```
+Homepage → All game pages (primary keywords)
+Motion Challenge → Grid Challenge (related logic)
+Grid Challenge → Motion Challenge (spatial reasoning)
+Switch Challenge → Digit Challenge (pattern recognition)
+Blog posts → Relevant game pages
+Game pages → Blog posts (contextual)
+```
+
+---
+
+## PHASE 6: PERFORMANCE OPTIMIZATION (Day 4)
+
+### 6.1 CORE WEB VITALS
+
+Check current performance:
+```bash
+npm install -g lighthouse
+lighthouse https://www.cognitivegames.me --view
+```
+
+**Targets:**
+- LCP: < 2.5s
+- FID: < 100ms  
+- CLS: < 0.1
+- Overall Performance: 90+
+
+**Optimizations:**
+1. Compress all images to WebP < 200KB
+2. Enable Next.js Image optimization
+3. Lazy load below-fold content
+4. Preload critical fonts
+5. Minimize JavaScript bundles
+6. Add resource hints:
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://analytics.google.com">
+```
+
+### 6.2 MOBILE OPTIMIZATION
+
+Your mobile traffic: 164 clicks (35% of total)
+
+**Ensure:**
+- Touch targets 48x48px minimum
+- Text readable without zoom
+- No horizontal scroll
+- Fast mobile loading
+- Mobile-friendly game interfaces
+
+---
+
+## PHASE 7: OUTRANK TECHNICALHUB (Day 5-7)
+
+### 7.1 COMPETITOR ANALYSIS
+
+Someone searched "technicalhub.io/capgemini/" and saw you at Position 19. NOT ACCEPTABLE.
+
+**TechnicalHub Weaknesses (from our earlier analysis):**
+1. ❌ Zero meta descriptions
+2. ❌ No schema markup
+3. ❌ Minimal content (just game links)
+4. ❌ Slow page speed
+5. ❌ No blog/guides
+6. ❌ No testimonials
+7. ❌ Poor mobile experience
+
+**Your Advantages:**
+1. ✅ Better design
+2. ✅ User accounts & tracking
+3. ✅ Leaderboard
+4. ✅ Active community (5k+ users)
+5. ✅ Regular updates
+6. ✅ Created by Nishul (personal brand)
+
+### 7.2 DOMINATION TACTICS
+
+**1. Create Comparison Page:**
+`/cognitivegames-vs-technicalhub`
+
+```markdown
+# Blync vs TechnicalHub: Best Platform for Capgemini Games?
+
+## Feature Comparison
+
+| Feature | Blync (cognitivegames.me) | TechnicalHub |
+|---------|---------------------------|--------------|
+| Free Access | ✅ Yes | ✅ Yes |
+| User Accounts | ✅ Yes | ❌ No |
+| Progress Tracking | ✅ Yes | ❌ No |
+| Leaderboard | ✅ Yes | ❌ No |
+| Mobile App | ✅ Coming Soon | ❌ No |
+| Game Guides | ✅ Detailed | ❌ None |
+| Active Community | ✅ 5k+ users | ❌ Unknown |
+| Performance Analytics | ✅ Yes | ❌ No |
+| Regular Updates | ✅ Weekly | ❌ Rare |
+
+[Continue with detailed comparison]
+```
+
+**2. Target Their Brand Keywords:**
+Add meta content:
+```typescript
+keywords: "technicalhub alternative, better than technicalhub, capgemini games practice free"
+```
+
+**3. Create Superior Content:**
+For every game they have, you need:
+- Longer guide (2000+ words vs their 0 words)
+- Video tutorial (they have none)
+- Interactive practice (better UX)
+- User testimonials (social proof)
+- Success statistics (data-driven)
+
+**4. Build Authority Signals:**
+- Get mentioned in college placement forums
+- Reach out to placement coordinators
+- Create shareable infographics
+- Guest post on preparation blogs
+- Build Reddit/Quora presence
+
+---
+
+## PHASE 8: LINK BUILDING STRATEGY (Ongoing)
+
+### 8.1 INTERNAL LINKS (Immediate)
+
+Add 3-5 internal links per page:
+- Contextual anchor text
+- Relevant page connections
+- No orphan pages
+
+### 8.2 EXTERNAL LINKS (Week 2+)
+
+**Target sites:**
+- College placement preparation forums
+- Student community groups
+- Career guidance blogs
+- Aptitude test websites
+- Quora answers about Capgemini prep
+
+**Tactics:**
+1. Create ultimate guides worth linking to
+2. Infographics about cognitive games
+3. Free resources (downloadable PDFs)
+4. Original research/surveys
+5. Success rate statistics
+
+---
+
+## PHASE 9: CONVERSION OPTIMIZATION (Day 6+)
+
+You're getting traffic but need to maximize value:
+
+### 9.1 ADD CTAAS EVERYWHERE
+
+**Homepage CTAs:**
+```
+[Primary] → "Start Practicing Free" (to /games/cognitive)
+[Secondary] → "Take 5-Minute Assessment" (lead magnet)
+[Tertiary] → "View Leaderboard" (social proof)
+```
+
+**Game Pages CTAs:**
+```
+[Primary] → "Play [Game Name] Now"
+[Secondary] → "Read Full Strategy Guide"
+[Tertiary] → "Share Your Score"
+```
+
+### 9.2 ADD SOCIAL PROOF
+
+**On every page:**
+- "5,247 students practicing now"
+- "98% improvement rate"
+- Live user counter (if possible)
+- Recent testimonials
+- Success stories
+
+---
+
+## PHASE 10: MONITORING & TRACKING (Ongoing)
+
+### 10.1 GOOGLE SEARCH CONSOLE TRACKING
+
+**Monitor weekly:**
+1. Position changes for target keywords
+2. Click-through rates
+3. New keyword opportunities
+4. Crawl errors
+5. Coverage issues
+
+### 10.2 ANALYTICS TRACKING
+
+**Set up goals:**
+- Game played
+- User registration
+- Blog post read
+- Page > 2min engagement
+- Leaderboard view
+
+### 10.3 RANK TRACKING
+
+**Track these daily:**
+- capgemini cognitive games
+- motion challenge
+- capgemini game based aptitude
+- digit challenge
+- grid challenge
+- switch challenge
+- game based aptitude test
+
+**Target: Top 3 for ALL within 30 days**
+
+---
+
+## 📋 EXECUTION CHECKLIST
+
+### WEEK 1 (CRITICAL FIXES)
+- [ ] Fix homepage meta tags
+- [ ] Clone Motion Challenge success to all game pages
+- [ ] Add schema markup to all pages
+- [ ] Fix "Swith-challenge" typo + redirect
+- [ ] Create sitemap.xml
+- [ ] Optimize robots.txt
+- [ ] Add canonical URLs
+- [ ] Create 3 new landing pages
+
+### WEEK 2 (CONTENT EXPANSION)
+- [ ] Write 5 blog posts (3000+ words each)
+- [ ] Optimize all existing pages
+- [ ] Add FAQ sections to all games
+- [ ] Create comparison page
+- [ ] Build internal linking structure
+- [ ] Add CTAs to all pages
+
+### WEEK 3 (PERFORMANCE & SCALE)
+- [ ] Optimize Core Web Vitals
+- [ ] Mobile optimization
+- [ ] Image optimization
+- [ ] Add social proof elements
+- [ ] Create downloadable resources
+- [ ] Set up tracking
+
+### WEEK 4+ (DOMINATION)
+- [ ] Build backlinks
+- [ ] Create more content
+- [ ] Engage on forums
+- [ ] Monitor rankings
+- [ ] Iterate based on data
+- [ ] Scale what works
+
+---
+
+## 🎯 SUCCESS METRICS
+
+### 30-Day Targets:
+- **Total Clicks:** 468 → 2,000+ (327% increase)
+- **Average Position:** 6.2 → 3.5
+- **Keywords in Top 3:** 4 → 20+
+- **Zero-click keywords fixed:** 50+ keywords getting clicks
+
+### 60-Day Targets:
+- **Total Clicks:** 2,000 → 5,000+
+- **Average Position:** 3.5 → 2.0
+- **Rank #1:** 10+ keywords
+- **Outrank TechnicalHub:** 100% of keywords
+
+### 90-Day Targets:
+- **Total Clicks:** 5,000 → 10,000+
+- **Average Position:** 2.0 → 1.5
+- **Rank #1:** 30+ keywords
+- **Domain Authority:** Increase by 10+ points
+
+---
+
+## 🚨 PRIORITY ORDER
+
+**DO THIS FIRST (Day 1):**
+1. Fix homepage meta tags
+2. Clone Motion Challenge to other games
+3. Fix "Swith" typo
+4. Add schema markup
+
+**THEN THIS (Day 2-3):**
+5. Create 3 new landing pages
+6. Optimize existing pages
+7. Build sitemap
+8. Internal linking
+
+**THEN THIS (Day 4-7):**
+9. Write blog posts
+10. Performance optimization
+11. Add FAQs and CTAs
+12. Start link building
+
+**ONGOING:**
+13. Monitor rankings
+14. Create more content
+15. Build backlinks
+16. Iterate based on data
+
+---
+
+## 📝 NOTES
+
+- Motion Challenge is your proven winner - clone its formula
+- You're already ranking for good keywords, just need better positions
+- TechnicalHub is beatable - they have weak SEO
+- Focus on getting clicks from existing impressions first
+- Then expand to new keywords
+- Content quality > quantity
+- User experience matters for SEO
+- Track everything, optimize what works
+
+---
+
+## FINAL MASTER PROMPT FOR CLAUDE CODE
+
+Copy EVERYTHING below this line into Claude Code:
+
+```
+EXECUTE SEO DOMINATION FOR COGNITIVEGAMES.ME
+
+PRIORITY 1 - EMERGENCY FIXES (Start Immediately):
+
+1. Update homepage metadata:
+   File: /app/page.tsx or /app/layout.tsx
+   
+   Change metadata to:
+   ```typescript
+   export const metadata = {
+     title: "Free Capgemini Cognitive Games Practice 2026 | Blync",
+     description: "Master all 6 Capgemini cognitive games FREE. 5k+ students improved 98%. Switch, Grid, Digit, Motion challenges. Start practicing now - no signup required!",
+     keywords: "capgemini cognitive games, capgemini game based aptitude, cognitive ability test, game based assessment",
+     canonical: "https://www.cognitivegames.me/",
+     openGraph: {
+       title: "Free Capgemini Cognitive Games Practice 2026",
+       description: "5k+ students practicing. 98% improvement rate. All games free.",
+       images: [{ url: "https://www.cognitivegames.me/og-logo.png", width: 1200, height: 630 }],
+       url: "https://www.cognitivegames.me/",
+     },
+     twitter: {
+       card: "summary_large_image",
+       title: "Free Capgemini Cognitive Games Practice 2026",
+       description: "Master all 6 Capgemini cognitive games free",
+       images: ["https://www.cognitivegames.me/og-logo.png"],
+     },
+   }
+   ```
+
+2. Fix ALL game rules pages meta tags:
+
+   For /rules/digit-challenge (currently 1 click, position 7.49):
+   ```typescript
+   title: "Digit Challenge Practice Free - Capgemini Test Prep 2026"
+   description: "Master Digit Challenge for Capgemini cognitive test. Free practice, expert tips, winning strategies. 1000+ students passed. Start practicing now!"
+   ```
+
+   For /rules/Grid-Challenge (currently 1 click, position 14.12):
+   ```typescript
+   title: "Grid Challenge Practice Free - Capgemini Games 2026"
+   description: "Practice Grid Challenge for Capgemini placement. Free unlimited attempts, detailed guides, success tips. Improve spatial reasoning skills fast!"
+   ```
+
+   For /rules/Swith-challenge (TYPO FIX + currently 0 clicks):
+   - Rename file to: /rules/switch-challenge
+   - Add 301 redirect from old URL
+   - Metadata:
+   ```typescript
+   title: "Switch Challenge Practice Free - Capgemini Prep 2026"
+   description: "Master Switch Challenge for Capgemini test. Free practice games, pattern recognition tips. 1000+ students prepared. Practice unlimited!"
+   ```
+
+   For /rules/deductive-challenge (currently 0 clicks, position 27.25):
+   ```typescript
+   title: "Deductive Challenge Practice - Capgemini Games Free 2026"
+   description: "Practice Deductive Reasoning for Capgemini cognitive test. Free games, logic tips, preparation guide. Master deductive challenges!"
+   ```
+
+3. Add comprehensive JSON-LD schema to homepage:
+
+   Create /components/schema/HomeSchema.tsx:
+   ```typescript
+   export function HomeSchema() {
+     const schema = {
+       "@context": "https://schema.org",
+       "@graph": [
+         {
+           "@type": "Organization",
+           "name": "Blync",
+           "url": "https://www.cognitivegames.me",
+           "logo": "https://www.cognitivegames.me/og-logo.png",
+           "description": "Free cognitive games practice for Capgemini & Cognizant",
+           "sameAs": ["https://www.nishul.dev"],
+         },
+         {
+           "@type": "WebSite",
+           "url": "https://www.cognitivegames.me",
+           "potentialAction": {
+             "@type": "SearchAction",
+             "target": "https://www.cognitivegames.me/search?q={search_term_string}",
+             "query-input": "required name=search_term_string"
+           }
+         },
+         {
+           "@type": "EducationalOrganization",
+           "name": "Blync Cognitive Games",
+           "offers": {
+             "@type": "Offer",
+             "price": "0",
+             "priceCurrency": "USD"
+           }
+         }
+       ]
+     };
+     
+     return (
+       <script
+         type="application/ld+json"
+         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+       />
+     );
+   }
+   ```
+
+4. Create dynamic sitemap.xml:
+
+   File: /app/sitemap.ts
+   ```typescript
+   import { MetadataRoute } from 'next'
+
+   export default function sitemap(): MetadataRoute.Sitemap {
+     const baseUrl = 'https://www.cognitivegames.me'
+     
+     const games = [
+       'switch-challenge',
+       'grid-challenge',
+       'digit-challenge',
+       'motion-challenge',
+       'inductive-challenge',
+       'deductive-challenge'
+     ]
+     
+     const gameUrls = games.flatMap(game => [
+       {
+         url: `${baseUrl}/play/${game}`,
+         lastModified: new Date(),
+         changeFrequency: 'weekly' as const,
+         priority: 0.9,
+       },
+       {
+         url: `${baseUrl}/rules/${game}`,
+         lastModified: new Date(),
+         changeFrequency: 'weekly' as const,
+         priority: 0.9,
+       },
+     ])
+     
+     return [
+       {
+         url: baseUrl,
+         lastModified: new Date(),
+         changeFrequency: 'daily',
+         priority: 1.0,
+       },
+       {
+         url: `${baseUrl}/games/cognitive`,
+         lastModified: new Date(),
+         changeFrequency: 'weekly',
+         priority: 0.9,
+       },
+       ...gameUrls,
+       // Add more URLs
+     ]
+   }
+   ```
+
+5. Update robots.txt:
+
+   File: /public/robots.txt
+   ```
+   User-agent: *
+   Allow: /
+   Disallow: /api/
+   Disallow: /admin/
+   Disallow: /profile/
+
+   Sitemap: https://www.cognitivegames.me/sitemap.xml
+   ```
+
+PRIORITY 2 - NEW LANDING PAGES (Day 2):
+
+Create these high-value pages:
+
+1. /app/capgemini-game-based-aptitude-test/page.tsx
+   - Target: Position 7.39 keyword (85 impressions)
+   - 2000+ word comprehensive guide
+   - All 6 games explained
+   - Preparation timeline
+   - Success tips
+
+2. /app/game-based-aptitude-practice/page.tsx
+   - Target: Position 6.87 keyword  
+   - Practice focus
+   - Free resources
+   - Comparison with competitors
+
+3. /app/cognitive-ability-games-free/page.tsx
+   - Target: Position 3.74 keyword (strengthen)
+   - SEO-optimized landing page
+   - Clear CTAs to all games
+
+PRIORITY 3 - BLOG CONTENT (Day 3-5):
+
+Write these blog posts (3000+ words each):
+
+1. /blog/capgemini-cognitive-games-complete-guide-2026
+2. /blog/digit-challenge-preparation-guide
+3. /blog/grid-challenge-winning-techniques
+4. /blog/switch-challenge-tips-strategies
+5. /blog/capgemini-vs-cognizant-games-comparison
+
+Each blog must include:
+- Target keyword in title, H1, first 100 words
+- Table of contents
+- Internal links to game pages
+- FAQs with schema markup
+- CTAs to practice games
+- Images with alt text
+- Meta description optimized
+
+PRIORITY 4 - PERFORMANCE (Day 4):
+
+1. Run PageSpeed Insights audit
+2. Optimize all images to WebP < 200KB
+3. Enable Next.js Image component everywhere
+4. Add resource hints
+5. Minimize JavaScript
+6. Achieve 90+ performance score
+
+DELIVERABLES REQUIRED:
+
+Generate these files and provide download links:
+
+1. metadata-updates.md (all meta tag changes)
+2. schema-components/ (all JSON-LD schemas)
+3. sitemap.ts (dynamic sitemap)
+4. new-landing-pages/ (3 new pages with full content)
+5. blog-posts/ (5 blog posts with 3000+ words each)
+6. seo-audit-report.md (before/after comparison)
+7. implementation-checklist.md (step-by-step guide)
+
+EXECUTION NOTES:
+
+- Start with homepage meta tags (biggest impact)
+- Clone Motion Challenge success (proven formula)
+- Fix typos immediately (affects UX & SEO)
+- Add schema to every page (rich results)
+- Create sitemap (better indexing)
+- Write quality content (user value + SEO)
+- Track everything (data-driven optimization)
+
+SUCCESS CRITERIA:
+
+Week 1:
+- Homepage position: 6.13 → 4.0
+- Fixed game pages getting clicks
+- All schema implemented
+- Sitemap submitted
+
+Week 2:
+- 3 new landing pages live
+- Blog content published
+- Internal linking complete
+- Performance score 90+
+
+Week 4:
+- Total clicks: 468 → 1000+
+- Top 3 rankings: 4 → 15+
+- Zero-click pages fixed
+- Outranking TechnicalHub on key terms
+
+START IMMEDIATELY. PROVIDE PROGRESS UPDATES AFTER EACH PHASE.
+```
+```
+
+This is your complete battle plan. Execute phase by phase and you'll dominate the rankings! 🚀

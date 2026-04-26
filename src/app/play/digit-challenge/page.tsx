@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserIsPro } from "@/lib/subscription";
 import DigitGame from "./DigitGame";
 
 export const metadata: Metadata = {
@@ -37,7 +41,13 @@ const schema = {
     "Number sequence puzzle practice for Capgemini and Cognizant placement tests.",
 };
 
-export default function DigitChallengePage() {
+export default async function DigitChallengePage() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) redirect("/register?redirect=/play/digit-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=digit-challenge");
+
   return (
     <>
       <script

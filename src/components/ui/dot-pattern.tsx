@@ -147,7 +147,7 @@ export function DotPattern({
                   repeat: Infinity,
                   repeatType: "reverse",
                   delay: dot.delay,
-                  ease: "easeInOut",
+                  ease: "easeInOut" as const,
                 }
               : {}
           }

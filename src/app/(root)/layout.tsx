@@ -6,6 +6,7 @@ import { UserProvider } from "@/context/UserContext";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import { siteConfig } from "@/config/site";
+import { upsertStreak } from "@/features/streak/actions";
 
 export const metadata: Metadata = {
    title: "Free Game-Based Aptitude Practice for Capgemini & Cognizant | Blync",
@@ -36,8 +37,12 @@ export default async function HomeLayout({
       headers: await headers()
    });
    const user = session?.user ?? null;
+
+   // Upsert streak on every authenticated page visit (server-side, zero client overhead)
+   const streak = user ? await upsertStreak(user.id) : { currentStreak: 0, longestStreak: 0 };
+
    return (
-      <UserProvider user={user}>
+      <UserProvider user={user} streak={streak}>
          <Header />
          <main className="">
             {children}

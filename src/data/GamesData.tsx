@@ -5,6 +5,7 @@ export interface GameCardData {
   rulesLink: string;
   description: string;
   isAvailable?: boolean;
+  isPremium?: boolean;
 }
 
 export const gameCards: GameCardData[] = [
@@ -16,6 +17,7 @@ export const gameCards: GameCardData[] = [
     description:
       "A fast-paced game where you match color names with their actual displayed colors, testing speed and focus under tricky visual cues.",
     isAvailable: true,
+    isPremium: false,
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ export const gameCards: GameCardData[] = [
     description:
       "A mathematical operation where you must find the correct answer using only the given digits, each used exactly once.",
     isAvailable: true,
+    isPremium: true,
   },
   {
     id: 2,
@@ -34,6 +37,7 @@ export const gameCards: GameCardData[] = [
     description:
       "A logical puzzle that tests deductive reasoning — draw specific conclusions from general rules using a Sudoku-style symbol grid.",
     isAvailable: true,
+    isPremium: true,
   },
   {
     id: 4,
@@ -43,6 +47,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Objects move across the screen and you must track their final positions — testing focus, recall, and spatial reasoning.",
     isAvailable: true,
+    isPremium: true,
   },
   {
     id: 6,
@@ -52,14 +57,15 @@ export const gameCards: GameCardData[] = [
     description:
       "A visual puzzle where you identify the next figure in a sequence by spotting hidden patterns — sharpens abstract thinking.",
     isAvailable: true,
+    isPremium: true,
   },
-  {
-    id: 5,
-    name: "Grid Challenge",
-    image: "/games/cognitive.png",
-    rulesLink: "/rules/grid-challenge",
-    description:
-      "Sort rows of letters and verify if columns stay in alphabetical order — testing pattern recognition and analytical speed.",
-    isAvailable: false,
-  },
+  // {
+  //   id: 5,
+  //   name: "Grid Challenge",
+  //   image: "/games/cognitive.png",
+  //   rulesLink: "/rules/grid-challenge",
+  //   description:
+  //     "Sort rows of letters and verify if columns stay in alphabetical order — testing pattern recognition and analytical speed.",
+  //   isAvailable: false,
+  // },
 ];

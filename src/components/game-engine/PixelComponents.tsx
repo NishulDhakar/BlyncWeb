@@ -30,7 +30,7 @@ export const PixelCoin = () => {
     return (
         <motion.div
             animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" as const }}
             className="w-12 h-12 relative"
         >
             <div className="absolute inset-0 bg-yellow-400 rounded-full border-4 border-black shadow-[inset_-4px_-4px_0px_0px_rgba(0,0,0,0.2)]">
@@ -51,7 +51,7 @@ export const FloatingPlatform = ({ width = "w-32", delay = 0 }) => {
             transition={{
                 repeat: Infinity,
                 duration: 4,
-                ease: "easeInOut",
+                ease: "easeInOut" as const,
                 delay: delay,
             }}
             className={`relative ${width} h-12`}

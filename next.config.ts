@@ -3,15 +3,19 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  compress: true,
 
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "games.nishul.dev" },
       { protocol: "https", hostname: "www.nishul.dev" },
+      // Avatar images from Google OAuth
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
-    formats: ["image/webp", "image/avif"],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
 
   compiler: {
@@ -22,7 +26,31 @@ const nextConfig: NextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: ["framer-motion", "lucide-react"],
+    optimizePackageImports: ["framer-motion", "lucide-react", "@phosphor-icons/react", "react-icons"],
+  },
+
+  // Long-lived cache headers for static assets
+  async headers() {
+    return [
+      {
+        source: "/fonts/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/(.*\\.(?:png|jpg|jpeg|gif|webp|avif|ico|svg))",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
   },
 
   // ── 301 REDIRECTS ────────────────────────────────────────────────────────────

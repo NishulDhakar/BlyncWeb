@@ -18,7 +18,7 @@ export default function Hero() {
   const [showIOSGuide, setShowIOSGuide] = useState(false);
 
   return (
-    <section className="relative overflow-hidden py-16 md:py-24">
+    <section className="relative overflow-hidden md:py-1">
       {/* <Image
         src="/bg.jpg"
         alt="Nishul"
@@ -29,7 +29,28 @@ export default function Hero() {
       /> */}
       {/* <DotPattern /> */}
 
-      <div className="relative z-10 mt-20 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+       <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          disableRemotePlayback
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          poster="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=60"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        >
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_115655_b4d9cd77-feed-43cd-a198-af78ebdf1f7a.mp4"
+            type="video/mp4"
+          />
+        </video>
+   
+
+      <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
 
         <motion.a
             href="https://www.nishul.dev/"
@@ -41,7 +62,7 @@ export default function Hero() {
             className="mb-1 flex items-center gap-3 rounded-full 
                backdrop-blur-sm px-2 py-1 text-sm font-medium text-foreground"
           >
-        <div className="mb-6 flex items-center gap-3 rounded-full 
+        <div className="mb-1 flex items-center gap-3 rounded-full 
                 px-4 py-1.5 text-sm font-medium text-foreground
               hover:bg-secondary/10 hover:scale-[1] transition-all cursor-pointer">
             <div className="relative w-10 h-10 overflow-hidden rounded-full border border-primary/20">
@@ -62,7 +83,7 @@ export default function Hero() {
 
 
         <motion.h1
-          className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex flex-col md:flex-row items-center justify-center md:gap-8"
+          className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex md:flex-row items-center justify-center gap-4 md:gap-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -80,7 +101,7 @@ export default function Hero() {
 
         {/* SEO subtitle — primary keyword in first 100 words, visible to users and search engines */}
         <motion.p
-          className="text-base md:text-lg font-semibold text-foreground/70 max-w-2xl mx-auto mb-3 leading-snug"
+          className="text-sm md:text-lg font-semibold text-foreground/70 max-w-3xl md:max-w-2xl mx-auto mb-3 leading-snug"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
@@ -89,7 +110,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.p
-          className="text-base md:text-sm lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="hidden md:block text-sm md:text-sm lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -98,7 +119,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row items-center gap-4"
+          className="flex flex-col sm:flex-row items-center gap-4 mt-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -224,6 +245,7 @@ export default function Hero() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[500px] bg-primary/5 rounded-full blur-[100px]" />
+      </div>
       </div>
     </section>
   );

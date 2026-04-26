@@ -1,122 +1,156 @@
 'use client';
 
-import Image from "next/image";
 import Link from "next/link";
 import { gameCards } from "@/data/GamesData";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
-import {
-  Shuffle,
-  Hash,
-  Brain,
-  MoveRight,
-  Eye,
-  Grid2X2,
-} from "lucide-react";
+import { ArrowRight, Shuffle, Hash, Brain, MoveRight, Eye, Grid2X2, Lock, Zap } from "lucide-react";
+import { useUser } from "@/context/UserContext";
 
-// One icon per game id
-const GAME_ICONS: Record<number, React.ReactNode> = {
-  1: <Shuffle className="w-5 h-5 text-white" />,
-  2: <Brain className="w-5 h-5 text-white" />,
-  3: <Hash className="w-5 h-5 text-white" />,
-  4: <MoveRight className="w-5 h-5 text-white" />,
-  5: <Grid2X2 className="w-5 h-5 text-white" />,
-  6: <Eye className="w-5 h-5 text-white" />,
+const GAME_META: Record<number, { icon: React.ReactNode; accent: string; glow: string }> = {
+  1: {
+    icon: <Shuffle className="w-5 h-5" />,
+    accent: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    glow: "group-hover:border-blue-500/40 group-hover:shadow-blue-500/5",
+  },
+  2: {
+    icon: <Brain className="w-5 h-5" />,
+    accent: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    glow: "group-hover:border-emerald-500/40 group-hover:shadow-emerald-500/5",
+  },
+  3: {
+    icon: <Hash className="w-5 h-5" />,
+    accent: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+    glow: "group-hover:border-violet-500/40 group-hover:shadow-violet-500/5",
+  },
+  4: {
+    icon: <MoveRight className="w-5 h-5" />,
+    accent: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+    glow: "group-hover:border-orange-500/40 group-hover:shadow-orange-500/5",
+  },
+  5: {
+    icon: <Grid2X2 className="w-5 h-5" />,
+    accent: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    glow: "group-hover:border-slate-500/40 group-hover:shadow-slate-500/5",
+  },
+  6: {
+    icon: <Eye className="w-5 h-5" />,
+    accent: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+    glow: "group-hover:border-pink-500/40 group-hover:shadow-pink-500/5",
+  },
+};
+
+const container: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
 };
 
 export default function GamesCard() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
 
   return (
-    <div ref={ref} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 px-4 pt-6 pb-20">
-      {gameCards.map((game, index) => {
+    <motion.div
+      variants={container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+      className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4 pt-6 pb-20"
+    >
+      {gameCards.map((game) => {
         const isAvailable = game.isAvailable !== false;
+        const locked = game.isPremium && !isPro;
+        const meta = GAME_META[game.id];
 
-        // Split name so the last word gets a lighter italic style
-        const words = game.name.trim().split(" ");
-        const lastWord = words.pop() ?? "";
-        const firstName = words.join(" ");
+        const href = !isAvailable ? "#" : locked ? "/pricing" : game.rulesLink;
 
         return (
-          <motion.div
-            key={game.id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: index * 0.1 }}
-          >
+          <motion.div key={game.id} variants={item}>
             <Link
-              href={isAvailable ? game.rulesLink : "#"}
+              href={href}
               aria-disabled={!isAvailable}
               className={cn(
-                "group block relative h-[380px] w-full overflow-hidden rounded-3xl",
-                !isAvailable && "pointer-events-none"
+                "group relative flex flex-col gap-4 p-5 rounded-2xl h-full",
+                "bg-card border border-border/50",
+                "transition-all duration-200 shadow-sm",
+                isAvailable && !locked
+                  ? cn("hover:shadow-lg", meta.glow)
+                  : !isAvailable
+                  ? "pointer-events-none opacity-60"
+                  : cn("hover:shadow-lg hover:border-yellow-500/30")
               )}
             >
-              {/* Background image */}
-              <Image
-                src={game.image}
-                alt={game.name}
-                fill
-                priority={index < 3}
-                className={cn(
-                  "object-cover transition-transform duration-700 ease-out",
-                  isAvailable && "group-hover:scale-[1.04]"
-                )}
-              />
-
-              {/* Dark gradient — stronger at bottom, subtle at top */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
-
-              {/* Coming soon badge */}
-              {!isAvailable && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 bg-black/30 rounded-3xl backdrop-blur-[2px]">
-                  <span className="px-5 py-2 rounded-full bg-white/90 text-gray-800 text-sm font-semibold shadow">
-                    Coming Soon
-                  </span>
+              {/* Premium lock overlay */}
+              {locked && (
+                <div className="absolute inset-0 rounded-2xl bg-background/30 backdrop-blur-[1px] z-10 flex flex-col items-center justify-center gap-2">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/15 border border-yellow-500/30 text-yellow-400 text-xs font-semibold">
+                    <Lock className="w-3 h-3" />
+                    Premium
+                  </div>
+                  <span className="text-[11px] text-muted-foreground">From ₹49/month</span>
                 </div>
               )}
 
-              {/* Card content */}
-              <div className="absolute inset-0 flex flex-col items-center">
-                {/* Icon — floats in the upper-center */}
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="p-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
-                    {GAME_ICONS[game.id]}
-                  </div>
+              {/* Top row: icon + badge */}
+              <div className="flex items-start justify-between">
+                <div className={cn("p-2.5 rounded-xl border", meta.accent)}>
+                  {meta.icon}
                 </div>
-
-                {/* Bottom content */}
-                <div className="w-full px-6 pb-6 text-center">
-                  {/* Title — first part normal weight, last word italic-light */}
-                  <h3 className="text-2xl font-semibold text-white leading-tight mb-2">
-                    {firstName && <span>{firstName} </span>}
-                    <span className="font-light italic">{lastWord}</span>
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm text-white/65 leading-relaxed line-clamp-2 mb-5">
-                    {game.description}
-                  </p>
-
-                  {/* Pill button */}
-                  <span
-                    className={cn(
-                      "inline-block px-7 py-2.5 rounded-full text-sm font-medium transition-all duration-200",
-                      isAvailable
-                        ? "bg-white/85 text-gray-900 group-hover:bg-white group-hover:scale-105 backdrop-blur-sm shadow-md"
-                        : "bg-white/40 text-white/70 cursor-not-allowed"
-                    )}
-                  >
-                    {isAvailable ? "Play Now" : "Coming Soon"}
-                  </span>
+                <div className="flex items-center gap-1.5">
+                  {game.isPremium && isPro && (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
+                      <Zap className="w-2.5 h-2.5" />
+                      Pro
+                    </span>
+                  )}
+                  {!isAvailable && (
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border/50">
+                      Coming Soon
+                    </span>
+                  )}
                 </div>
               </div>
+
+              {/* Name + description */}
+              <div className="flex-1 flex flex-col gap-1.5">
+                <h3 className="text-base font-semibold text-foreground leading-snug">
+                  {game.name}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                  {game.description}
+                </p>
+              </div>
+
+              {/* Footer */}
+              {isAvailable && (
+                <div className={cn(
+                  "flex items-center gap-1 text-sm font-medium transition-colors duration-200 mt-auto pt-1",
+                  locked
+                    ? "text-yellow-500/70 group-hover:text-yellow-400"
+                    : "text-foreground/60 group-hover:text-foreground"
+                )}>
+                  {locked ? (
+                    <>
+                      Unlock Access
+                      <Zap className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+                    </>
+                  ) : (
+                    <>
+                      Play Now
+                      <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </>
+                  )}
+                </div>
+              )}
             </Link>
           </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 }

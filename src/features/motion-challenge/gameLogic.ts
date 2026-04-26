@@ -115,9 +115,20 @@ export function checkWinPattern(level: LevelDef, entities: Entity[]): boolean {
     return false;
 }
 
+export function shuffleLevelIndices(count: number): number[] {
+    const arr = Array.from({ length: count }, (_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 // Predefined levels
+// Solution hints are in comments for verification; not shown to players.
 export const motionLevels: LevelDef[] = [
     {
+        // Solution: move b1 left, ball moves right then up
         id: 1,
         cols: 4,
         rows: 6,
@@ -136,6 +147,7 @@ export const motionLevels: LevelDef[] = [
         ],
     },
     {
+        // Solution: navigate blocks to clear path for ball from bottom-left to top-right
         id: 2,
         cols: 4,
         rows: 6,
@@ -150,6 +162,7 @@ export const motionLevels: LevelDef[] = [
         ],
     },
     {
+        // Solution: move tall block right, clear path for ball across middle
         id: 3,
         cols: 5,
         rows: 6,
@@ -164,5 +177,213 @@ export const motionLevels: LevelDef[] = [
             { id: 'b3', type: 'block', color: 'bg-fuchsia-500', w: 1, h: 2, x: 3, y: 1 },
             { id: 'b4', type: 'block', color: 'bg-teal-500', w: 1, h: 1, x: 0, y: 4 },
         ],
-    }
+    },
+    {
+        // Solution: move b1 left, ball right to col 3, ball up to hole
+        id: 4,
+        cols: 4,
+        rows: 5,
+        hole: { x: 3, y: 0 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 0, y: 4 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 1, y: 3 },
+            { id: 'b1', type: 'block', color: 'bg-purple-600', w: 1, h: 2, x: 3, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-emerald-500', w: 1, h: 1, x: 2, y: 3 },
+        ],
+    },
+    {
+        // Solution: move b1 down one row, then ball slides right across row 2 to hole
+        id: 5,
+        cols: 5,
+        rows: 5,
+        hole: { x: 4, y: 2 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 0, y: 2 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 4, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 4, y: 1 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 4, y: 3 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 4, y: 4 },
+            { id: 'b1', type: 'block', color: 'bg-blue-500', w: 3, h: 1, x: 1, y: 2 },
+            { id: 'b2', type: 'block', color: 'bg-amber-500', w: 1, h: 2, x: 0, y: 0 },
+        ],
+    },
+    {
+        // Solution: move b1 left, ball goes down col 4, then left to hole
+        id: 6,
+        cols: 5,
+        rows: 6,
+        hole: { x: 0, y: 5 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 4, y: 0 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 0, y: 1 },
+            { id: 'obs5', type: 'obstacle', w: 1, h: 1, x: 0, y: 2 },
+            { id: 'b1', type: 'block', color: 'bg-sky-500', w: 1, h: 3, x: 4, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-orange-500', w: 2, h: 1, x: 2, y: 4 },
+            { id: 'b3', type: 'block', color: 'bg-teal-500', w: 1, h: 1, x: 1, y: 3 },
+        ],
+    },
+    {
+        // Solution: move b2 down, move b1 right, ball left to col 0, ball up to hole
+        id: 7,
+        cols: 4,
+        rows: 6,
+        hole: { x: 0, y: 0 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 3, y: 5 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'b1', type: 'block', color: 'bg-violet-500', w: 1, h: 2, x: 0, y: 2 },
+            { id: 'b2', type: 'block', color: 'bg-amber-500', w: 2, h: 1, x: 1, y: 3 },
+        ],
+    },
+    {
+        // Solution: move b2 right, move b1 right, ball goes straight up to hole
+        id: 8,
+        cols: 5,
+        rows: 5,
+        hole: { x: 2, y: 0 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 2, y: 4 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 4, y: 0 },
+            { id: 'b1', type: 'block', color: 'bg-indigo-500', w: 1, h: 2, x: 2, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-rose-500', w: 1, h: 1, x: 2, y: 3 },
+            { id: 'b3', type: 'block', color: 'bg-emerald-500', w: 2, h: 1, x: 0, y: 2 },
+        ],
+    },
+    {
+        // Solution: move b1 right, ball down col 0 to row 3, move b2 down, move b3 up, ball right to hole
+        id: 9,
+        cols: 5,
+        rows: 6,
+        hole: { x: 4, y: 3 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 4, y: 1 },
+            { id: 'obs5', type: 'obstacle', w: 1, h: 1, x: 4, y: 5 },
+            { id: 'b1', type: 'block', color: 'bg-sky-500', w: 1, h: 2, x: 0, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-orange-500', w: 2, h: 1, x: 1, y: 3 },
+            { id: 'b3', type: 'block', color: 'bg-fuchsia-500', w: 1, h: 2, x: 3, y: 2 },
+        ],
+    },
+    {
+        // Solution: move b1 right, move b2 right, ball goes straight up to hole
+        id: 10,
+        cols: 4,
+        rows: 6,
+        hole: { x: 1, y: 0 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 1, y: 5 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'b1', type: 'block', color: 'bg-violet-500', w: 2, h: 1, x: 1, y: 2 },
+            { id: 'b2', type: 'block', color: 'bg-orange-500', w: 1, h: 1, x: 1, y: 4 },
+            { id: 'b3', type: 'block', color: 'bg-teal-500', w: 1, h: 1, x: 0, y: 3 },
+        ],
+    },
+    {
+        // Solution: move b3 up, move b1 up, ball slides left across bottom row to hole
+        id: 11,
+        cols: 5,
+        rows: 5,
+        hole: { x: 0, y: 4 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 4, y: 4 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 0, y: 1 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 0, y: 2 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 0, y: 3 },
+            { id: 'obs5', type: 'obstacle', w: 1, h: 1, x: 4, y: 0 },
+            { id: 'obs6', type: 'obstacle', w: 1, h: 1, x: 4, y: 3 },
+            { id: 'b1', type: 'block', color: 'bg-indigo-500', w: 2, h: 1, x: 1, y: 4 },
+            { id: 'b2', type: 'block', color: 'bg-rose-500', w: 1, h: 2, x: 2, y: 1 },
+            { id: 'b3', type: 'block', color: 'bg-amber-400', w: 1, h: 1, x: 3, y: 4 },
+        ],
+    },
+    {
+        // Solution: move b1 up, ball slides left across row 2 to hole
+        id: 12,
+        cols: 4,
+        rows: 5,
+        hole: { x: 0, y: 2 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 3, y: 2 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 0, y: 1 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 0, y: 3 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 0, y: 4 },
+            { id: 'b1', type: 'block', color: 'bg-sky-500', w: 2, h: 1, x: 1, y: 2 },
+            { id: 'b2', type: 'block', color: 'bg-fuchsia-500', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'b3', type: 'block', color: 'bg-orange-500', w: 1, h: 1, x: 2, y: 4 },
+        ],
+    },
+    {
+        // Solution: move b2 down, move b1 left, ball drops straight down to hole
+        id: 13,
+        cols: 5,
+        rows: 6,
+        hole: { x: 2, y: 5 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 4, y: 0 },
+            { id: 'obs5', type: 'obstacle', w: 1, h: 1, x: 0, y: 5 },
+            { id: 'obs6', type: 'obstacle', w: 1, h: 1, x: 1, y: 5 },
+            { id: 'obs7', type: 'obstacle', w: 1, h: 1, x: 3, y: 5 },
+            { id: 'obs8', type: 'obstacle', w: 1, h: 1, x: 4, y: 5 },
+            { id: 'b1', type: 'block', color: 'bg-violet-500', w: 1, h: 2, x: 2, y: 2 },
+            { id: 'b2', type: 'block', color: 'bg-teal-500', w: 1, h: 1, x: 1, y: 3 },
+            { id: 'b3', type: 'block', color: 'bg-amber-500', w: 2, h: 1, x: 3, y: 3 },
+        ],
+    },
+    {
+        // Solution: move b3 down, move b1 right, move b2 down, ball up col 0, ball right to col 2, ball up to hole
+        id: 14,
+        cols: 4,
+        rows: 6,
+        hole: { x: 2, y: 0 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 0, y: 5 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 1, y: 0 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 3, y: 0 },
+            { id: 'b1', type: 'block', color: 'bg-indigo-500', w: 1, h: 2, x: 2, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-emerald-500', w: 2, h: 1, x: 1, y: 3 },
+            { id: 'b3', type: 'block', color: 'bg-rose-400', w: 1, h: 1, x: 3, y: 2 },
+        ],
+    },
+    {
+        // Solution: move b1 right, move b4 down, ball down col 0, ball right along row 3 to hole
+        id: 15,
+        cols: 5,
+        rows: 6,
+        hole: { x: 2, y: 3 },
+        entities: [
+            { id: 'ball', type: 'ball', color: 'bg-red-500', w: 1, h: 1, x: 0, y: 0 },
+            { id: 'obs1', type: 'obstacle', w: 1, h: 1, x: 2, y: 0 },
+            { id: 'obs2', type: 'obstacle', w: 1, h: 1, x: 2, y: 1 },
+            { id: 'obs3', type: 'obstacle', w: 1, h: 1, x: 2, y: 2 },
+            { id: 'obs4', type: 'obstacle', w: 1, h: 1, x: 2, y: 4 },
+            { id: 'obs5', type: 'obstacle', w: 1, h: 1, x: 2, y: 5 },
+            { id: 'b1', type: 'block', color: 'bg-purple-500', w: 1, h: 2, x: 0, y: 1 },
+            { id: 'b2', type: 'block', color: 'bg-orange-500', w: 2, h: 1, x: 3, y: 3 },
+            { id: 'b3', type: 'block', color: 'bg-teal-500', w: 1, h: 2, x: 4, y: 1 },
+            { id: 'b4', type: 'block', color: 'bg-rose-500', w: 1, h: 1, x: 1, y: 3 },
+        ],
+    },
 ];
