@@ -172,15 +172,70 @@ export default function InductiveChallengeUI({
   }
 
   return (
-    <motion.div
-      key={puzzle.oddIndex}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="space-y-4"
-    >
-      {/* ── Stats bar ── */}
-      <div className="flex items-center justify-between px-1">
+    <>
+      {/* ── Centered Feedback Modal ── */}
+      <AnimatePresence>
+        {isAnswered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 flex items-center justify-center pointer-events-none z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className={cn(
+                "w-64 h-64 rounded-3xl flex flex-col items-center justify-center gap-4 backdrop-blur-sm border-2",
+                isCorrect
+                  ? "bg-emerald-500/20 border-emerald-500/60"
+                  : "bg-rose-500/20 border-rose-500/60"
+              )}
+            >
+              {isCorrect ? (
+                <>
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 0.6, repeat: 2 }}
+                  >
+                    <CheckCircle2 className="w-20 h-20 text-emerald-400" />
+                  </motion.div>
+                  <div className="text-center">
+                    <p className="text-xl font-bold text-emerald-400">Correct!</p>
+                    <p className="text-sm text-emerald-300 mt-1">Excellent work</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <motion.div
+                    animate={{ rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.4, repeat: 2 }}
+                  >
+                    <XCircle className="w-20 h-20 text-rose-400" />
+                  </motion.div>
+                  <div className="text-center">
+                    <p className="text-xl font-bold text-rose-400">Wrong</p>
+                    <p className="text-sm text-rose-300 mt-1">Keep trying!</p>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        key={puzzle.oddIndex}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="space-y-4"
+      >
+        {/* ── Stats bar ── */}
+        <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-3 text-sm font-medium">
           <span className="flex items-center gap-1.5 text-emerald-400">
             <CheckCircle2 className="w-4 h-4" /> {correct}
@@ -203,36 +258,14 @@ export default function InductiveChallengeUI({
         </div>
       </div>
 
-      {/* ── Main card ── */}
-      <div className={cn(
-        'rounded-2xl border bg-card transition-colors duration-300',
-        isAnswered
-          ? isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40'
-          : 'border-border/50'
-      )}>
-        {/* Feedback strip */}
-        <AnimatePresence>
-          {isAnswered && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={cn(
-                'flex items-center gap-2 px-5 py-3 rounded-t-2xl text-sm font-semibold border-b',
-                isCorrect
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-              )}
-            >
-              {isCorrect
-                ? <><CheckCircle2 className="w-4 h-4" /> Correct! Well done.</>
-                : <><XCircle className="w-4 h-4" /> The odd one was Image {puzzle.oddIndex + 1}.</>
-              }
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="p-5 sm:p-6 space-y-5">
+        {/* ── Main card ── */}
+        <div className={cn(
+          'rounded-2xl border bg-card transition-colors duration-300',
+          isAnswered
+            ? isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40'
+            : 'border-border/50'
+        )}>
+          <div className="p-5 sm:p-6 space-y-5">
           {/* Prompt */}
           {!isAnswered && (
             <p className="text-center text-sm font-medium text-muted-foreground">
