@@ -30,14 +30,6 @@ export const metadata: Metadata = {
       "Free game-based aptitude practice for Capgemini & Cognizant. Play Switch, Digit, Grid, Motion, Spacio, Inductive & Deductive challenges with full solutions.",
     url: siteConfig.url,
     siteName: siteConfig.shortName,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: "Blync – Game-Based Placement Aptitude Practice",
-      },
-    ],
     locale: siteConfig.locale,
     type: "website",
   },
@@ -47,7 +39,6 @@ export const metadata: Metadata = {
     title: "Capgemini & Cognizant Placement Games | Blync",
     description:
       "Crack Capgemini & Cognizant game-based rounds using Blync cognitive games. Real exam-style practice.",
-    images: [siteConfig.ogImage],
     creator: siteConfig.creator,
   },
 
