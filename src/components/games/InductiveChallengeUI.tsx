@@ -344,5 +344,6 @@ export default function InductiveChallengeUI({
         </div>
       )}
     </motion.div>
-  );
+  </>
+);
 }
