@@ -139,6 +139,37 @@ export const userStreaks = pgTable("user_streak", {
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
+// ── Email Broadcasts ──────────────────────────────────────────────────────────
+export const broadcasts = pgTable("broadcast", {
+  id: text("id").primaryKey(),
+  subject: text("subject").notNull(),
+  message: text("message").notNull(),
+  imageName: text("imageName"),
+  totalCount: integer("totalCount").default(0).notNull(),
+  sentCount: integer("sentCount").default(0).notNull(),
+  failedCount: integer("failedCount").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const broadcastRecipients = pgTable(
+  "broadcast_recipient",
+  {
+    id: text("id").primaryKey(),
+    broadcastId: text("broadcastId")
+      .notNull()
+      .references(() => broadcasts.id, { onDelete: "cascade" }),
+    userId: text("userId").notNull(),
+    email: text("email").notNull(),
+    status: text("status").notNull().default("pending"), // 'pending' | 'sent' | 'failed'
+    error: text("error"),
+    sentAt: timestamp("sentAt"),
+  },
+  (t) => [
+    index("broadcast_recipient_broadcast_idx").on(t.broadcastId),
+    index("broadcast_recipient_status_idx").on(t.broadcastId, t.status),
+  ]
+);
+
 // ── Premium Subscriptions ─────────────────────────────────────────────────────
 // One row per subscription purchase. Users may have multiple over time.
 // planType: 'monthly' (₹49/mo) | 'biannual' (₹199/6mo)

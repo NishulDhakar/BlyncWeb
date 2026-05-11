@@ -27,6 +27,9 @@ const nextConfig: NextConfig = {
 
   experimental: {
     optimizePackageImports: ["framer-motion", "lucide-react", "@phosphor-icons/react", "react-icons"],
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
   },
 
   // Long-lived cache headers for static assets
