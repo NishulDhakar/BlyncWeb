@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MotionChallengeBoard from './MotionChallengeBoard';
 import { motionLevels, shuffleLevelIndices, Entity, isValidMove, checkWinPattern, LevelDef } from '@/features/motion-challenge/gameLogic';
 import { ArrowRight, SkipForward, RefreshCw, Trophy, Target, Zap } from 'lucide-react';
+import { useGameSounds } from '@/lib/useGameSounds';
 
 interface MotionChallengeUIProps {
     levelIndex: number;
@@ -35,6 +36,14 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
     const [movesCount, setMovesCount] = useState<number>(0);
     const [isLevelWon, setIsLevelWon] = useState<boolean>(false);
 
+    const { play } = useGameSounds();
+    const prevStatus = useRef(gameStatus);
+
+    useEffect(() => {
+        if (gameStatus === 'results' && prevStatus.current !== 'results') play('gameOver');
+        prevStatus.current = gameStatus;
+    }, [gameStatus, play]);
+
     useEffect(() => {
         setEntities(JSON.parse(JSON.stringify(levelDef.entities)));
         setSelectedId(null);
@@ -56,9 +65,11 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
             setEntities(newEntities);
             setSelectedId(null);
             setMovesCount((m) => m + 1);
+            play('move');
 
             if (checkWinPattern(levelDef, newEntities)) {
                 setIsLevelWon(true);
+                play('levelWin');
                 setTimeout(() => {
                     onLevelComplete(movesCount + 1);
                 }, 700);
@@ -158,7 +169,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                         <RefreshCw className="w-5 h-5" />
                     </button>
                     <button
-                        onClick={onSkipLevel}
+                        onClick={() => { play('skip'); onSkipLevel(); }}
                         className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 transition-all duration-200 font-bold hover:-translate-y-0.5 text-sm"
                     >
                         Skip <SkipForward className="w-4 h-4" />

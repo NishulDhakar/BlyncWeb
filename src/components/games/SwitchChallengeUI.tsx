@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SwitchPuzzle } from "@/features/switch-challenge/gameLogic";
 import ResultCard from "../common/Result";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useGameSounds } from "@/lib/useGameSounds";
 
 interface Props {
   puzzle: SwitchPuzzle | null;
@@ -35,12 +36,33 @@ const SwitchChallengeUI: React.FC<Props> = ({
   wrong,
 }) => {
   const router = useRouter();
+  const { play } = useGameSounds();
+  const prevAnswered = useRef(false);
+  const prevStatus = useRef(gameStatus);
+  const prevTime = useRef(timeLeft);
 
   useEffect(() => {
     if (isAnswered && isCorrect) {
       confetti({ particleCount: 80, spread: 60, origin: { y: 0.55 }, colors: ["#34d399", "#10b981"] });
     }
   }, [isAnswered, isCorrect]);
+
+  useEffect(() => {
+    if (isAnswered && !prevAnswered.current) {
+      play(isCorrect ? 'correct' : 'wrong');
+    }
+    prevAnswered.current = isAnswered;
+  }, [isAnswered, isCorrect, play]);
+
+  useEffect(() => {
+    if (gameStatus === 'results' && prevStatus.current !== 'results') play('gameOver');
+    prevStatus.current = gameStatus;
+  }, [gameStatus, play]);
+
+  useEffect(() => {
+    if (timeLeft <= 5 && timeLeft > 0 && timeLeft < prevTime.current) play('tick');
+    prevTime.current = timeLeft;
+  }, [timeLeft, play]);
 
   if (!puzzle) return null;
 

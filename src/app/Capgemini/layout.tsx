@@ -3,9 +3,8 @@ import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
 
 export const metadata: Metadata = {
-  title: "Capgemini Game Based Aptitude Test & Questions 2025 | Practice Free",
   description:
-    "Practice Capgemini game based aptitude test questions online for free. Prepare for the Capgemini cognitive ability games and gaming round with our mock tests.",
+    "Practice Capgemini game based aptitude test questions online for free. Prepare for the Capgemini cognitive ability games and gaming round with our mock tests for 2026 placements.",
   keywords: [
     "capgemini game based aptitude test",
     "capgemini game based aptitude questions pdf",

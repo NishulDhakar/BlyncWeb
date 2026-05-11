@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Googlebot and Google's AI overview crawler
         userAgent: ["Googlebot", "Googlebot-Extended"],
-        allow: ["/games/", "/blog/", "/leaderboard", "/rules/", "/capgemini/", "/cognizant-games/", "/iq-tests/", "/memory-game/", "/how-it-works/"],
+        allow: ["/games/", "/blog/", "/leaderboard", "/rules/", "/Capgemini/", "/cognizant-games/", "/iq-tests/", "/memory-game/", "/how-it-works/"],
         disallow: ["/play/", "/api/", "/admin/", "/profile/"],
       },
       {

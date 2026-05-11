@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "capgemini cognitive games free"
   ],
   alternates: {
-    canonical: `${siteConfig.url}/capgemini`,
+    canonical: `${siteConfig.url}/Capgemini`,
   },
   openGraph: {
     title: "Capgemini Game Based Aptitude Test 2026 — Free Practice | Blync",

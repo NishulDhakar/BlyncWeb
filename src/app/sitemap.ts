@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/leaderboard`, lastModified: now, changeFrequency: "daily", priority: 0.85 },
     { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/Capgemini`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${baseUrl}/Capgemini/capgemini-game-based-aptitude-test-questions`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/cognizant-games`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/iq-tests`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
@@ -45,12 +46,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // ── Blog posts ────────────────────────────────────────────────────────────
   const blogPosts: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
     {
       url: `${baseUrl}/blog/complete-guide-capgemini-cognitive-games`,
       lastModified: now,

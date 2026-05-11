@@ -21,3 +21,7 @@ export const DeductiveChallengeUI = dynamic(() => import('@/components/games/Ded
 export const InductiveChallengeUI = dynamic(() => import('@/components/games/InductiveChallengeUI'), {
     loading: () => <div className="flex items-center justify-center p-8"> Loading game...</div>,
 });
+
+export const GridChallengeUI = dynamic(() => import('@/components/games/GridChallengeUI'), {
+    loading: () => <div className="flex items-center justify-center p-8"> Loading game...</div>,
+});

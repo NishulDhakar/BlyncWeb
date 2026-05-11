@@ -69,11 +69,6 @@ const websiteSchema = {
   url: siteConfig.url,
   description:
     "Free platform for practicing game-based cognitive aptitude tests used in Capgemini, Cognizant & other campus placements.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteConfig.url}/?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 };
 
 const organizationSchema = {
@@ -154,9 +149,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Blync" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
 
-        {/* ✅ PERFORMANCE — preconnect for video CDN and analytics */}
+        {/* ✅ PERFORMANCE — preconnect for video CDN, analytics, and ads */}
         <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://d8j0ntlcm91z4.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://cloud.umami.is" />

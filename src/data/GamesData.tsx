@@ -59,13 +59,14 @@ export const gameCards: GameCardData[] = [
     isAvailable: true,
     isPremium: true,
   },
-  // {
-  //   id: 5,
-  //   name: "Grid Challenge",
-  //   image: "/games/cognitive.png",
-  //   rulesLink: "/rules/grid-challenge",
-  //   description:
-  //     "Sort rows of letters and verify if columns stay in alphabetical order — testing pattern recognition and analytical speed.",
-  //   isAvailable: false,
-  // },
+  {
+    id: 5,
+    name: "Grid Challenge",
+    image: "/games/cognitive.png",
+    rulesLink: "/play/grid-challenge",
+    description:
+      "Memorize blinking dot positions, solve symmetry pattern puzzles, then recall the exact sequence — tests memory, attention, and spatial reasoning.",
+    isAvailable: true,
+    isPremium: true,
+  },
 ];

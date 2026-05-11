@@ -67,9 +67,23 @@ export const siteConfig = {
     "capgemini test questions",
     "capgemini coding questions",
 
+    // Cognitive / Brain Games Keywords
+    "cognitive games",
+    "cognitive games online",
+    "brain games online free",
+    "brain training games",
+    "online brain games",
+    "free brain games",
+    "cognitive ability test free",
+    "cognitive assessment online free",
+    "cognitive skills games",
+
     // Other Relevant Keywords
     "Cognizant GenC game based test",
     "Cognizant puzzle round",
+    "Cognizant game based aptitude test",
+    "Cognizant placement 2026",
+    "campus placement 2026 preparation",
     "campus placement 2025 preparation",
 
     // Specific Game Challenges

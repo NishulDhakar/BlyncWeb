@@ -1,11 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Timer, Lightbulb, CheckCircle2, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FigureData, LinesFigure, CellGridFigure, ShapeRowFigure, InductivePuzzle } from '@/features/inductive-challenge/gameLogic';
 import ResultCard from '../common/Result';
 import { cn } from '@/lib/utils';
+import { useGameSounds } from '@/lib/useGameSounds';
 
 // ─────────────────────────────────────────────
 // SVG Figure Renderers
@@ -159,6 +160,26 @@ export default function InductiveChallengeUI({
   resetGame,
   level,
 }: Props) {
+  const { play } = useGameSounds();
+  const prevAnswered = useRef(false);
+  const prevStatus = useRef(gameStatus);
+  const prevTime = useRef(timeLeft);
+
+  useEffect(() => {
+    if (isAnswered && !prevAnswered.current) play(isCorrect ? 'correct' : 'wrong');
+    prevAnswered.current = isAnswered;
+  }, [isAnswered, isCorrect, play]);
+
+  useEffect(() => {
+    if (gameStatus === 'results' && prevStatus.current !== 'results') play('gameOver');
+    prevStatus.current = gameStatus;
+  }, [gameStatus, play]);
+
+  useEffect(() => {
+    if (timeLeft <= 5 && timeLeft > 0 && timeLeft < prevTime.current) play('tick');
+    prevTime.current = timeLeft;
+  }, [timeLeft, play]);
+
   if (gameStatus === 'results') {
     return <ResultCard correct={correct} wrong={wrong} resetGame={resetGame} />;
   }

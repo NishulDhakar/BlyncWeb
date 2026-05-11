@@ -1,12 +1,13 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Puzzle, Symbol as GameSymbol } from "@/types/game";
 import ResultCard from "../common/Result";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useGameSounds } from "@/lib/useGameSounds";
 
 interface DeductiveChallengeUIProps {
   puzzle: Puzzle | null;
@@ -35,6 +36,25 @@ const DeductiveChallengeUI: React.FC<DeductiveChallengeUIProps> = ({
   resetGame,
 }) => {
   const router = useRouter();
+  const { play } = useGameSounds();
+  const prevAnswered = useRef(false);
+  const prevStatus = useRef(gameStatus);
+  const prevTime = useRef(timeLeft);
+
+  useEffect(() => {
+    if (isAnswered && !prevAnswered.current) play(isCorrect ? 'correct' : 'wrong');
+    prevAnswered.current = isAnswered;
+  }, [isAnswered, isCorrect, play]);
+
+  useEffect(() => {
+    if (gameStatus === 'results' && prevStatus.current !== 'results') play('gameOver');
+    prevStatus.current = gameStatus;
+  }, [gameStatus, play]);
+
+  useEffect(() => {
+    if (timeLeft <= 5 && timeLeft > 0 && timeLeft < prevTime.current) play('tick');
+    prevTime.current = timeLeft;
+  }, [timeLeft, play]);
 
   const isTargetCell = (r: number, c: number) =>
     puzzle && puzzle.targetCell.row === r && puzzle.targetCell.col === c;

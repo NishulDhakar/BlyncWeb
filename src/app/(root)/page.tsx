@@ -52,9 +52,9 @@ const organizationSchema = {
   sameAs: [siteConfig.links.twitter, siteConfig.links.github],
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    reviewCount: "5000",
-    bestRating: "5",
+    ratingValue: 4.8,
+    reviewCount: 5000,
+    bestRating: 5,
   },
   offers: {
     "@type": "Offer",

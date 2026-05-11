@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { DigitProblem } from "@/features/digit-challenge/gameLogic";
 import ResultCard from "../common/Result";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Timer, Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useGameSounds } from "@/lib/useGameSounds";
 
 interface Props {
   problem: DigitProblem | null;
@@ -39,6 +40,25 @@ export default function DigitChallengeUI({
   resetGame,
 }: Props) {
   const router = useRouter();
+  const { play } = useGameSounds();
+  const prevAnswered = useRef(false);
+  const prevStatus = useRef(gameStatus);
+  const prevTime = useRef(timeLeft);
+
+  useEffect(() => {
+    if (isAnswered && !prevAnswered.current) play(isCorrect ? 'correct' : 'wrong');
+    prevAnswered.current = isAnswered;
+  }, [isAnswered, isCorrect, play]);
+
+  useEffect(() => {
+    if (gameStatus === 'results' && prevStatus.current !== 'results') play('gameOver');
+    prevStatus.current = gameStatus;
+  }, [gameStatus, play]);
+
+  useEffect(() => {
+    if (timeLeft <= 5 && timeLeft > 0 && timeLeft < prevTime.current) play('tick');
+    prevTime.current = timeLeft;
+  }, [timeLeft, play]);
 
   if (!problem) return null;
 
@@ -194,7 +214,7 @@ export default function DigitChallengeUI({
                     whileHover={!disabled ? { scale: 1.04 } : {}}
                     whileTap={!disabled ? { scale: 0.96 } : {}}
                     disabled={disabled}
-                    onClick={() => handleDigitClick(n)}
+                    onClick={() => { play('keypress'); handleDigitClick(n); }}
                     className={cn(
                       "h-13 rounded-xl font-mono text-lg font-bold border transition-all duration-150",
                       disabled
@@ -212,7 +232,7 @@ export default function DigitChallengeUI({
             <div className="grid grid-cols-2 gap-2.5">
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                onClick={handleDelete}
+                onClick={() => { play('keypress'); handleDelete(); }}
                 disabled={isAnswered || userDigits.length === 0}
                 className={cn(
                   "h-11 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold border transition-all",
@@ -226,7 +246,7 @@ export default function DigitChallengeUI({
 
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                onClick={handleSubmit}
+                onClick={() => { play('submit'); handleSubmit(); }}
                 disabled={isAnswered || userDigits.length !== problem.blanks}
                 className={cn(
                   "h-11 rounded-xl text-sm font-semibold border transition-all",
