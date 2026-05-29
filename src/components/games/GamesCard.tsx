@@ -2,52 +2,17 @@
 
 import Link from "next/link";
 import { gameCards } from "@/data/GamesData";
-import { motion, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Shuffle, Hash, Brain, MoveRight, Eye, Grid2X2, Lock, Zap } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 
-const GAME_META: Record<number, { icon: React.ReactNode; accent: string; glow: string }> = {
-  1: {
-    icon: <Shuffle className="w-5 h-5" />,
-    accent: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    glow: "group-hover:border-blue-500/40 group-hover:shadow-blue-500/5",
-  },
-  2: {
-    icon: <Brain className="w-5 h-5" />,
-    accent: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    glow: "group-hover:border-emerald-500/40 group-hover:shadow-emerald-500/5",
-  },
-  3: {
-    icon: <Hash className="w-5 h-5" />,
-    accent: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-    glow: "group-hover:border-violet-500/40 group-hover:shadow-violet-500/5",
-  },
-  4: {
-    icon: <MoveRight className="w-5 h-5" />,
-    accent: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-    glow: "group-hover:border-orange-500/40 group-hover:shadow-orange-500/5",
-  },
-  5: {
-    icon: <Grid2X2 className="w-5 h-5" />,
-    accent: "bg-slate-500/10 text-slate-400 border-slate-500/20",
-    glow: "group-hover:border-slate-500/40 group-hover:shadow-slate-500/5",
-  },
-  6: {
-    icon: <Eye className="w-5 h-5" />,
-    accent: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-    glow: "group-hover:border-pink-500/40 group-hover:shadow-pink-500/5",
-  },
-};
-
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
+const GAME_META: Record<number, { icon: React.ReactNode }> = {
+  1: { icon: <Shuffle className="w-5 h-5" /> },
+  2: { icon: <Brain className="w-5 h-5" /> },
+  3: { icon: <Hash className="w-5 h-5" /> },
+  4: { icon: <MoveRight className="w-5 h-5" /> },
+  5: { icon: <Grid2X2 className="w-5 h-5" /> },
+  6: { icon: <Eye className="w-5 h-5" /> },
 };
 
 export default function GamesCard() {
@@ -55,13 +20,7 @@ export default function GamesCard() {
   const isPro = user?.isPro ?? false;
 
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4 pt-6 pb-20"
-    >
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4 pt-6 pb-20">
       {gameCards.map((game) => {
         const isAvailable = game.isAvailable !== false;
         const locked = game.isPremium && !isPro;
@@ -70,19 +29,19 @@ export default function GamesCard() {
         const href = !isAvailable ? "#" : locked ? "/pricing" : game.rulesLink;
 
         return (
-          <motion.div key={game.id} variants={item}>
+          <div key={game.id}>
             <Link
               href={href}
               aria-disabled={!isAvailable}
               className={cn(
                 "group relative flex flex-col gap-4 p-5 rounded-2xl h-full",
                 "bg-card border border-border/50",
-                "transition-all duration-200 shadow-sm",
+                "transition-colors duration-200",
                 isAvailable && !locked
-                  ? cn("hover:shadow-lg", meta.glow)
+                  ? "hover:border-border/80"
                   : !isAvailable
                   ? "pointer-events-none opacity-60"
-                  : cn("hover:shadow-lg hover:border-yellow-500/30")
+                  : "hover:border-yellow-500/30"
               )}
             >
               {/* Premium lock overlay */}
@@ -98,7 +57,7 @@ export default function GamesCard() {
 
               {/* Top row: icon + badge */}
               <div className="flex items-start justify-between">
-                <div className={cn("p-2.5 rounded-xl border", meta.accent)}>
+                <div className="p-2.5 rounded-xl border border-border/40 bg-white/5 text-foreground/70">
                   {meta.icon}
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -137,7 +96,7 @@ export default function GamesCard() {
                   {locked ? (
                     <>
                       Unlock Access
-                      <Zap className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+                      <Zap className="w-4 h-4" />
                     </>
                   ) : (
                     <>
@@ -148,9 +107,9 @@ export default function GamesCard() {
                 </div>
               )}
             </Link>
-          </motion.div>
+          </div>
         );
       })}
-    </motion.div>
+    </div>
   );
 }

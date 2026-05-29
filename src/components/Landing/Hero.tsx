@@ -1,18 +1,12 @@
 "use client";
 
 import Container from "../common/Container";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRight, Download, Share, Smartphone, Check } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { MorphingText } from "@/components/ui/morphing-text"
-import { DotPattern } from "../ui/dot-pattern";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useState } from "react";
-import HlsVideo from "@/components/common/HlsVideo";
-
 
 export default function Hero() {
   const { canInstall, isInstalled, isIOS, install } = usePWAInstall();
@@ -20,183 +14,127 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden md:py-1">
-      {/* <Image
-        src="/bg.jpg"
-        alt="Nishul"
-        fill
-        className="object-cover"
-        priority
-        quality={180}
-      /> */}
-      {/* <DotPattern /> */}
-
-       <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
+      <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
         {/* Background Video */}
-           <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="none"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_115655_b4d9cd77-feed-43cd-a198-af78ebdf1f7a.mp4"
-      />
-   
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_102933_4e8f73b5-775a-4179-b2fb-472f59063dcd.mp4"
+        />
 
-      <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
-
-        <motion.a
+        <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
+          <a
             href="https://www.nishul.dev/"
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-1 flex items-center gap-3 rounded-full 
-               backdrop-blur-sm px-2 py-1 text-sm font-medium text-foreground"
+            className="mb-1 flex items-center gap-3 rounded-full backdrop-blur-sm px-2 py-1 text-sm font-medium text-foreground"
           >
-        <div className="mb-1 flex items-center gap-3 rounded-full 
-                px-4 py-1.5 text-sm font-medium text-foreground
-              hover:bg-secondary/10 hover:scale-[1] transition-all cursor-pointer">
-            <div className="relative w-10 h-10 overflow-hidden rounded-full border border-primary/20">
-              <Image
-                src="/nishulhero.jpg"
-                alt="Nishul"
-                fill
-                className="object-cover"
-                priority
-                quality={90}
-              />
+            <div className="mb-1 flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-medium text-foreground hover:bg-secondary/10 transition-all cursor-pointer">
+              <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/20">
+                <Image
+                  src="/nishulhero.jpg"
+                  alt="Nishul"
+                  fill
+                  className="object-cover"
+                  priority
+                  quality={90}
+                />
+              </div>
+              <span className="pr-1 font-bold font-game">By Nishul</span>
             </div>
+          </a>
 
-            <span className="pr-1 font-bold font-game">By Nishul</span>
-            </div>  
-        </motion.a> 
+          <h1 className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex md:flex-row items-center justify-center gap-4 md:gap-8">
+            <span className="text-white">Play.</span>
+            <span className="text-white">Train.</span>
+            <span className="text-white">Prepare.</span>
+          </h1>
 
+          {/* SEO subtitle */}
+          <p className="text-sm hidden md:text-lg font-semibold text-foreground/70 max-w-2xl md:max-w-xl mx-auto mb-3 mt-6 leading-snug">
+            Free Game-Based Aptitude Practice for Capgemini &amp; Cognizant Placements
+          </p>
 
+          <p className="hidden md:block text-md md:text-md lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+            Practice Switch, Grid, Digit, Motion, Inductive &amp; Deductive challenges — the exact games used in Capgemini &amp; Cognizant cognitive aptitude rounds. Improve your speed, accuracy, and logical reasoning with our free online mock tests.
+          </p>
 
-        <motion.h1
-          className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex md:flex-row items-center justify-center gap-4 md:gap-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <span className="text-transparent bg-clip-text bg-[#FF3F8F]">
-            Play.
-          </span>
-          <span className="text-transparent bg-clip-text bg-neutral-100">
-            Train.
-          </span>
-          <span className="text-transparent bg-clip-text bg-[#0586C8]">
-            Prepare.
-          </span>
-        </motion.h1>
-
-        {/* SEO subtitle — primary keyword in first 100 words, visible to users and search engines */}
-        <motion.p
-          className="text-sm md:text-lg font-semibold text-foreground/70 max-w-3xl md:max-w-2xl mx-auto mb-3 leading-snug"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-        >
-          Free Game-Based Aptitude Practice for Capgemini &amp; Cognizant Placements
-        </motion.p>
-
-        <motion.p
-          className="hidden md:block text-sm md:text-sm lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          Practice Switch, Grid, Digit, Motion, Inductive &amp; Deductive challenges — the exact games used in Capgemini &amp; Cognizant cognitive aptitude rounds. Improve your speed, accuracy, and logical reasoning with our free online mock tests.
-        </motion.p>
-
-        <motion.div
-          className="flex flex-col sm:flex-row items-center gap-4 mt-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          {/* PWA Install / Mobile App Button */}
-          {isInstalled ? (
-            <Button size="lg" className="h-12 px-8 text-base" disabled>
-              <Check className="mr-2 w-4 h-4" /> App Installed
-            </Button>
-          ) : canInstall ? (
-            <Button
-              size="lg"
-              className="h-12 px-8 text-base group relative overflow-hidden"
-              onClick={install}
-            >
-              <span className="relative z-10 flex items-center">
-                <Download className="mr-2 w-4 h-4 group-hover:animate-bounce" />
+          <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
+            {/* PWA Install / Mobile App Button */}
+            {isInstalled ? (
+              <Button size="lg" className="h-12 px-8 text-base" disabled>
+                <Check className="mr-2 w-4 h-4" /> App Installed
+              </Button>
+            ) : canInstall ? (
+              <Button
+                size="lg"
+                className="h-12 px-8 text-base group relative overflow-hidden"
+                onClick={install}
+              >
+                <span className="relative z-10 flex items-center">
+                  <Download className="mr-2 w-4 h-4" />
+                  Install App
+                </span>
+              </Button>
+            ) : isIOS ? (
+              <Button
+                size="lg"
+                className="h-12 px-8 text-base"
+                onClick={() => setShowIOSGuide(!showIOSGuide)}
+              >
+                <Smartphone className="mr-2 w-4 h-4" />
                 Install App
-              </span>
-            </Button>
-          ) : isIOS ? (
-            <Button
-              size="lg"
-              className="h-12 px-8 text-base"
-              onClick={() => setShowIOSGuide(!showIOSGuide)}
-            >
-              <Smartphone className="mr-2 w-4 h-4" />
-              Install App
-            </Button>
-          ) : (
-            <Button
-              size="lg"
-              className="h-12 px-8 text-base group"
-              onClick={() => {
-                // Fallback for browsers that don't support beforeinstallprompt
-                // Direct to games as a soft conversion
-                window.location.href = "/games/cognitive";
-              }}
-            >
-              <Download className="mr-2 w-4 h-4" />
-              Mobile App<ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          )}
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="h-12 px-8 text-base group"
+                onClick={() => {
+                  window.location.href = "/games/cognitive";
+                }}
+              >
+                <Download className="mr-2 w-4 h-4" />
+                Mobile App<ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            )}
 
-          <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
-            <Link href="/games/cognitive">
-              Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </Button>
-        </motion.div>
+            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
+              <Link href="/games/cognitive">
+                Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
 
-        {/* iOS Install Guide Tooltip */}
-        <AnimatePresence>
+          {/* iOS Install Guide */}
           {showIOSGuide && isIOS && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="mt-4 p-4 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl max-w-sm text-left"
-            >
+            <div className="mt-4 p-4 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl max-w-sm text-left">
               <p className="text-sm font-semibold text-foreground mb-3">
                 Install Blync on your iPhone:
               </p>
               <div className="space-y-2.5">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-xs font-bold text-primary">1</span>
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-white">1</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Tap the <Share className="inline w-4 h-4 text-blue-400 -mt-0.5" /> <span className="font-medium text-foreground">Share</span> button in Safari
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-xs font-bold text-primary">2</span>
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-white">2</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Scroll down and tap <span className="font-medium text-foreground">&quot;Add to Home Screen&quot;</span>
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-xs font-bold text-primary">3</span>
+                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="text-xs font-bold text-white">3</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Tap <span className="font-medium text-foreground">&quot;Add&quot;</span> — open from your home screen!
@@ -209,38 +147,26 @@ export default function Hero() {
               >
                 Got it ✓
               </button>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
 
-        {/* Stats / Trust Indicators (Optional placeholder for professional look) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="mt-16 pt-8 border-t border-[#111]/40 grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-2xl px-4 items-center justify-center text-center"
-        >
-          <div>
-            <h4 className="text-xl md:text-2xl font-bold text-foreground">6+</h4>
-            <p className="text-xs md:text-sm text-muted-foreground">Cognitive Games</p>
+          {/* Stats */}
+          <div className="mt-16 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-2xl px-4 items-center justify-center text-center">
+            <div>
+              <h4 className="text-xl md:text-2xl font-bold text-foreground">6+</h4>
+              <p className="text-xs md:text-sm text-muted-foreground">Cognitive Games</p>
+            </div>
+            <div>
+              <h4 className="text-xl md:text-2xl font-bold text-foreground">5k+</h4>
+              <p className="text-xs md:text-sm text-muted-foreground">Active Users</p>
+            </div>
+            <div className="col-span-2 md:col-span-1">
+              <h4 className="text-xl md:text-2xl font-bold text-foreground">98%</h4>
+              <p className="text-xs md:text-sm text-muted-foreground">Improvement Rate</p>
+            </div>
           </div>
-          <div>
-            <h4 className="text-xl md:text-2xl font-bold text-foreground">5k+</h4>
-            <p className="text-xs md:text-sm text-muted-foreground">Active Users</p>
-          </div>
-          <div className="col-span-2 md:col-span-1">
-            <h4 className="text-xl md:text-2xl font-bold text-foreground">98%</h4>
-            <p className="text-xs md:text-sm text-muted-foreground">Improvement Rate</p>
-          </div>
-        </motion.div>
-      </div>
-      {/* Subtle Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] md:w-[800px] h-[500px] bg-primary/5 rounded-full blur-[100px]" />
-      </div>
+        </div>
       </div>
     </section>
   );
 }
-

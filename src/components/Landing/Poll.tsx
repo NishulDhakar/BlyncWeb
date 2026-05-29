@@ -82,12 +82,12 @@ export default function Poll() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
             <Container className="relative z-10">
-                <div className="text-center mb-12 space-y-4">
+                <div className="text-center mb-16 max-w-3xl mx-auto relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="flex items-center justify-center gap-2 text-primary font-medium"
+                        className="flex items-center justify-center gap-2 text-primary font-medium mb-4"
                     >
                         <Sparkles className="w-5 h-5" />
                         <span>Community Vote</span>
@@ -97,17 +97,25 @@ export default function Poll() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70"
+                        className="text-5xl md:text-6xl font-bold mb-4 tracking-tight"
                     >
-                        Which game you want next?
+                        Which game next?
                     </motion.h2>
+                    <motion.span
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4 inline-block"
+                    >
+                        Help us shape the future of Cognitive Games.
+                    </motion.span>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-muted-foreground text-lg"
+                        className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10"
                     >
-                        Help us shape the future of Cognitive Games.
+                        Vote for the next practice module you want us to add to the platform.
                     </motion.p>
                 </div>
 

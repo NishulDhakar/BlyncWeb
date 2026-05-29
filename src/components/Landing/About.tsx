@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { Puzzle, Brain, Zap, Target, TrendingUp, Users } from "lucide-react";
 import {
   Card,
@@ -9,33 +8,20 @@ import {
   CardTitle,
   CardContent,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Container from "../common/Container";
 
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  delay?: number;
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-  delay = 0,
-}: FeatureCardProps) {
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="h-full"
-    >
-      <Card className="h-full  border-border/40 bg-card/40 backdrop-blur-md hover:border-primary/20 hover:bg-card/60 hover:shadow-lg transition-all duration-300 group">
+    <div className="h-full">
+      <Card className="h-full border-border/40 bg-card/40 hover:border-border/60 transition-colors duration-200">
         <CardHeader>
-          <div className="mb-4 w-12 h-12 mt-4 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+          <div className="mb-4 w-12 h-12 mt-4 rounded-lg bg-white/5 flex items-center justify-center text-foreground">
             {icon}
           </div>
           <CardTitle className="text-xl font-bold">{title}</CardTitle>
@@ -46,7 +32,7 @@ function FeatureCard({
           </p>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
 
@@ -91,31 +77,13 @@ export default function About() {
     <section className="py-24 relative overflow-hidden">
       <Container>
         <div className="mb-16 text-center max-w-3xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.h2
-              className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              Why Practice Capgemini Games on Blync?
-            </motion.h2>
-          </motion.div>
-
-          <motion.p
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-          >
-            Blync is built specifically for candidates preparing for Capgemini and Cognizant game-based aptitude tests. Our practice modules simulate the exact cognitive challenges from these placement rounds — so you walk in confident, not surprised.
-          </motion.p>
+          <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
+            Why ?
+          </h2>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4">Practice Capgemini Games on Blync?</span>
+          <p className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10">
+            Blync is built specifically for candidates preparing for Capgemini and Cognizant game-based aptitude tests. Our practice modules simulate the exact cognitive challenges from these placement rounds so you walk in confident, not surprised.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
@@ -125,14 +93,10 @@ export default function About() {
               icon={feature.icon}
               title={feature.title}
               description={feature.description}
-              delay={0.1 + index * 0.1}
             />
           ))}
         </div>
       </Container>
-
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
     </section>
   );
 }

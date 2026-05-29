@@ -133,30 +133,24 @@ export default function CognitiveGamesPage() {
           /> */}
 
           {/* Badges */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-[#FF3F8F]/30 bg-[#FF3F8F]/10 text-[#FF3F8F]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF3F8F] animate-pulse" />
+          {/* <div className="flex flex-wrap items-center gap-2.5 mb-6">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/60" />
               Placement Ready
             </span>
-            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/50 bg-muted/40 text-muted-foreground">
+            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
               Capgemini &amp; Cognizant
             </span>
-            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/50 bg-muted/40 text-muted-foreground">
+            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
               {cognitiveGames.length} Games Free
             </span>
-          </div>
+          </div> */}
 
-          <h1 className="relative text-4xl md:text-5xl font-bold tracking-tight mb-5 leading-[1.1]">
-            <span
-              className="text-transparent bg-clip-text"
-              style={{ backgroundImage: "linear-gradient(135deg, #FF3F8F 0%, #7C3AED 100%)" }}
-            >
-              Cognitive
-            </span>{" "}
-            Games
+          <h1 className="relative text-2xl md:text-3xl font-bold tracking-tight mb-5 leading-[1.1]">
+            Cognitive Games
           </h1>
 
-          <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="relative text-sm text-muted-foreground max-w-xl leading-relaxed">
             Practice all{" "}
             <span className="text-foreground font-semibold">{cognitiveGames.length} cognitive games</span>{" "}
             used in <span className="text-foreground font-semibold">Capgemini &amp; Cognizant</span> game-based
@@ -164,7 +158,7 @@ export default function CognitiveGamesPage() {
           </p>
 
           {/* Quick stats */}
-          <div className="relative flex flex-wrap gap-8 mt-8 pt-8 border-t border-border/40">
+          {/* <div className="relative flex flex-wrap gap-8 mt-8 pt-8 border-t border-border/40">
             {[
               { value: String(cognitiveGames.length), label: "Games" },
               // { value: "Free", label: "Always" },
@@ -176,7 +170,7 @@ export default function CognitiveGamesPage() {
                 <span className="text-sm text-muted-foreground">{s.label}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Game Cards */}

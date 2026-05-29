@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import Container from "../common/Container";
 
 const faqData = [
@@ -40,49 +38,25 @@ const faqData = [
   {
     question: "Will practicing here really improve my chances?",
     answer:
-      "Yes. Consistent practice builds confidence, improves reaction time, and strengthens your logical problem-solving skills — all of which are essential for clearing Capgemini’s games.",
+      "Yes. Consistent practice builds confidence, improves reaction time, and strengthens your logical problem-solving skills — all of which are essential for clearing Capgemini's games.",
   },
 ];
 
 export default function FAQ() {
   return (
-    <section className="py-20 lg:py-32 bg-gradient-to-b from-background to-background/50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-500/5 to-transparent rounded-full blur-[120px] -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-tl from-purple-500/5 to-transparent rounded-full blur-[120px] -z-10 pointer-events-none" />
-
+    <section className="py-20 lg:py-32 relative overflow-hidden">
       <Container className="max-w-4xl">
-        <motion.div
-          className="mb-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block mb-4"
-          >
-            <Badge variant="outline" className="px-4 py-2 text-sm font-medium border-primary/30 bg-primary/5">
-              ❓ FAQ
-            </Badge>
-          </motion.div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Frequently Asked Questions
+        <div className="mb-16 text-center max-w-3xl mx-auto relative z-10">
+          <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
+            FAQ
           </h2>
-          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4">Frequently Asked Questions</span>
+          <p className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10">
             Common questions about preparing for Capgemini &amp; Cognizant game-based aptitude tests.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="backdrop-blur-sm bg-card/30 rounded-2xl p-6 md:p-8 border border-border/50 shadow-xl"
-        >
+        <div className="bg-card/30 rounded-2xl p-6 md:p-8 border border-border/50">
           <Accordion type="single" collapsible className="w-full">
             {faqData.map((faq, index) => (
               <AccordionItem
@@ -90,9 +64,9 @@ export default function FAQ() {
                 value={`item-${index}`}
                 className="border-b border-border/30 last:border-0"
               >
-                <AccordionTrigger className="text-left text-base md:text-lg font-semibold py-5 hover:text-primary transition-colors group">
+                <AccordionTrigger className="text-left text-base md:text-lg font-semibold py-5 hover:text-foreground/80 transition-colors">
                   <h3 className="flex items-start gap-3 text-base md:text-lg font-semibold m-0 text-left">
-                    <span className="text-primary/60 group-hover:text-primary transition-colors">Q{index + 1}.</span>
+                    <span className="text-muted-foreground">Q{index + 1}.</span>
                     <span>{faq.question}</span>
                   </h3>
                 </AccordionTrigger>
@@ -102,7 +76,7 @@ export default function FAQ() {
               </AccordionItem>
             ))}
           </Accordion>
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

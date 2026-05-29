@@ -118,26 +118,20 @@ export default function MemoryGamesPage() {
 
           {/* Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-[#0586C8]/30 bg-[#0586C8]/10 text-[#0586C8]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0586C8] animate-pulse" />
+            <span className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground/60" />
               Brain Training
             </span>
-            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/50 bg-muted/40 text-muted-foreground">
+            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
               Improve Recall Speed
             </span>
-            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/50 bg-muted/40 text-muted-foreground">
+            <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
               {memoryGames.length} Game Free
             </span>
           </div>
 
           <h1 className="relative text-4xl md:text-5xl font-bold tracking-tight mb-5 leading-[1.1]">
-            <span
-              className="text-transparent bg-clip-text"
-              style={{ backgroundImage: "linear-gradient(135deg, #0586C8 0%, #6366F1 100%)" }}
-            >
-              Memory
-            </span>{" "}
-            Games
+            Memory Games
           </h1>
 
           <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
@@ -177,7 +171,7 @@ export default function MemoryGamesPage() {
             </div>
             <Link
               href="/games/cognitive"
-              className="shrink-0 inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg border border-[#FF3F8F]/30 bg-[#FF3F8F]/10 text-[#FF3F8F] hover:bg-[#FF3F8F]/15 transition-colors"
+              className="shrink-0 inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg border border-border/40 bg-white/5 text-foreground/70 hover:text-foreground hover:border-border/60 transition-colors"
             >
               Explore →
             </Link>
