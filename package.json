@@ -76,6 +76,7 @@
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.7",
     "@types/react-icons": "^2.2.7",
+    "baseline-browser-mapping": "^2.10.33",
     "drizzle-kit": "^0.31.9",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",

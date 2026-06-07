@@ -9,12 +9,19 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  let user: any = null;
 
-
-  const user = session?.user;
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    user = session?.user ?? null;
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    // DB unreachable — render as guest
+  }
   return (
     <UserProvider user={user ?? null}>
               <Header />

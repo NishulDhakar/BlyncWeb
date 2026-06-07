@@ -42,7 +42,16 @@ const schema = {
 };
 
 export default async function DigitChallengePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  let session = null;
+  try {
+    session = await auth.api.getSession({ headers: await headers() });
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    console.error("[DigitChallengePage] Session fetch failed:", error);
+  }
+
   if (!session) redirect("/register?redirect=/play/digit-challenge");
 
   const isPro = await getUserIsPro(session.user.id);

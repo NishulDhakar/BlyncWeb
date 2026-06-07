@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     Crown, Trophy, Gamepad2, LayoutGrid, Binary,
     ArrowRightLeft, Move, Brain, Sparkles, Medal,
-    Star, Flame
+    Star, Flame, Grid2X2
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import BackToDashboard from "@/components/common/BackToDashboard";
@@ -24,6 +24,7 @@ interface LeaderboardClientProps {
 const GAME_TABS = [
     { value: "overall", label: "Overall", icon: Trophy },
     { value: "switch-challenge", label: "Switch", icon: LayoutGrid },
+    { value: "grid-challenge", label: "Grid", icon: Grid2X2 },
     { value: "digit-challenge", label: "Digit", icon: Binary },
     { value: "deductive-challenge", label: "Deductive", icon: ArrowRightLeft },
     { value: "motion-challenge", label: "Motion", icon: Move },

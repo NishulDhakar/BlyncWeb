@@ -8,12 +8,16 @@ export default async function AuthLayout({
 }: Readonly<{
    children: React.ReactNode;
 }>) {
-   const session = await auth.api.getSession({
-      headers: await headers()
-   })
+   try {
+      const session = await auth.api.getSession({
+         headers: await headers()
+      })
 
-   if (session) {
-      return redirect("/")
+      if (session) {
+         return redirect("/")
+      }
+   } catch {
+      // DB unreachable — skip redirect, show auth page as guest
    }
    return (
       <main className="relative h-screen">

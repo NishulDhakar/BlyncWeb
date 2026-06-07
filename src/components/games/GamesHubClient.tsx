@@ -45,7 +45,7 @@ export default function GamesHubClient() {
   return (
     <div className="min-h-screen relative selection:bg-white/20">
       {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
+      {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" /> */}
 
       <main className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10">
         {/* Breadcrumb */}
@@ -82,7 +82,7 @@ export default function GamesHubClient() {
               href={cat.href}
               className="relative flex flex-col justify-between p-8 md:p-10 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] overflow-hidden"
             >
-              <div className="relative z-10 flex flex-col h-full">
+              <div className="relative z-10 flex flex-col h-full hover:shadow-lg transition-shadow duration-300 ease-in-out">
                 {/* Top Row */}
                 {/* <div className="flex items-start justify-between mb-12">
                   <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/[0.05] text-foreground/80 shadow-sm">
@@ -109,7 +109,7 @@ export default function GamesHubClient() {
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 mt-10 text-sm font-bold text-foreground/50">
+                <div className="flex items-center gap-2 mt-10 text-sm font-bold text-foreground/50 hover:text-foreground transition-colors duration-200">
                   <span className="tracking-wide">Explore Category</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>

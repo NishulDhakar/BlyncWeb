@@ -10,7 +10,7 @@ const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET!;
 const razorpayAuth = Buffer.from(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`).toString("base64");
 
 // Razorpay statuses that mean the user has paid and is active
-const ACTIVE_RAZORPAY_STATUSES = new Set(["authenticated", "active", "created"]);
+const ACTIVE_RAZORPAY_STATUSES = new Set(["authenticated", "active"]);
 
 const PLAN_DURATION_DAYS: Record<string, number> = {
   monthly: 32,

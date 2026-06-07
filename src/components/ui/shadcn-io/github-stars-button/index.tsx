@@ -76,11 +76,27 @@ function GitHubStarsButton({
   );
 
   React.useEffect(() => {
+    const cacheKey = `gh_stars_${username}_${repo}`;
+    const cached = sessionStorage.getItem(cacheKey);
+
+    if (cached) {
+      try {
+        const { stars: cachedStars, ts } = JSON.parse(cached);
+        // Cache for 1 hour
+        if (Date.now() - ts < 3600000) {
+          setStars(cachedStars);
+          setIsLoading(false);
+          return;
+        }
+      } catch { /* invalid cache, refetch */ }
+    }
+
     fetch(`https://api.github.com/repos/${username}/${repo}`)
       .then((response) => response.json())
       .then((data) => {
         if (data && typeof data.stargazers_count === 'number') {
           setStars(data.stargazers_count);
+          sessionStorage.setItem(cacheKey, JSON.stringify({ stars: data.stargazers_count, ts: Date.now() }));
         }
       })
       .catch(console.error)

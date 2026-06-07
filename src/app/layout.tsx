@@ -157,20 +157,21 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://cloud.umami.is" />
-      </head>
 
+        {/* ✅ FONT PRELOADS — avoids Flash of Invisible Text (FOIT) */}
+        <link rel="preload" as="font" type="font/ttf" href="/fonts/Parkinsans-VariableFont_wght.ttf" crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/ttf" href="/fonts/SpaceGrotesk-VariableFont_wght.ttf" crossOrigin="anonymous" />
+      </head>
+ 
       <body className="relative">
-        {/* Gradient blobs — CSS-only blur, no inline style duplication */}
-        <div className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden" aria-hidden="true">
-          <div
-            className="absolute top-0 left-0 w-1/2 h-full bg-[#FF6B6B]/50 rounded-full"
-            style={{ filter: "blur(100px)", transform: "translate(-20%, -20%)" }}
-          />
-          <div
-            className="absolute top-0 right-0 w-1/2 h-full bg-[#4F46E5]/50 rounded-full"
-            style={{ filter: "blur(100px)", transform: "translate(20%, -20%)" }}
-          />
-        </div>
+        {/* Gradient blobs — Pre-blurred radial-gradient background to avoid GPU-heavy CSS filters */}
+        <div 
+          className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden" 
+          aria-hidden="true"
+          style={{
+            backgroundImage: "radial-gradient(circle 50vw at 15% 0%, rgba(255, 107, 107, 0.5) 0%, transparent 80%), radial-gradient(circle 50vw at 85% 0%, rgba(79, 70, 229, 0.5) 0%, transparent 80%)"
+          }}
+        />
 
         <LenisProvider>
           <main>{children}</main>

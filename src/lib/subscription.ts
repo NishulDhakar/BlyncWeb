@@ -1,6 +1,7 @@
 import { db } from "./db";
 import { users, subscriptions } from "./schema";
 import { eq } from "drizzle-orm";
+import { cache } from "react";
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID!;
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET!;
@@ -23,24 +24,24 @@ function addDays(date: Date, days: number): Date {
  * Server-only. Returns true if the user has an active pro subscription.
  * Falls back to Razorpay API if the webhook hasn't fired yet (status = "created").
  */
-export async function getUserIsPro(userId: string): Promise<boolean> {
-  const [user] = await db
-    .select({
-      isPro: users.isPro,
-      subscriptionStatus: users.subscriptionStatus,
-      razorpaySubscriptionId: users.razorpaySubscriptionId,
-    })
-    .from(users)
-    .where(eq(users.id, userId))
-    .limit(1);
-
-  if (user?.isPro === true && user?.subscriptionStatus === "active") return true;
-
-  // Webhook may not have fired — verify directly with Razorpay
-  const rzpSubId = user?.razorpaySubscriptionId;
-  if (!rzpSubId) return false;
-
+export const getUserIsPro = cache(async (userId: string): Promise<boolean> => {
   try {
+    const [user] = await db
+      .select({
+        isPro: users.isPro,
+        subscriptionStatus: users.subscriptionStatus,
+        razorpaySubscriptionId: users.razorpaySubscriptionId,
+      })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    if (user?.isPro === true && user?.subscriptionStatus === "active") return true;
+
+    // Webhook may not have fired — verify directly with Razorpay
+    const rzpSubId = user?.razorpaySubscriptionId;
+    if (!rzpSubId) return false;
+
     const rzpRes = await fetch(`https://api.razorpay.com/v1/subscriptions/${rzpSubId}`, {
       headers: { Authorization: `Basic ${razorpayAuth}` },
       next: { revalidate: 0 },
@@ -73,7 +74,8 @@ export async function getUserIsPro(userId: string): Promise<boolean> {
     ]);
 
     return true;
-  } catch {
+  } catch (error) {
+    console.error("[getUserIsPro] Error checking subscription status:", error);
     return false;
   }
-}
+});

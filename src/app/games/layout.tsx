@@ -11,17 +11,28 @@ export default async function GamesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  const sessionUser = session?.user ?? null;
+  let user: any = null;
+  let streak = { currentStreak: 0, longestStreak: 0 };
 
-  const [isPro, streak] = await Promise.all([
-    sessionUser ? getUserIsPro(sessionUser.id) : Promise.resolve(false),
-    sessionUser
-      ? upsertStreak(sessionUser.id)
-      : Promise.resolve({ currentStreak: 0, longestStreak: 0 }),
-  ]);
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    const sessionUser = session?.user ?? null;
 
-  const user = sessionUser ? { ...sessionUser, isPro } : null;
+    const [isPro, streakResult] = await Promise.all([
+      sessionUser ? getUserIsPro(sessionUser.id) : Promise.resolve(false),
+      sessionUser
+        ? upsertStreak(sessionUser.id)
+        : Promise.resolve({ currentStreak: 0, longestStreak: 0 }),
+    ]);
+
+    user = sessionUser ? { ...sessionUser, isPro } : null;
+    streak = streakResult;
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    // DB unreachable — render as guest
+  }
 
   return (
     <UserProvider user={user} streak={streak}>

@@ -1,4 +1,4 @@
-"use client";
+// Server Component — no client JS shipped
 
 import { Gamepad2, BarChart3, Trophy } from "lucide-react";
 

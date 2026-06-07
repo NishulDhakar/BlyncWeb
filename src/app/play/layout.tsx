@@ -18,18 +18,31 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  let user: any = null;
 
-  if (!session) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return redirect("/register");
+    }
+
+    const sessionUser = session.user;
+    const isPro = await getUserIsPro(sessionUser.id);
+    user = { ...sessionUser, isPro };
+  } catch (error) {
+    if (error instanceof Error && (
+      (error as any).digest === "DYNAMIC_SERVER_USAGE" || 
+      (error as any).digest?.startsWith("NEXT_REDIRECT") ||
+      error.message?.includes("Dynamic server usage")
+    )) {
+      throw error;
+    }
+    // DB unreachable — redirect to register as safe fallback
     return redirect("/register");
   }
-
-  const sessionUser = session.user;
-
-  const isPro = await getUserIsPro(sessionUser.id);
-  const user = { ...sessionUser, isPro };
 
   return (
     <UserProvider user={user}>

@@ -6,24 +6,37 @@ import Link from "next/link";
 import { ArrowRight, Download, Share, Smartphone, Check } from "lucide-react";
 import Image from "next/image";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Hero() {
   const { canInstall, isInstalled, isIOS, install } = usePWAInstall();
   const [showIOSGuide, setShowIOSGuide] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Lazy-load video: set src after mount so it doesn't block initial paint
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    // Small delay to let critical content paint first
+    const timer = setTimeout(() => {
+      video.src = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260602_150901_c45b90ec-18d7-42ff-90e2-b95d7109e330.mp4";
+      video.load();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section className="relative overflow-hidden md:py-1">
       <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
         {/* Background Video */}
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
           preload="none"
           className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260514_102933_4e8f73b5-775a-4179-b2fb-472f59063dcd.mp4"
         />
 
         <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
@@ -49,17 +62,17 @@ export default function Hero() {
           </a>
 
           <h1 className="text-4xl md:text-6xl mt-6 lg:text-7xl text-center font-bold tracking-tight text-foreground mb-3 leading-tight flex md:flex-row items-center justify-center gap-4 md:gap-8">
-            <span className="text-white">Play.</span>
-            <span className="text-white">Train.</span>
-            <span className="text-white">Prepare.</span>
+            <span className="text-secondary">Play.</span>
+            <span className="text-secondary">Train.</span>
+            <span className="text-secondary">Prepare.</span>
           </h1>
 
           {/* SEO subtitle */}
-          <p className="text-sm hidden md:text-lg font-semibold text-foreground/70 max-w-2xl md:max-w-xl mx-auto mb-3 mt-6 leading-snug">
+          <p className="text-sm hidden md:text-lg font-semibold text-secondary max-w-2xl md:max-w-xl mx-auto mb-3 mt-6 leading-snug">
             Free Game-Based Aptitude Practice for Capgemini &amp; Cognizant Placements
           </p>
 
-          <p className="hidden md:block text-md md:text-md lg:text-md font-normal text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="hidden md:block text-md md:text-md lg:text-md font-normal text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
             Practice Switch, Grid, Digit, Motion, Inductive &amp; Deductive challenges — the exact games used in Capgemini &amp; Cognizant cognitive aptitude rounds. Improve your speed, accuracy, and logical reasoning with our free online mock tests.
           </p>
 
@@ -102,7 +115,7 @@ export default function Hero() {
               </Button>
             )}
 
-            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
+            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-secondary text-base">
               <Link href="/games/cognitive">
                 Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
@@ -153,16 +166,16 @@ export default function Hero() {
           {/* Stats */}
           <div className="mt-16 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-2xl px-4 items-center justify-center text-center">
             <div>
-              <h4 className="text-xl md:text-2xl font-bold text-foreground">6+</h4>
-              <p className="text-xs md:text-sm text-muted-foreground">Cognitive Games</p>
+              <h4 className="text-xl md:text-2xl font-bold text-secondary">6+</h4>
+              <p className="text-xs md:text-sm text-secondary">Cognitive Games</p>
             </div>
             <div>
-              <h4 className="text-xl md:text-2xl font-bold text-foreground">5k+</h4>
-              <p className="text-xs md:text-sm text-muted-foreground">Active Users</p>
+              <h4 className="text-xl md:text-2xl font-bold text-secondary">5k+</h4>
+              <p className="text-xs md:text-sm text-secondary">Active Users</p>
             </div>
             <div className="col-span-2 md:col-span-1">
-              <h4 className="text-xl md:text-2xl font-bold text-foreground">98%</h4>
-              <p className="text-xs md:text-sm text-muted-foreground">Improvement Rate</p>
+              <h4 className="text-xl md:text-2xl font-bold text-secondary">98%</h4>
+              <p className="text-xs md:text-sm text-secondary">Improvement Rate</p>
             </div>
           </div>
         </div>

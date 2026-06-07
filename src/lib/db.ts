@@ -18,7 +18,7 @@ const client =
         ssl: "require",
         max: 1,            // one connection per pool — safe for Session-mode PgBouncer
         idle_timeout: 20,  // release idle connections quickly
-        connect_timeout: 10,
+        connect_timeout: 3,
     });
 
 if (process.env.NODE_ENV !== "production") {

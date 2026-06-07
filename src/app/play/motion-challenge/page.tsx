@@ -42,7 +42,16 @@ const schema = {
 };
 
 export default async function MotionChallengePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  let session = null;
+  try {
+    session = await auth.api.getSession({ headers: await headers() });
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    console.error("[MotionChallengePage] Session fetch failed:", error);
+  }
+
   if (!session) redirect("/register?redirect=/play/motion-challenge");
 
   const isPro = await getUserIsPro(session.user.id);

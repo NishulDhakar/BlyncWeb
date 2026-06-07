@@ -15,27 +15,49 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  let session = null;
+  try {
+    session = await auth.api.getSession({ headers: await headers() });
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    console.error("[ProfilePage] Session fetch failed:", error);
+  }
 
   if (!session) redirect("/register");
 
-  const isPro = await getUserIsPro(session.user.id);
+  let isPro = false;
+  let activeSub = null;
+  let stats: any = {
+    gamesPlayed: 0,
+    averageScore: 0,
+    highestScores: {},
+    recentActivity: [],
+  };
 
-  const [activeSub] = isPro
-    ? await db
+  try {
+    isPro = await getUserIsPro(session.user.id);
+
+    if (isPro) {
+      const [sub] = await db
         .select({ planType: subscriptions.planType, expiresAt: subscriptions.expiresAt })
         .from(subscriptions)
         .where(and(eq(subscriptions.userId, session.user.id), eq(subscriptions.status, "active")))
-        .limit(1)
-    : [];
+        .limit(1);
+      activeSub = sub ?? null;
+    }
 
-  const stats = await getProfileStats(session.user.id);
+    stats = await getProfileStats(session.user.id);
+  } catch (error) {
+    console.error("[ProfilePage] Error loading profile details:", error);
+  }
 
   return (
     <ProfileClient
       user={{ ...session.user, isPro }}
       stats={stats}
-      subscription={activeSub ?? null}
+      subscription={activeSub}
     />
   );
 }

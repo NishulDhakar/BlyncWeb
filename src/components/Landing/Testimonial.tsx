@@ -1,4 +1,4 @@
-"use client";
+// Server Component — no client JS shipped
 
 import React from "react";
 import { Star } from "lucide-react";
