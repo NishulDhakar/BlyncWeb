@@ -125,6 +125,13 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
+        {/* ✅ Ahrefs Analytics */}
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="Hbcr60SY/MejzF9hIOsY+Q"
+          strategy="afterInteractive"
+        />
+
         {/* ✅ STRUCTURED DATA */}
         <script
           type="application/ld+json"
