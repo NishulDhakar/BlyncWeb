@@ -36,7 +36,7 @@ export default function Hero() {
           muted
           playsInline
           preload="none"
-          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none gpu-accelerated"
         />
 
         <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
@@ -124,7 +124,7 @@ export default function Hero() {
 
           {/* iOS Install Guide */}
           {showIOSGuide && isIOS && (
-            <div className="mt-4 p-4 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl max-w-sm text-left">
+            <div className="mt-4 p-4 rounded-2xl bg-card/90 backdrop-blur-md glass-optimized border border-border/50 shadow-2xl max-w-sm text-left">
               <p className="text-sm font-semibold text-foreground mb-3">
                 Install Blync on your iPhone:
               </p>

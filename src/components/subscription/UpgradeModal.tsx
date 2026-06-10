@@ -96,7 +96,7 @@ export default function UpgradeModal() {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-yellow-500/25 bg-card/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+        <div className="rounded-2xl border border-yellow-500/25 bg-card/90 backdrop-blur-md glass-optimized shadow-2xl overflow-hidden">
 
           {/* Top gradient strip */}
           <div className="h-1 w-full bg-gradient-to-r from-yellow-500 via-orange-400 to-yellow-500" />

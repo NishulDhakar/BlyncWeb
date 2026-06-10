@@ -37,7 +37,7 @@ export default function RulePage({ data }: { data: RuleData }) {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
+        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md glass-optimized shadow-2xl overflow-hidden">
           {/* Description */}
           <div className="px-6 sm:px-10 py-6 sm:py-8 border-b border-white/10">
             <p className="text-white/65 text-base sm:text-lg leading-relaxed text-center">

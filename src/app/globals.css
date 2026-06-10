@@ -193,7 +193,7 @@ body {
   }
   100% {
     opacity: 1;
-    filter: blur(0px);
+    filter: none;
   }
 }
 
@@ -202,6 +202,19 @@ body {
   animation-delay: 0.3s;
   opacity: 0.4;
   filter: blur(3px);
+}
+
+/* GPU Acceleration and Layer Isolation Utility */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimization for backdrop-filtered elements to prevent Chrome dynamic raster downscaling */
+.glass-optimized {
+  transform: translateZ(0);
+  will-change: backdrop-filter, transform;
 }
 
 @keyframes skyShift {

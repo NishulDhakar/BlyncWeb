@@ -90,7 +90,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
             : 0;
 
         return (
-            <div className="flex flex-col items-center justify-center p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 w-full max-w-md mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-center justify-center p-8 bg-white/5 backdrop-blur-md glass-optimized rounded-3xl border border-white/10 w-full max-w-md mx-auto relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" aria-hidden="true" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" aria-hidden="true" />
 
@@ -100,7 +100,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                     <p className="text-muted-foreground text-sm mb-8">Here&apos;s how you did</p>
 
                     <div className="w-full space-y-3 mb-8">
-                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/10">
+                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md glass-optimized px-5 py-4 rounded-2xl border border-white/10">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center">
                                     <Target className="w-4 h-4 text-emerald-400" />
@@ -110,7 +110,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                             <span className="text-2xl font-extrabold text-emerald-400">{correct}</span>
                         </div>
 
-                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/10">
+                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md glass-optimized px-5 py-4 rounded-2xl border border-white/10">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center">
                                     <SkipForward className="w-4 h-4 text-rose-400" />
@@ -120,7 +120,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                             <span className="text-2xl font-extrabold text-rose-400">{wrong}</span>
                         </div>
 
-                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/10">
+                        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md glass-optimized px-5 py-4 rounded-2xl border border-white/10">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-xl bg-sky-500/20 flex items-center justify-center">
                                     <Zap className="w-4 h-4 text-sky-400" />
@@ -154,7 +154,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
         <div className="flex flex-col items-center w-full">
             {/* Controls row */}
             <div className="w-full max-w-[400px] flex justify-between items-center mb-6 px-2">
-                <div className="flex flex-col bg-white/5 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-white/10">
+                <div className="flex flex-col bg-white/5 backdrop-blur-md glass-optimized px-5 py-2.5 rounded-2xl border border-white/10">
                     <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-0.5">Moves</span>
                     <span className="text-3xl font-black text-foreground leading-none">{movesCount}</span>
                 </div>
@@ -162,7 +162,7 @@ const MotionChallengeUI: React.FC<MotionChallengeUIProps> = ({
                 <div className="flex gap-2">
                     <button
                         onClick={handleResetLevel}
-                        className="p-3 rounded-2xl bg-white/5 backdrop-blur-md text-foreground/60 border border-white/10 hover:bg-white/10 hover:text-foreground transition-all duration-200 hover:-translate-y-0.5"
+                        className="p-3 rounded-2xl bg-white/5 backdrop-blur-md glass-optimized text-foreground/60 border border-white/10 hover:bg-white/10 hover:text-foreground transition-all duration-200 hover:-translate-y-0.5"
                         title="Reset Level"
                         aria-label="Reset Level"
                     >

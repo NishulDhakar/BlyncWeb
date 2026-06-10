@@ -61,7 +61,7 @@ export default function HlsVideo({ src, className, style }: HlsVideoProps) {
       {isVisible && (
         <video
           ref={videoRef}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover gpu-accelerated"
           autoPlay
           loop
           muted
