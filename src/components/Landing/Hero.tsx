@@ -57,7 +57,7 @@ export default function Hero() {
                   quality={90}
                 />
               </div>
-              <span className="pr-1 font-bold font-game">By Nishul</span>
+              <span className="pr-1 font-bold text-secondary">By Nishul</span>
             </div>
           </a>
 
