@@ -6,6 +6,7 @@ import Hero from "@/components/Landing/Hero";
 import HowItWorks from "@/components/Landing/Howitwork";
 import Testimonial from "@/components/Landing/Testimonial";
 import SocialProof from "@/components/Landing/SocialProof";
+import GamesSection from "@/components/Landing/GamesSection";
 import { siteConfig } from "@/config/site";
 import Script from "next/script";
 
@@ -138,9 +139,10 @@ export default function Home() {
       <div>
         <Hero />
         <About />
+        <GamesSection />
        
         <Testimonial />
-        <SocialProof />
+        {/* <SocialProof /> */}
          <HowItWorks />
         <FAQ />
         

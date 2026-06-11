@@ -2,7 +2,7 @@ import React from "react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import Image from "next/image";
-import { Brain, Mail, Github, Twitter, Linkedin } from "lucide-react";
+import { Brain, Mail, Github, Twitter, Linkedin, Instagram } from "lucide-react";
 import { footerNavItems } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import HlsVideo from "@/components/common/HlsVideo";
@@ -11,6 +11,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
+    { name: "Instagram", href: siteConfig.links.instagram, icon: Instagram },
     { name: "Twitter", href: siteConfig.links.twitter, icon: Twitter },
     { name: "GitHub", href: siteConfig.links.github, icon: Github },
     { name: "LinkedIn", href: "https://linkedin.com/in/nishuldhakar", icon: Linkedin },
@@ -19,10 +20,10 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden mt-20">
       {/* Video background */}
-      <HlsVideo
+      {/* <HlsVideo
         src="https://stream.mux.com/01yW6GoUz01OTXk5w1Rt1MHkJWlCGIwj46SUONJZ4DJUE.m3u8"
         className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+      /> */}
 
       {/* Top fade from page background */}
       <div

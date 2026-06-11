@@ -77,7 +77,7 @@ export default async function GameSeoPage({ params }: Props) {
         ]}
       />
 
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main className="max-w-4xl mx-auto px-4 py-12 mt-14">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-6">
           <ol className="flex flex-wrap items-center gap-1.5">

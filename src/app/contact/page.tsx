@@ -4,21 +4,44 @@ import { motion } from "framer-motion";
 import Container from "@/components/common/Container";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 import {
   Mail,
   MessageSquare,
   Send,
   MapPin,
   Phone,
-  Clock
+  Clock,
+  Instagram,
+  Linkedin,
+  Twitter,
+  ArrowLeft
 } from "lucide-react";
 
+// Force HMR recompile
 export default function ContactPage() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-primary/5 to-background">
         <Container>
+          {/* Back Button */}
+          <motion.div
+            className="max-w-4xl mx-auto flex justify-start mb-8"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-white/[0.1] text-sm font-medium text-foreground/80 hover:text-foreground transition-all duration-200 cursor-pointer"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </button>
+          </motion.div>
           <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -68,10 +91,10 @@ export default function ContactPage() {
                     Send us an email and we'll respond within 24-48 hours
                   </p>
                   <a
-                    href="mailto:contact@cognitivegames.me"
+                    href="mailto:blyncgames@gmail.com"
                     className="text-primary hover:underline font-medium text-sm"
                   >
-                    contact@cognitivegames.me
+                    blyncgames@gmail.com
                   </a>
                 </CardContent>
               </Card>
@@ -84,20 +107,42 @@ export default function ContactPage() {
               transition={{ delay: 0.1 }}
             >
               <Card className="h-full border-border/40 bg-card/40 backdrop-blur-sm hover:shadow-lg transition-all group text-center">
-                <CardContent className="pt-8 pb-8">
-                  <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors mb-4">
-                    <MessageSquare className="h-6 w-6" />
+                <CardContent className="pt-8 pb-8 flex flex-col items-center h-full justify-between">
+                  <div className="flex flex-col items-center">
+                    <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors mb-4">
+                      <Instagram className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Social Media</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Follow us on social media for updates and resources
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Feedback</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Share your experience or suggest improvements
-                  </p>
-                  <a
-                    href="/feedback"
-                    className="text-primary hover:underline font-medium text-sm"
-                  >
-                    Submit Feedback
-                  </a>
+                  <div className="flex flex-wrap justify-center gap-4 mt-auto">
+                    <a
+                      href="https://instagram.com/blyncgames"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    >
+                      <Instagram className="h-4 w-4" /> Instagram
+                    </a>
+                    <a
+                      href="https://linkedin.com/in/nishuldhakar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    >
+                      <Linkedin className="h-4 w-4" /> LinkedIn
+                    </a>
+                    <a
+                      href="https://twitter.com/nishuldhakar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                    >
+                      <Twitter className="h-4 w-4" /> Twitter
+                    </a>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -268,33 +313,6 @@ export default function ContactPage() {
               </motion.div>
             ))}
           </div>
-        </Container>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 md:py-20">
-        <Container className="max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/10 rounded-2xl p-8 md:p-12"
-          >
-            <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/20 text-primary mb-6">
-              <Send className="h-8 w-8" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Reach Out?</h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              We're committed to helping you succeed in your placement journey. Don't hesitate to contact us with any questions or concerns.
-            </p>
-            <a
-              href="mailto:contact@cognitivegames.me"
-              className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
-            >
-              <Mail className="h-5 w-5 mr-2" />
-              Send Us an Email
-            </a>
-          </motion.div>
         </Container>
       </section>
     </div>

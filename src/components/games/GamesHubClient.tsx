@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   Shuffle, Hash, Brain, MoveRight, Eye, Grid2X2,
   BookOpen, ArrowRight, Zap, Layers, Play
@@ -28,6 +29,7 @@ const categories = [
     count: gamesConfig.filter((g) => g.category === "cognitive").length,
     Icon: Zap,
     badge: "Placement Ready",
+    image: "/games/capgemini.png",
   },
   {
     slug: "memory",
@@ -38,6 +40,7 @@ const categories = [
     count: gamesConfig.filter((g) => g.category === "memory").length,
     Icon: Layers,
     badge: "Brain Training",
+    image: "/games/memory.png",
   },
 ];
 
@@ -47,7 +50,7 @@ export default function GamesHubClient() {
       {/* Subtle Background Pattern */}
       {/* <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" /> */}
 
-      <main className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10">
+      <main className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative z-10 mt-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm font-medium text-muted-foreground mb-16 tracking-wide">
           <ol className="flex items-center gap-2">
@@ -80,26 +83,21 @@ export default function GamesHubClient() {
             <Link
               key={cat.slug}
               href={cat.href}
-              className="relative flex flex-col justify-between p-8 md:p-10 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] overflow-hidden"
+              className="relative flex flex-col overflow-hidden rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.08] transition-all duration-300 group"
             >
-              <div className="relative z-10 flex flex-col h-full hover:shadow-lg transition-shadow duration-300 ease-in-out">
-                {/* Top Row */}
-                {/* <div className="flex items-start justify-between mb-12">
-                  <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/[0.05] text-foreground/80 shadow-sm">
-                    <cat.Icon className="w-6 h-6" strokeWidth={2} />
-                  </div>
-                  <div className="flex flex-col items-end gap-2">
-                    <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.05] text-foreground/80">
-                      {cat.badge}
-                    </span>
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {cat.count} games inside
-                    </span>
-                  </div>
-                </div> */}
+              {/* Category Image Cover */}
+              <div className="relative w-full aspect-[16/10] overflow-hidden">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-                {/* Content */}
-                <div className="mt-auto">
+              {/* Content */}
+              <div className="p-8 flex flex-col flex-1 justify-between">
+                <div>
                   <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 tracking-tight">
                     {cat.name}
                   </h2>
@@ -109,9 +107,9 @@ export default function GamesHubClient() {
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 mt-10 text-sm font-bold text-foreground/50 hover:text-foreground transition-colors duration-200">
+                <div className="flex items-center gap-2 mt-8 text-sm font-bold text-foreground/50 group-hover:text-foreground transition-colors duration-200">
                   <span className="tracking-wide">Explore Category</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>
             </Link>

@@ -100,6 +100,7 @@ export const siteConfig = {
   links: {
     twitter: "https://twitter.com/nishuldhakar",
     github: "https://github.com/NishulDhakar/BlyncWeb",
+    instagram: "https://instagram.com/blyncgames",
   },
   creator: "@nishuldhakar",
   locale: "en_IN",

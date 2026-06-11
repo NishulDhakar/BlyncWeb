@@ -3,7 +3,7 @@
 import Container from "../common/Container";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { ArrowRight, Download, Share, Smartphone, Check } from "lucide-react";
+import { ArrowRight, Download, Share, Smartphone, Check, Icon, Instagram  } from "lucide-react";
 import Image from "next/image";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useState, useRef, useEffect } from "react";
@@ -77,6 +77,13 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
+
+            <Button asChild variant="secondary" size="lg" className="h-12 px-8 text-white text-base bg-black">
+              <Link href="https://instagram.com/blyncgames">
+                <Instagram />Instagram <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </Button>
+
             {/* PWA Install / Mobile App Button */}
             {isInstalled ? (
               <Button size="lg" className="h-12 px-8 text-base" disabled>
@@ -114,12 +121,6 @@ export default function Hero() {
                 Mobile App<ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             )}
-
-            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-secondary text-base">
-              <Link href="/games/cognitive">
-                Capgemini Games <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </Button>
           </div>
 
           {/* iOS Install Guide */}

@@ -103,7 +103,7 @@ export default function CognitiveGamesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <main className="max-w-6xl mx-auto px-4 py-12 mt-10 overflow-hidden">
+      <main className="max-w-6xl mx-auto px-4 py-12 mt-30 overflow-hidden">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-10">
           <ol className="flex items-center gap-1.5">
