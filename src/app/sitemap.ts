@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/games`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/games/cognitive`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/games/memory`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/games/brain`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
   ];
 
   const gameDetailPages: MetadataRoute.Sitemap = gamesConfig.map((game) => ({

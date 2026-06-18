@@ -216,6 +216,87 @@ export const gamesConfig = [
     keywords: ["recall challenge", "recall memory game free", "free memory training online"],
     related: ["memory-challenge", "digit-challenge", "inductive-challenge"],
   },
+  // ── Brain Games (from Lakshyapachkhede/brain-games) ────────────────────────
+  {
+    slug: "sudoku",
+    name: "Sudoku",
+    category: "brain",
+    headline: "Sudoku — Free Online Brain Puzzle Game",
+    description:
+      "Play classic Sudoku puzzles free online. Fill the 9×9 grid using logic and deduction — no guessing needed. Sharpen number reasoning and concentration. Free brain game, no download.",
+    keywords: ["sudoku online free", "sudoku puzzle game", "free sudoku brain training", "number logic puzzle"],
+    related: ["minesweeper", "15-puzzle", "tic-tac-toe"],
+  },
+  {
+    slug: "15-puzzle",
+    name: "15 Puzzle",
+    category: "brain",
+    headline: "15 Puzzle — Free Online Sliding Tile Game",
+    description:
+      "Solve the classic 15 sliding tile puzzle online. Arrange numbered tiles in order by sliding them into the empty space. Trains spatial reasoning and planning skills. Free, no signup.",
+    keywords: ["15 puzzle online free", "sliding puzzle game", "tile puzzle brain game", "spatial reasoning game"],
+    related: ["sudoku", "minesweeper", "snake"],
+  },
+  {
+    slug: "minesweeper",
+    name: "Minesweeper",
+    category: "brain",
+    headline: "Minesweeper — Free Online Logic Game",
+    description:
+      "Play Minesweeper free online. Use deductive logic to uncover safe cells and flag mines on the grid. Classic brain game that sharpens analytical thinking. No download needed.",
+    keywords: ["minesweeper online free", "minesweeper game", "logic deduction game free", "mine sweeper brain game"],
+    related: ["sudoku", "15-puzzle", "tic-tac-toe"],
+  },
+  {
+    slug: "tic-tac-toe",
+    name: "Tic Tac Toe",
+    category: "brain",
+    headline: "Tic Tac Toe — Free Online Strategy Game",
+    description:
+      "Play Tic Tac Toe free online against the computer. Practice strategic thinking and pattern recognition with this classic brain game. Free, instant play in your browser.",
+    keywords: ["tic tac toe online free", "tic tac toe game", "strategy game free online", "noughts and crosses"],
+    related: ["minesweeper", "sudoku", "snake"],
+  },
+  {
+    slug: "snake",
+    name: "Snake",
+    category: "brain",
+    headline: "Snake — Free Online Reflex & Strategy Game",
+    description:
+      "Play the classic Snake game free online. Navigate the growing snake to eat food while avoiding walls and yourself. Trains reflexes, spatial awareness, and quick decision-making.",
+    keywords: ["snake game online free", "classic snake game", "reflex training game", "snake brain game free"],
+    related: ["ant-smasher", "15-puzzle", "tic-tac-toe"],
+  },
+  {
+    slug: "memory-match-pairs",
+    name: "Memory Match Pairs",
+    category: "brain",
+    headline: "Memory Match Pairs — Free Online Memory Game",
+    description:
+      "Flip cards and find matching pairs in this classic memory game. Improve short-term memory, focus, and recall speed. Free online brain training game, no download needed.",
+    keywords: ["memory match game free", "card matching game online", "memory pairs game", "brain training memory free"],
+    related: ["sudoku", "15-puzzle", "minesweeper"],
+  },
+  {
+    slug: "ant-smasher",
+    name: "Ant Smasher",
+    category: "brain",
+    headline: "Ant Smasher — Free Online Reflex Game",
+    description:
+      "Smash the ants before they escape! Test your reflexes and hand-eye coordination with this fast-paced brain game. Free online, play instantly in your browser.",
+    keywords: ["ant smasher game free", "reflex game online", "whack a mole style game", "reaction time game free"],
+    related: ["snake", "tic-tac-toe", "memory-match-pairs"],
+  },
+  {
+    slug: "dice-roller",
+    name: "Dice Roller",
+    category: "brain",
+    headline: "Dice Roller — Free Online Probability Game",
+    description:
+      "Roll virtual dice and explore probability. A simple but fun tool for board games, math practice, and probability experiments. Free online, instant results.",
+    keywords: ["dice roller online free", "virtual dice game", "probability game free", "random dice online"],
+    related: ["sudoku", "tic-tac-toe", "ant-smasher"],
+  },
 ] as const;
 
 export type GameConfig = (typeof gamesConfig)[number];

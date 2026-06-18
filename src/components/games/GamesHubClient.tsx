@@ -4,19 +4,29 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Shuffle, Hash, Brain, MoveRight, Eye, Grid2X2,
-  BookOpen, ArrowRight, Zap, Layers, Play
+  BookOpen, ArrowRight, Zap, Layers, Play,
+  Puzzle, Bomb, Snail, Bug, Dice5, Gamepad2,
 } from "lucide-react";
 import { gamesConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 const GAME_META: Record<string, { icon: React.ElementType }> = {
-  "switch-challenge":    { icon: Shuffle },
-  "digit-challenge":     { icon: Hash },
+  "switch-challenge": { icon: Shuffle },
+  "digit-challenge": { icon: Hash },
   "deductive-challenge": { icon: Brain },
-  "motion-challenge":    { icon: MoveRight },
+  "motion-challenge": { icon: MoveRight },
   "inductive-challenge": { icon: Eye },
-  "grid-challenge":      { icon: Grid2X2 },
-  "recall-challenge":    { icon: BookOpen },
+  "grid-challenge": { icon: Grid2X2 },
+  "recall-challenge": { icon: BookOpen },
+  // Brain Games
+  "sudoku": { icon: Grid2X2 },
+  "15-puzzle": { icon: Puzzle },
+  "minesweeper": { icon: Bomb },
+  "tic-tac-toe": { icon: Hash },
+  "snake": { icon: Snail },
+  "memory-match-pairs": { icon: Layers },
+  "ant-smasher": { icon: Bug },
+  "dice-roller": { icon: Dice5 },
 };
 
 const categories = [
@@ -41,6 +51,17 @@ const categories = [
     Icon: Layers,
     badge: "Brain Training",
     image: "/games/memory.png",
+  },
+  {
+    slug: "brain",
+    name: "Brain Games",
+    href: "/games/brain",
+    description:
+      "Classic brain teasers — Sudoku, Minesweeper, 15 Puzzle, Snake & more. Sharpen logic, reflexes, and strategy.",
+    count: gamesConfig.filter((g) => g.category === "brain").length,
+    Icon: Gamepad2,
+    badge: "Fun & Logic",
+    image: "/games/braingames.png",
   },
 ];
 
