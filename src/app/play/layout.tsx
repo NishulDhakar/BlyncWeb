@@ -58,7 +58,7 @@ export default async function DashboardLayout({
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260330_145725_08886141-ed95-4a8e-8d6d-b75eaadce638.mp4"
       />
       
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 p-3 sm:p-6">{children}</main>
 
     </UserProvider>
   );
