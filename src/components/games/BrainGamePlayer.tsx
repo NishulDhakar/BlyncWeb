@@ -61,7 +61,7 @@ export default function BrainGamePlayer({ title, iframeUrl, description }: Brain
   const scale = Math.min(1, containerWidth / gameWidth);
 
   return (
-    <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4 pt-6 pb-20 mt-4 md:mt-12">
+    <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4 pt-6 pb-20 mt-20 md:mt-12">
       {/* Back nav + title */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ export default function BrainGamePlayer({ title, iframeUrl, description }: Brain
       {/* Game iframe container — scaled for mobile & inverted colors to match dark theme */}
       <div
         ref={containerRef}
-        className="relative overflow-hidden rounded-2xl border border-border/40 bg-[#1a1a2e] w-full"
+        className="relative overflow-hidden rounded-2xl border border-border/40 w-full"
         style={{ height: `${gameHeight * scale}px`, transition: "height 0.1s ease-out" }}
       >
         <div
