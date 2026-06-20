@@ -16,12 +16,12 @@ export const metadata: Metadata = {
     "motion challenge online"
   ],
   alternates: {
-    canonical: "https://www.cognitivegames.me/rules/Motion-Challenge",
+    canonical: "https://www.cognitivegames.me/rules/motion-challenge",
   },
   openGraph: {
     title: "Motion Challenge Practice Free 2026 — Capgemini Game Guide",
     description: "Free Motion Challenge practice for Capgemini placement. Expert tips, pattern strategies & unlimited attempts.",
-    url: "https://www.cognitivegames.me/rules/Motion-Challenge",
+    url: "https://www.cognitivegames.me/rules/motion-challenge",
     type: "article",
   },
 };

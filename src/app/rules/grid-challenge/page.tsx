@@ -17,12 +17,12 @@ export const metadata: Metadata = {
     "grid challenge free"
   ],
   alternates: {
-    canonical: "https://www.cognitivegames.me/rules/Grid-Challenge",
+    canonical: "https://www.cognitivegames.me/rules/grid-challenge",
   },
   openGraph: {
     title: "Grid Challenge Practice Free 2026 — Capgemini Game Guide",
     description: "Free Grid Challenge practice for Capgemini placement. Unlimited attempts, expert tips & spatial reasoning guide.",
-    url: "https://www.cognitivegames.me/rules/Grid-Challenge",
+    url: "https://www.cognitivegames.me/rules/grid-challenge",
     type: "article",
   },
 };

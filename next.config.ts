@@ -60,84 +60,158 @@ const nextConfig: NextConfig = {
   // All permanent=true → 301. Preserves Google PageRank from old URLs.
   async redirects() {
     return [
-      // ── Play route casing fixes (mixed-case = different URL to Google) ──────
-      // {
-      //   source: "/play/Motion-challenge",
-      //   destination: "/play/motion-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Motion-Challenge",
-      //   destination: "/play/motion-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Switch-challenge",
-      //   destination: "/play/switch-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Switch-Challenge",
-      //   destination: "/play/switch-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/SwitchChallenge",
-      //   destination: "/play/switch-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Switchchallenge",
-      //   destination: "/play/switch-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Deductive-challenge",
-      //   destination: "/play/deductive-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Deductive-Challenge",
-      //   destination: "/play/deductive-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Digit-challenge",
-      //   destination: "/play/digit-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Digit-Challenge",
-      //   destination: "/play/digit-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Inductive-challenge",
-      //   destination: "/play/inductive-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Inductive-Challenge",
-      //   destination: "/play/inductive-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Grid-challenge",
-      //   destination: "/play/grid-challenge",
-      //   permanent: true,
-      // },
-      // {
-      //   source: "/play/Grid-Challenge",
-      //   destination: "/play/grid-challenge",
-      //   permanent: true,
-      // },
-
       // ── Leaderboard casing fix ────────────────────────────────────────────
-      // {
-      //   source: "/Leaderboard",
-      //   destination: "/leaderboard",
-      //   permanent: true,
-      // },
+      {
+        source: "/Leaderboard",
+        destination: "/leaderboard",
+        permanent: true,
+      },
+
+      // ── Play route casing fixes ───────────────────────────────────────────
+      {
+        source: "/play/Motion-challenge",
+        destination: "/play/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Motion-Challenge",
+        destination: "/play/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Switch-challenge",
+        destination: "/play/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Switch-Challenge",
+        destination: "/play/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/SwitchChallenge",
+        destination: "/play/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Switchchallenge",
+        destination: "/play/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Deductive-challenge",
+        destination: "/play/deductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Deductive-Challenge",
+        destination: "/play/deductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Deductivechallenge",
+        destination: "/play/deductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Digit-challenge",
+        destination: "/play/digit-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Digit-Challenge",
+        destination: "/play/digit-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Inductive-challenge",
+        destination: "/play/inductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Inductive-Challenge",
+        destination: "/play/inductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Grid-challenge",
+        destination: "/play/grid-challenge",
+        permanent: true,
+      },
+      {
+        source: "/play/Grid-Challenge",
+        destination: "/play/grid-challenge",
+        permanent: true,
+      },
+
+      // ── Rules route casing & typo fixes ──────────────────────────────────
+      {
+        source: "/rules/Grid-Challenge",
+        destination: "/rules/grid-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Grid-challenge",
+        destination: "/rules/grid-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Motion-Challenge",
+        destination: "/rules/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Motion-challenge",
+        destination: "/rules/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Inductive-Challenge",
+        destination: "/rules/inductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Inductive-challenge",
+        destination: "/rules/inductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Swith-challenge", // Fixes typo "Swith"
+        destination: "/rules/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/rules/Switch-Challenge",
+        destination: "/rules/switch-challenge",
+        permanent: true,
+      },
+
+      // ── Legacy/Malformed games/ route redirects ─────────────────────────
+      {
+        source: "/games/gridchallenge",
+        destination: "/games/cognitive/grid-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/digitchallenge",
+        destination: "/games/cognitive/digit-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/motionchallenge",
+        destination: "/games/cognitive/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/deductivechallenge",
+        destination: "/games/cognitive/deductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/inductivechallenge",
+        destination: "/games/cognitive/inductive-challenge",
+        permanent: true,
+      },
 
       // ── Legacy URL migrations → new /games/ structure ────────────────────
       // /capgemini-games has 35 real visitors — preserve that SEO juice
