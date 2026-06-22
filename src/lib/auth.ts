@@ -3,6 +3,8 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
 import { users, sessions, accounts, verifications } from "./schema";
 import { sendWelcomeEmail } from "./mailer";
+import { cache } from "react";
+import { headers } from "next/headers";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -55,4 +57,18 @@ export const auth = betterAuth({
       },
     },
   },
+});
+
+export const getCachedSession = cache(async () => {
+  try {
+    return await auth.api.getSession({
+      headers: await headers(),
+    });
+  } catch (error) {
+    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
+      throw error;
+    }
+    console.error("[getCachedSession] Error fetching session:", error);
+    return null;
+  }
 });

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getUserIsPro } from "@/lib/subscription";
 import InductiveGame from "./InductiveGame";
@@ -42,16 +41,8 @@ const schema = {
 };
 
 export default async function InductiveChallengePage() {
-  let session = null;
-  try {
-    session = await auth.api.getSession({ headers: await headers() });
-  } catch (error) {
-    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
-      throw error;
-    }
-    console.error("[InductiveChallengePage] Session fetch failed:", error);
-  }
-
+  const session = await getCachedSession();
+ 
   if (!session) redirect("/register?redirect=/play/inductive-challenge");
 
   const isPro = await getUserIsPro(session.user.id);

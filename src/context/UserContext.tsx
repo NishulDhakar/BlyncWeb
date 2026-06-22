@@ -51,3 +51,9 @@ export const useStreak = () => {
   if (!context) throw new Error("useStreak must be used within a UserProvider");
   return context.streak;
 };
+
+export const useSetStreak = () => {
+  const context = useContext(UserContext);
+  if (!context) throw new Error("useSetStreak must be used within a UserProvider");
+  return context.setStreak;
+};

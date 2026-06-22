@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
@@ -21,9 +20,7 @@ export default async function DashboardLayout({
   let user: any = null;
 
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+    const session = await getCachedSession();
 
     if (!session) {
       return redirect("/register");
@@ -54,6 +51,7 @@ export default async function DashboardLayout({
         muted
         playsInline
         preload="none"
+        poster="/videos/play-poster.webp"
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none gpu-accelerated"
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260330_145725_08886141-ed95-4a8e-8d6d-b75eaadce638.mp4"
       />

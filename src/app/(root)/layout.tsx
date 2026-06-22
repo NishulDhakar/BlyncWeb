@@ -1,14 +1,14 @@
 
 import { Metadata } from "next";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCachedSession } from "@/lib/auth";
 import { UserProvider } from "@/context/UserContext";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import { siteConfig } from "@/config/site";
-import { upsertStreak } from "@/features/streak/actions";
+import { getStreak } from "@/features/streak/actions";
 import { getUserIsPro } from "@/lib/subscription";
 import type { User } from "@/types/user";
+import StreakSync from "@/components/common/StreakSync";
 
 export const metadata: Metadata = {
    title: "Free Game-Based Aptitude Practice for Capgemini & Cognizant | Blync",
@@ -39,17 +39,15 @@ export default async function HomeLayout({
    let streak = { currentStreak: 0, longestStreak: 0 };
 
    try {
-      const session = await auth.api.getSession({
-         headers: await headers()
-      });
+      const session = await getCachedSession();
       const sessionUser = session?.user ?? null;
 
       user = sessionUser;
       if (sessionUser) {
-         // Run isPro check and streak upsert in parallel — saves ~1 DB round-trip
+         // Run isPro check and read-only streak check in parallel — saves ~1 DB round-trip and avoids write locks
          const [isPro, streakResult] = await Promise.all([
             getUserIsPro(sessionUser.id),
-            upsertStreak(sessionUser.id),
+            getStreak(sessionUser.id),
          ]);
          user = { ...sessionUser, isPro };
          streak = streakResult;
@@ -67,6 +65,7 @@ export default async function HomeLayout({
    return (
       <UserProvider user={user} streak={streak}>
          <Header />
+         <StreakSync />
          <main className="">
             {children}
          </main>

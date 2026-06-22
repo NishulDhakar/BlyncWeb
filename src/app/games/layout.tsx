@@ -1,10 +1,10 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCachedSession } from "@/lib/auth";
 import { UserProvider } from "@/context/UserContext";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-import { upsertStreak } from "@/features/streak/actions";
+import { getStreak } from "@/features/streak/actions";
 import { getUserIsPro } from "@/lib/subscription";
+import StreakSync from "@/components/common/StreakSync";
 
 export default async function GamesLayout({
   children,
@@ -15,13 +15,13 @@ export default async function GamesLayout({
   let streak = { currentStreak: 0, longestStreak: 0 };
 
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getCachedSession();
     const sessionUser = session?.user ?? null;
 
     const [isPro, streakResult] = await Promise.all([
       sessionUser ? getUserIsPro(sessionUser.id) : Promise.resolve(false),
       sessionUser
-        ? upsertStreak(sessionUser.id)
+        ? getStreak(sessionUser.id)
         : Promise.resolve({ currentStreak: 0, longestStreak: 0 }),
     ]);
 
@@ -37,6 +37,7 @@ export default async function GamesLayout({
   return (
     <UserProvider user={user} streak={streak}>
       <Header />
+      <StreakSync />
       <main>{children}</main>
       <Footer />
     </UserProvider>

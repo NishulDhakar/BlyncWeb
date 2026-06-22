@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { userStreaks } from "@/lib/schema";
 import { eq } from "drizzle-orm";
+import { getCachedSession } from "@/lib/auth";
 
 export interface StreakData {
   currentStreak: number;
@@ -97,4 +98,12 @@ export async function getStreak(userId: string): Promise<StreakData> {
     currentStreak: row?.currentStreak ?? 0,
     longestStreak: row?.longestStreak ?? 0,
   };
+}
+
+export async function upsertMyStreakAction(): Promise<StreakData> {
+  const session = await getCachedSession();
+  if (!session?.user?.id) {
+    return { currentStreak: 0, longestStreak: 0 };
+  }
+  return await upsertStreak(session.user.id);
 }

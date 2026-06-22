@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getUserIsPro } from "@/lib/subscription";
 import DeductiveGame from "./DeductiveGame";
@@ -42,16 +41,8 @@ const schema = {
 };
 
 export default async function DeductiveChallengePage() {
-  let session = null;
-  try {
-    session = await auth.api.getSession({ headers: await headers() });
-  } catch (error) {
-    if (error instanceof Error && ((error as any).digest === "DYNAMIC_SERVER_USAGE" || error.message?.includes("Dynamic server usage"))) {
-      throw error;
-    }
-    console.error("[DeductiveChallengePage] Session fetch failed:", error);
-  }
-
+  const session = await getCachedSession();
+ 
   if (!session) redirect("/register?redirect=/play/deductive-challenge");
 
   const isPro = await getUserIsPro(session.user.id);

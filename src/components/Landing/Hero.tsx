@@ -27,7 +27,7 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden md:py-1">
-      <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0">
+      <div className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-32px)] overflow-hidden rounded-2xl sm:rounded-3xl shrink-0 bg-[#131221] bg-gradient-to-b from-[#7bb0ff]/10 via-[#c3d7f5]/5 to-[#f2e2be]/10">
         {/* Background Video */}
         <video
           ref={videoRef}
@@ -36,6 +36,7 @@ export default function Hero() {
           muted
           playsInline
           preload="none"
+          poster="/videos/hero-poster.webp"
           className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none gpu-accelerated"
         />
 
