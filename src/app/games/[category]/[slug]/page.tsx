@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { siteConfig, gamesConfig } from "@/config/site";
+import { siteConfig, gamesConfig, getGamePlayUrl } from "@/config/site";
 import GameJsonLd from "@/components/seo/GameJsonLd";
 
 type Props = {
@@ -111,7 +111,7 @@ export default async function GameSeoPage({ params }: Props) {
         {/* Primary CTA */}
         <div className="flex flex-wrap gap-3 mb-12">
           <Link
-            href={`/play/${game.slug}`}
+            href={getGamePlayUrl(game.slug)}
             className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors"
           >
             Play Free Now

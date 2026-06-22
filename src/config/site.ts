@@ -301,3 +301,12 @@ export const gamesConfig = [
 
 export type GameConfig = (typeof gamesConfig)[number];
 export type GameCategorySlug = GameConfig["category"];
+
+export function getGamePlayUrl(slug: string): string {
+  const game = (gamesConfig as readonly GameConfig[]).find((g) => g.slug === slug);
+  if (!game) return `/play/${slug}`;
+  if (game.category === "brain") return `/play/brain-games/${slug}`;
+  if (game.category === "memory") return `/memory-game/${slug}`;
+  return `/play/${slug}`;
+}
+
