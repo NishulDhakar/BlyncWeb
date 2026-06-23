@@ -2,7 +2,8 @@
 
 import type { User } from "@/types/user";
 import type { StreakData } from "@/features/streak/actions";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { authClient } from "@/lib/auth-client";
 
 interface UserContextType {
   user: User | null;
@@ -26,6 +27,14 @@ export const UserProvider = ({
 }) => {
   const [user, setUser] = useState<User | null>(initialUser);
   const [streak, setStreak] = useState<StreakData>(initialStreak ?? DEFAULT_STREAK);
+
+  const { data: session } = authClient.useSession();
+
+  useEffect(() => {
+    if (session !== undefined) {
+      setUser((session?.user as User) ?? null);
+    }
+  }, [session]);
 
   return (
     <UserContext.Provider value={{ user, setUser, streak, setStreak }}>
