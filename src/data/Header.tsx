@@ -30,6 +30,14 @@ export const navbarConfig = {
       label: 'Profile',
       href: '/profile',
     },
+    {
+      label: 'Blogs',
+      href: 'https://medium.com/@nishuldhakar/game-based-aptitude-overview-8a160ad8a3f7',
+    },
+    {
+      label: 'open to work',
+      href: 'https://www.nishul.dev/',
+    },
     //        {
     //   label: 'More stuff',
     //   href: '/morestuff',

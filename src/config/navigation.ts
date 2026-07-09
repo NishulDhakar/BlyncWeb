@@ -9,6 +9,7 @@ export const mainNavItems = [
     { label: "Memory Games", href: "/games/memory" },
     { label: "IQ Tests", href: "/iq-tests" },
     { label: "Blog", href: "/blog" },
+    
     { label: "Leaderboard", href: "/leaderboard" },
     { label: "How It Works", href: "/how-it-works" },
 ] as const;

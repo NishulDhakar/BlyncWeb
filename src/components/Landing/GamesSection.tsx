@@ -11,7 +11,7 @@ const categories = [
     href: "/games/cognitive",
     description:
       "Switch, Digit, Motion, Grid, Inductive & Deductive challenges — the exact games used in placement tests.",
-    image: "/games/capgemini.png",
+    image: "/games/games.png",
   },
   {
     slug: "memory",
@@ -83,7 +83,7 @@ export default function GamesSection() {
         {/* Suggest Games Banner */}
         <div className="relative mt-20 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-white/[0.02] to-white/[0.01] border border-white/[0.05] overflow-hidden group z-10">
           <div className="absolute -right-20 -top-20 w-80 h-80 bg-white/[0.02] rounded-full blur-[100px] pointer-events-none" />
-          
+
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="max-w-2xl text-left">
               <h3 className="text-lg md:text-xl font-bold mb-2 text-white">

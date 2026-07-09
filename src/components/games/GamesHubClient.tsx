@@ -39,7 +39,7 @@ const categories = [
     count: gamesConfig.filter((g) => g.category === "cognitive").length,
     Icon: Zap,
     badge: "Placement Ready",
-    image: "/games/capgemini.png",
+    image: "/games/games.png",
   },
   {
     slug: "memory",

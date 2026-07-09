@@ -42,12 +42,12 @@ export default function Hero() {
 
         <div className="relative z-10 mt-34 md:mt-40 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
           <a
-            href="https://www.nishul.dev/"
+            href="https://www.linkedin.com/in/nishuldhakar/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mb-1 flex items-center gap-3 rounded-full backdrop-blur-sm px-2 py-1 text-sm font-medium text-foreground"
+            className="mb-1 flex items-center gap-3 rounded-full px-2 py-1 text-sm font-medium text-foreground"
           >
-            <div className="mb-1 flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-medium text-foreground hover:bg-secondary/10 transition-all cursor-pointer">
+            <div className="mb-1 flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-medium text-foreground  cursor-pointer">
               <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/20">
                 <Image
                   src="/nishulhero.jpg"
