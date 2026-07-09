@@ -16,6 +16,31 @@ export const auth = betterAuth({
       verification: verifications,
     },
   }),
+  user: {
+    additionalFields: {
+      isPro: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+        input: false,
+      },
+      subscriptionStatus: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      razorpaySubscriptionId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+      razorpayCustomerId: {
+        type: "string",
+        required: false,
+        input: false,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

@@ -41,15 +41,22 @@ export default async function HomeLayout({
    try {
       const session = await getCachedSession();
       const sessionUser = session?.user ?? null;
-
-      user = sessionUser;
       if (sessionUser) {
          // Run isPro check and read-only streak check in parallel — saves ~1 DB round-trip and avoids write locks
          const [isPro, streakResult] = await Promise.all([
             getUserIsPro(sessionUser.id),
             getStreak(sessionUser.id),
          ]);
-         user = { ...sessionUser, isPro };
+         user = {
+            id: sessionUser.id,
+            name: sessionUser.name,
+            email: sessionUser.email,
+            emailVerified: sessionUser.emailVerified,
+            image: sessionUser.image,
+            createdAt: sessionUser.createdAt,
+            updatedAt: sessionUser.updatedAt,
+            isPro,
+         };
          streak = streakResult;
       }
    } catch (error) {
