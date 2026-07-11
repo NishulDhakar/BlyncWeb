@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { gamesData } from "@/data/BlogData";
-import { Gamepad2, Shuffle, Brain, Eye, Grid2X2, MoveRight, Hash } from "lucide-react";
+import { Gamepad2, Shuffle, Brain, Eye, Grid2X2, MoveRight, Hash, Send } from "lucide-react";
 import BackToDashboard from "@/components/common/BackToDashboard";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
@@ -68,11 +68,16 @@ export default function CapgeminiClient() {
               decision-making. Practicing here gives you a real advantage — every game on Blync
               mirrors the actual format and difficulty used in the Capgemini cognitive assessment round.
             </p>
-            <div className="mt-4 pt-4 border-t border-border/30">
+            <div className="mt-4 pt-4 border-t border-border/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <Button asChild size="sm" variant="default" className="gap-2">
                 <Link href="/games/cognitive">
                   <Gamepad2 className="w-4 h-4" /> Practice Games
                 </Link>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
+                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+                  <Send className="w-4 h-4" /> Contact @Savvyop for Free Games
+                </a>
               </Button>
             </div>
           </div>
@@ -147,6 +152,27 @@ export default function CapgeminiClient() {
             );
           })}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-16 p-8 rounded-3xl bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-purple-500/10 border border-sky-500/20 backdrop-blur-md shadow-lg text-center flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="text-left">
+            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+              Want all games for free?
+            </h3>
+            <p className="text-muted-foreground text-sm md:text-base max-w-xl">
+              If you want free all games, contact us directly on Telegram to unlock everything.
+            </p>
+          </div>
+          <Button asChild size="lg" className="shrink-0 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-2xl shadow-md transition-all duration-300 hover:scale-105 gap-2">
+            <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+              <Send className="w-5 h-5" /> Contact @Savvyop
+            </a>
+          </Button>
+        </motion.div>
 
         <motion.section
           initial={{ opacity: 0, y: 10 }}

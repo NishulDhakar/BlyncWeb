@@ -80,8 +80,8 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
 
             <Button asChild variant="secondary" size="lg" className="h-12 px-8 text-white text-base bg-black">
-              <Link href="https://instagram.com/blyncgames">
-                <Instagram />Instagram <ArrowRight className="ml-2 w-4 h-4" />
+              <Link href="/games">
+                All Games <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
 

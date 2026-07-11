@@ -5,6 +5,8 @@ import { siteConfig, gamesConfig } from "@/config/site";
 import BrainGamesCard from "@/components/games/BrainGamesCard";
 import GamesCard from "@/components/games/GamesCard";
 import MemoryGamesCard from "@/components/games/MemoryGamesCard";
+import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
 
 // ── Category configuration ──────────────────────────────────────────────────
 const CATEGORY_CONFIG = {
@@ -281,6 +283,16 @@ export default async function CategoryPage({ params }: Props) {
 
           {config.heroText(categoryGames.length)}
 
+          {category === "cognitive" && (
+            <div className="mt-6">
+              <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
+                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+                  <Send className="w-4 h-4" /> Contact Here for Free Games
+                </a>
+              </Button>
+            </div>
+          )}
+
           {/* Quick stats */}
           {category !== "cognitive" && (
             <div className="relative flex flex-wrap gap-8 mt-8 pt-8 border-t border-border/40">
@@ -311,6 +323,23 @@ export default async function CategoryPage({ params }: Props) {
         {category === "brain" && <BrainGamesCard />}
         {category === "cognitive" && <GamesCard />}
         {category === "memory" && <MemoryGamesCard />}
+
+        {/* Telegram CTA Banner */}
+        <div className="my-16 p-8 rounded-3xl bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-purple-500/10 border border-sky-500/20 backdrop-blur-md shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-left">
+            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+              Want all games for free?
+            </h3>
+            <p className="text-muted-foreground text-sm md:text-base max-w-xl">
+              If you want free all games, contact us directly on Telegram to unlock everything.
+            </p>
+          </div>
+          <Button asChild size="lg" className="shrink-0 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-2xl shadow-md transition-all duration-300 hover:scale-105 gap-2">
+            <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+              <Send className="w-5 h-5" /> Contact @Savvyop
+            </a>
+          </Button>
+        </div>
 
         {/* Cross-link */}
         {config.crossLink && (
