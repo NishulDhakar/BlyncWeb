@@ -6,9 +6,11 @@ import {
   Shuffle, Hash, Brain, MoveRight, Eye, Grid2X2,
   BookOpen, ArrowRight, Zap, Layers, Play,
   Puzzle, Bomb, Snail, Bug, Dice5, Gamepad2,
+  Send,
 } from "lucide-react";
 import { gamesConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 const GAME_META: Record<string, { icon: React.ElementType }> = {
   "switch-challenge": { icon: Shuffle },
@@ -96,6 +98,13 @@ export default function GamesHubClient() {
           <p className="text-sm md:text-md text-muted-foreground leading-relaxed max-w-xl font-light">
             Practice free online cognitive games for <strong className="font-semibold text-foreground">Capgemini &amp; Cognizant</strong> aptitude rounds. Train memory, logic, and pattern recognition instantly.
           </p>
+                      <div className="mt-6">
+              <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
+                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+                  <Send className="w-4 h-4" /> Contact Here for Free Games
+                </a>
+              </Button>
+            </div>
         </div>
 
         {/* Categories Section */}
