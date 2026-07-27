@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { getCachedSession } from "@/lib/auth";
+import { getUserIsPro } from "@/lib/subscription";
+import { redirect } from "next/navigation";
 import SwitchGame from "./SwitchGame";
 
 export const metadata: Metadata = {
@@ -37,7 +40,14 @@ const schema = {
     "Symbol operator permutation practice for Capgemini placement tests.",
 };
 
-export default function SwitchChallengePage() {
+export default async function SwitchChallengePage() {
+  const session = await getCachedSession();
+
+  if (!session) redirect("/register?redirect=/play/switch-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=switch-challenge");
+
   return (
     <>
       <script

@@ -26,9 +26,10 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 const FREE_FEATURES = [
-  { text: "Switch Challenge (unlimited)", included: true },
-  { text: "Memory / Recall games (unlimited)", included: true },
   { text: "Leaderboard access", included: true },
+  { text: "Preview game library", included: true },
+  { text: "Memory / Recall games", included: true },
+  { text: "Switch Challenge", included: false },
   { text: "Digit Challenge", included: false },
   { text: "Deductive Challenge", included: false },
   { text: "Motion Challenge", included: false },
@@ -36,7 +37,9 @@ const FREE_FEATURES = [
 ];
 
 const PRO_FEATURES = [
-  { text: "All free games (unlimited)", included: true },
+  { text: "All memory games (unlimited)", included: true },
+  { text: "All Capgemini games (unlimited)", included: true },
+  { text: "Switch Challenge", included: true },
   { text: "Digit Challenge", included: true },
   { text: "Deductive Challenge", included: true },
   { text: "Motion Challenge", included: true },
@@ -130,12 +133,30 @@ export default function PricingClient() {
         image: "/images/og/og-logo.png",
         prefill,
         theme: { color: "#000000" },
-        handler: async () => {
-          // Don't reload immediately — the webhook fires async.
-          // Poll until the DB confirms isPro, then redirect.
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_subscription_id: string;
+          razorpay_signature: string;
+        }) => {
           setLoading(false);
           setActivating(true);
-          const activated = await waitForActivation();
+          let activated = false;
+          try {
+            const verifyRes = await fetch("/api/subscription/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            });
+            const verifyData = await verifyRes.json();
+            activated = verifyRes.ok && verifyData.isPro === true;
+          } catch {
+            activated = false;
+          }
+
+          if (!activated) {
+            activated = await waitForActivation();
+          }
+
           if (activated) {
             window.location.href = "/games/cognitive";
           } else {
@@ -165,7 +186,7 @@ export default function PricingClient() {
         >
           <h1 className="text-3xl sm:text-4xl font-bold">Simple pricing</h1>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Free forever for Switch &amp; Memory games. Upgrade to unlock all 5 cognitive games.
+            Memory games are free. Upgrade to unlock all Capgemini cognitive games.
           </p>
         </motion.div>
 

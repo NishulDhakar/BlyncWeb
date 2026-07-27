@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { getCachedSession } from "@/lib/auth";
+import { getUserIsPro } from "@/lib/subscription";
+import { redirect } from "next/navigation";
 import GridGame from "./GridGame";
 
 export const metadata: Metadata = {
@@ -37,7 +40,14 @@ const schema = {
     "Memory and symmetry pattern game for Capgemini game-based aptitude test preparation.",
 };
 
-export default function GridChallengePage() {
+export default async function GridChallengePage() {
+  const session = await getCachedSession();
+
+  if (!session) redirect("/register?redirect=/play/grid-challenge");
+
+  const isPro = await getUserIsPro(session.user.id);
+  if (!isPro) redirect("/pricing?from=grid-challenge");
+
   return (
     <>
       <script

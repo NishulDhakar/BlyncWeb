@@ -17,7 +17,7 @@ export const gameCards: GameCardData[] = [
     description:
       "A fast-paced game where you match color names with their actual displayed colors, testing speed and focus under tricky visual cues.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 3,

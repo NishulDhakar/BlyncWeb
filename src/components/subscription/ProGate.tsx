@@ -1,9 +1,8 @@
 "use client";
 
 /**
- * ProGate — All games are 100% free with unlimited access.
- * This component simply renders its children without any restrictions.
- * No attempt limits, no upgrade prompts — play as much as you want!
+ * ProGate is kept for older imports. Paid access is enforced in the
+ * server layouts for /play and /memory-game routes.
  */
 
 interface Props {

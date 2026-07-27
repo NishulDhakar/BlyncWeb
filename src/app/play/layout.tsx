@@ -3,7 +3,6 @@ import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
-import { getUserIsPro } from "@/lib/subscription";
 import HlsVideo from "@/components/common/HlsVideo";
 
 // Gameplay pages are not SEO targets — the /games/* pages are.
@@ -27,8 +26,7 @@ export default async function DashboardLayout({
     }
 
     const sessionUser = session.user;
-    const isPro = await getUserIsPro(sessionUser.id);
-    user = { ...sessionUser, isPro };
+    user = { ...sessionUser };
   } catch (error) {
     if (error instanceof Error && (
       (error as any).digest === "DYNAMIC_SERVER_USAGE" || 
