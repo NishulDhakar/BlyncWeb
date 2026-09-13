@@ -54,13 +54,13 @@ const MemoryChallengeFirstUI: React.FC<Props> = ({
                         <h2 className="text-3xl font-semibold text-white mb-2">
                             Game Over
                         </h2>
-                        <p className="text-white/50 text-sm mb-6">
+                        <p className="text-white/65 text-sm mb-6">
                             Your memory challenge results
                         </p>
 
                         {/* Score */}
                         <div className="mb-6">
-                            <p className="text-xs uppercase tracking-widest text-white/40">
+                            <p className="text-xs uppercase tracking-widest text-white/60">
                                 Final Score
                             </p>
                             <p className="text-5xl font-bold text-white mt-1">
@@ -123,7 +123,7 @@ const MemoryChallengeFirstUI: React.FC<Props> = ({
 
                     {streak > 1 && (
                         <div>
-                            <p className="text-md uppercase tracking-widest text-white/40">Streak</p>
+                            <p className="text-md uppercase tracking-widest text-white/60">Streak</p>
                             <p className="text-2xl font-semibold text-amber-400">×{streak}</p>
                         </div>
                     )}

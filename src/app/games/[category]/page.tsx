@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { siteConfig, gamesConfig } from "@/config/site";
-import BrainGamesCard from "@/components/games/BrainGamesCard";
-import GamesCard from "@/components/games/GamesCard";
-import MemoryGamesCard from "@/components/games/MemoryGamesCard";
+import GameGrid from "@/components/games/GameGrid";
+import type { GameCategory } from "@/games/types";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Github } from "lucide-react";
 
 // ── Category configuration ──────────────────────────────────────────────────
 const CATEGORY_CONFIG = {
   cognitive: {
-    title: "All 6 Capgemini Cognitive Games — Free Practice 2026 | Blync",
+    title: "All 6 Capgemini Cognitive Games — Free Practice 2026",
     description:
       "Practice all 6 Capgemini cognitive ability games free. Switch, Digit, Motion, Grid, Inductive & Deductive challenges. No download, no signup. Unlimited practice for 2026 placements.",
     keywords: [
@@ -59,7 +58,7 @@ const CATEGORY_CONFIG = {
     crossLink: null,
   },
   memory: {
-    title: "Memory Games Online Free — Brain Training & Recall Practice | Blync",
+    title: "Memory Games Online Free — Brain Training & Recall Practice",
     description:
       "Play free online memory games to improve recall speed, working memory, and short-term retention. Memory Challenge & Recall Challenge — free brain training, no download needed.",
     keywords: [
@@ -100,7 +99,7 @@ const CATEGORY_CONFIG = {
     crossLink: { label: "Also explore Cognitive Games", href: "/games/cognitive", description: "Switch, Digit, Motion & more — perfect for Capgemini &amp; Cognizant aptitude rounds." },
   },
   brain: {
-    title: "Brain Games Online Free — Logic, Puzzles & Reflex Training | Blync",
+    title: "Brain Games Online Free — Logic, Puzzles & Reflex Training",
     description:
       "Play free online brain games — Sudoku, Minesweeper, 15 Puzzle, Snake, Tic Tac Toe & more. Sharpen logic, strategy, reflexes, and memory. No download, no signup required.",
     keywords: [
@@ -146,6 +145,88 @@ const CATEGORY_CONFIG = {
       },
     ],
     crossLink: { label: "Also explore Cognitive Games", href: "/games/cognitive", description: "Switch, Digit, Motion & more — perfect for Capgemini &amp; Cognizant aptitude rounds." },
+  },
+  quiz: {
+    title: "Free Placement Assessment Practice — Technical & Debugging Rounds",
+    description:
+      "Practice full-length placement assessments free online. A 150-question Accenture technical quiz and two timed Capgemini-style debugging rounds, with instant explanations.",
+    keywords: [
+      "accenture technical assessment questions",
+      "capgemini debugging questions",
+      "placement assessment practice online free",
+      "technical round practice test",
+      "debugging round questions with answers",
+      "campus placement assessment 2026",
+    ],
+    ogTitle: "Free Placement Assessment Practice | Blync",
+    ogDescription:
+      "Full-length technical and debugging assessments with timers, instant explanations and answer keys. Free.",
+    ogAlt: "Placement Assessments — Blync",
+    heading: "Technical & Debugging Assessments",
+    heroText: (count: number) => (
+      <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
+        Sit{" "}
+        <span className="text-foreground font-semibold">{count} full-length assessments</span>{" "}
+        under real exam timing — the Accenture technical quiz and two Capgemini-style debugging
+        rounds. Instant explanations, section-wise answer keys, no signup.
+      </p>
+    ),
+    faq: [
+      {
+        name: "What is the Accenture technical assessment like?",
+        text: "150 questions across ten sections in 45 minutes, covering programming fundamentals, databases, networking, operating systems, cloud and security. Our practice quiz mirrors that structure and timing.",
+      },
+      {
+        name: "What happens in a debugging round?",
+        text: "You are given nearly-correct code and asked to find the defect. The algorithms are standard; the bugs are off-by-one errors, wrong base cases and inverted conditions. You edit until the sample tests pass.",
+      },
+      {
+        name: "Are the assessments free?",
+        text: "Yes. Both debugging rounds and the technical quiz are free to attempt as many times as you want.",
+      },
+    ],
+    crossLink: { label: "Also practise the game rounds", href: "/games/cognitive", description: "Switch, Grid, Motion and more — the cognitive half of the same assessments." },
+  },
+  communication: {
+    title: "Cognizant Communication Round Practice — Free Speaking & Grammar Tests",
+    description:
+      "Practice all five Cognizant communication rounds free online: read aloud, listen and repeat, grammar, listening comprehension and open response. Browser-based, nothing uploaded.",
+    keywords: [
+      "cognizant communication round practice",
+      "cognizant genc communication assessment",
+      "read aloud test practice online",
+      "listen and repeat test practice",
+      "english communication test for placements",
+      "versant test practice free",
+    ],
+    ogTitle: "Free Cognizant Communication Round Practice | Blync",
+    ogDescription:
+      "All five Cognizant communication rounds — speaking, listening, grammar and comprehension. Free, in-browser.",
+    ogAlt: "Communication Rounds — Blync",
+    heading: "Communication Rounds",
+    heroText: (count: number) => (
+      <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
+        Work through all{" "}
+        <span className="text-foreground font-semibold">{count} communication rounds</span>{" "}
+        used in the Cognizant GenC assessment — speaking, listening, grammar and comprehension.
+        Everything runs in your browser; no recording leaves your device.
+      </p>
+    ),
+    faq: [
+      {
+        name: "Which rounds are in the Cognizant communication assessment?",
+        text: "Five: read a sentence aloud, listen and repeat, grammar correction, listening comprehension, and an open spoken response. All five are available here.",
+      },
+      {
+        name: "Do I need a microphone?",
+        text: "For the three speaking rounds, yes. Grammar and comprehension need only audio playback. Recordings are analysed in the browser and are never uploaded.",
+      },
+      {
+        name: "How long should an open response answer be?",
+        text: "Around 45 to 60 seconds, with a clear opening statement, two supporting points and a close. Rambling costs more marks than a short, structured answer.",
+      },
+    ],
+    crossLink: { label: "Also practise the technical rounds", href: "/games/quiz", description: "The Accenture technical quiz and two timed debugging assessments." },
   },
 } as const;
 
@@ -286,8 +367,8 @@ export default async function CategoryPage({ params }: Props) {
           {category === "cognitive" && (
             <div className="mt-6">
               <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
-                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
-                  <Send className="w-4 h-4" /> Contact Here for Free Games
+                <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4" /> Start Repo Locally
                 </a>
               </Button>
             </div>
@@ -319,24 +400,23 @@ export default async function CategoryPage({ params }: Props) {
           )}
         </div>
 
-        {/* Category-specific game cards */}
-        {category === "brain" && <BrainGamesCard />}
-        {category === "cognitive" && <GamesCard />}
-        {category === "memory" && <MemoryGamesCard />}
+        {/* Game cards — driven by src/games/registry.ts, so a new game
+            appears here automatically instead of needing a card component. */}
+        <GameGrid category={category as GameCategory} heading={`All ${config.heading}`} />
 
-        {/* Telegram CTA Banner */}
+        {/* GitHub CTA Banner */}
         <div className="my-16 p-8 rounded-3xl bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-purple-500/10 border border-sky-500/20 backdrop-blur-md shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-left">
             <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
-              Want all games for free?
+              Start the repo locally
             </h3>
             <p className="text-muted-foreground text-sm md:text-base max-w-xl">
-              If you want free all games, contact us directly on Telegram to unlock everything.
+              Clone the BlyncWeb repo and run it locally for free access to all games.
             </p>
           </div>
           <Button asChild size="lg" className="shrink-0 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-2xl shadow-md transition-all duration-300 hover:scale-105 gap-2">
-            <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
-              <Send className="w-5 h-5" /> Contact @Savvyop
+            <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
+              <Github className="w-5 h-5" /> Open GitHub Repo
             </a>
           </Button>
         </div>

@@ -1,6 +1,5 @@
 // Server Component — no client JS shipped
 
-import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -8,69 +7,63 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Container from "../common/Container";
+import { SectionHeading } from "./_ui";
 
-const faqData = [
+export const faqData = [
   {
     question: "What are Capgemini Cognitive Ability Games?",
     answer:
-      "These are game-based assessments used by Capgemini during placements to test logical reasoning, problem-solving, memory, and pattern recognition skills.",
+      "Game-based assessments Capgemini uses during placements to test logical reasoning, problem-solving, memory and pattern recognition.",
   },
   {
     question: "Can I practice the exact same games here?",
     answer:
-      "We provide practice challenges inspired by the real Capgemini Cognitive Ability Games. While not identical, they are designed to mimic the logic, difficulty, and format closely.",
+      "Blync provides practice challenges built to mirror the real games. They are not identical, but the logic, difficulty and format track the actual rounds closely.",
   },
   {
-    question: "Do I need to create an account to practice?",
+    question: "Do I need an account to practice?",
     answer:
-      "No account is required to try out basic games. However, creating a free account allows you to track your progress and revisit your practice history.",
+      "No. Basic games are open to everyone. A free account only adds progress tracking and practice history.",
   },
   {
-    question: "How should I prepare for the actual Capgemini assessment?",
+    question: "How should I prepare for the actual assessment?",
     answer:
-      "Regularly practice puzzles, focus on improving speed and accuracy, and review different challenge types such as Switch, Grid, Inductive, and Deductive Challenges.",
+      "Practice regularly, focus on speed and accuracy, and rotate through every challenge type — Switch, Grid, Inductive and Deductive especially.",
   },
   {
-    question: "Is this platform free to use?",
+    question: "Is the platform free?",
     answer:
-      "Yes! All core Capgemini practice games are free to access. We aim to help students prepare effectively without barriers.",
+      "Yes. All core Capgemini and Cognizant practice games are free to access.",
   },
   {
-    question: "Will practicing here really improve my chances?",
+    question: "Will practicing here improve my chances?",
     answer:
-      "Yes. Consistent practice builds confidence, improves reaction time, and strengthens your logical problem-solving skills — all of which are essential for clearing Capgemini's games.",
+      "Consistent practice builds confidence, improves reaction time and strengthens logical problem-solving — the skills these rounds score directly.",
   },
 ];
 
 export default function FAQ() {
   return (
-    <section className="py-20 lg:py-32 relative overflow-hidden">
-      <Container className="max-w-4xl">
-        <div className="mb-16 text-center max-w-3xl mx-auto relative z-10">
-          <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
-            FAQ
-          </h2>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4">Frequently Asked Questions</span>
-          <p className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10">
-            Common questions about preparing for Capgemini &amp; Cognizant game-based aptitude tests.
-          </p>
-        </div>
+    <section className="py-20 sm:py-28">
+      <Container className="max-w-3xl">
+        <SectionHeading
+          kicker="FAQ"
+          title="Questions before you"
+          accent="get started."
+        />
 
-        <div className="bg-card/30 rounded-2xl p-6 md:p-8 border border-border/50">
+        <div className="mt-12 rounded-2xl border border-border bg-card p-2 shadow-sm sm:p-4">
           <Accordion type="single" collapsible className="w-full">
             {faqData.map((faq, index) => (
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="border-b border-border/30 last:border-0"
+                className="border-b border-border px-4 last:border-0"
               >
-                <AccordionTrigger className="text-left text-base md:text-lg font-semibold py-5 hover:text-foreground/80 transition-colors">
-                  <h3 className="flex items-start gap-3 text-base md:text-lg font-semibold m-0 text-left">
-                    <span className="text-muted-foreground">Q{index + 1}.</span>
-                    <span>{faq.question}</span>
-                  </h3>
+                <AccordionTrigger className="py-5 text-left text-base font-semibold text-foreground hover:no-underline">
+                  <h3 className="m-0 text-base font-semibold">{faq.question}</h3>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm md:text-base leading-relaxed pb-5 pl-9">
+                <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -9,6 +10,22 @@
 @font-face {
   font-family: "Parkinsans";
   src: url("/fonts/Parkinsans-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/InstrumentSerif-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
 }
 
 html,
@@ -38,6 +55,7 @@ body {
   --color-foreground: var(--foreground);
   --font-sans: "Parkinsans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-heading: "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -72,45 +90,145 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* ── Game design tokens ──────────────────────────────────────────────────
+     Used by the game modules in src/games/. The "pop" shadows are hard-offset
+     (no blur) — the arcade look the game UIs are built around. Defined here
+     once so no game has to write an arbitrary shadow value inline. */
+  --shadow-pop-2xs: 2px 2px 0 0 var(--pop-shadow);
+  --shadow-pop-xs:  3px 3px 0 0 var(--pop-shadow);
+  --shadow-pop-sm:  4px 4px 0 0 var(--pop-shadow);
+  --shadow-pop-md:  5px 5px 0 0 var(--pop-shadow);
+  --shadow-pop-lg:  6px 6px 0 0 var(--pop-shadow);
+  --shadow-pop-xl:  7px 7px 0 0 var(--pop-shadow);
+
+  --shadow-pixel-xs: 1px 1px 0 0 var(--pixel-ink);
+  --shadow-pixel-sm: 2px 2px 0 0 var(--pixel-ink);
+  --shadow-pixel-md: 4px 4px 0 0 var(--pixel-ink);
+  --shadow-pixel-lg: 5px 5px 0 0 var(--pixel-ink);
+
+  --shadow-success-xs: 1px 1px 0 0 var(--success-ink);
+  --shadow-success-sm: 2px 2px 0 0 var(--success-ink);
+  --shadow-danger-xs:  1px 1px 0 0 var(--danger-ink);
+  --shadow-danger-sm:  2px 2px 0 0 var(--danger-ink);
+
+  --drop-shadow-pop-sm: 3px 3px 0 var(--pop-text-shadow);
+  --drop-shadow-pop-md: 4px 4px 0 var(--pop-text-shadow);
+  --drop-shadow-pop-lg: 5px 5px 0 var(--pop-text-shadow);
+
+  --color-success:     var(--success);
+  --color-success-ink: var(--success-ink);
+  --color-danger:      var(--danger);
+  --color-danger-ink:  var(--danger-ink);
+  --color-arcade:      var(--arcade);
+  --color-arcade-ink:  var(--arcade-ink);
+  --color-pixel-ink:   var(--pixel-ink);
+
+  --font-inter: var(--font-sans);
+
+  --animate-marquee: marquee var(--duration) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear
+;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
 }
 
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+
+/* ── LIGHT THEME (default) ────────────────────────────────────────────────
+   Warm neutral "stone" palette — the quiet, premium look the landing page is
+   built around. The .dark block below mirrors every token. next-themes adds
+   the `light`/`dark` class to <html>; bare :root is the light fallback. */
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.985 0.001 106.423);
+  --foreground: oklch(0.147 0.004 49.25);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.147 0.004 49.25);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.147 0.004 49.25);
+  --primary: oklch(0.216 0.006 56.043);
+  --primary-foreground: oklch(0.985 0.001 106.423);
+  --secondary: oklch(0.97 0.001 106.424);
+  --secondary-foreground: oklch(0.216 0.006 56.043);
+  --muted: oklch(0.97 0.001 106.424);
+  --muted-foreground: oklch(0.553 0.013 58.071);
+  --accent: oklch(0.97 0.001 106.424);
+  --accent-foreground: oklch(0.216 0.006 56.043);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.923 0.003 48.717);
+  --input: oklch(0.923 0.003 48.717);
+  --ring: oklch(0.216 0.006 56.043);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0.001 106.423);
+  --sidebar-foreground: oklch(0.147 0.004 49.25);
+  --sidebar-primary: oklch(0.216 0.006 56.043);
+  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-accent: oklch(0.97 0.001 106.424);
+  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
+  --sidebar-border: oklch(0.923 0.003 48.717);
+  --sidebar-ring: oklch(0.216 0.006 56.043);
 }
 
-.light {
-     --background: #efe9d5;
+/* Game palette. Derived with color-mix() so the "ink" variants track the base
+   colour automatically; only --arcade is deliberately theme-independent (it is
+   the brand accent and must read the same on every board). */
+:root {
+  --success: oklch(0.76 0.16 152);
+  --danger: oklch(0.7 0.19 22);
+  --arcade: oklch(0.855 0.175 88);
+  --arcade-ink: oklch(0.5 0.115 78);
+  --pop-shadow: color-mix(in oklch, var(--foreground), transparent 85%);
+  --pop-text-shadow: color-mix(in oklch, var(--background), var(--foreground) 12%);
+  --pixel-ink: color-mix(in oklch, var(--primary), black 45%);
+  --success-ink: color-mix(in oklch, var(--success), black 55%);
+  --danger-ink: color-mix(in oklch, var(--danger), black 55%);
 }
 
 .dark {
@@ -162,6 +280,16 @@ body {
 
 .text-th {
   @apply text-[#909092] dark:text-[#909092];
+}
+
+/* Soft grid backdrop for the landing hero. Theme-aware via --foreground. */
+.bg-grid-soft {
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse at top, black 30%, transparent 72%);
+  mask-image: radial-gradient(ellipse at top, black 30%, transparent 72%);
 }
 
 .font-one {
@@ -229,4 +357,21 @@ body {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Wrong-recall feedback for the grid memory games (src/games/grid-puzzle). */
+@keyframes grid-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+.animate-grid-shake {
+  animation: grid-shake 0.5s ease-in-out;
+}
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }

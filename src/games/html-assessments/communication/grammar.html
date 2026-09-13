@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Assessment — Section 3: Grammar Correction</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI','IBM Plex Sans',Arial,sans-serif; background:#EDEFF3; color:#1A2733; min-height:100vh; }
+  .topbar { background:#0F2540; color:#E9EEF5; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; }
+  .brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; letter-spacing:.3px; }
+  .brand .dot { width:10px; height:10px; border-radius:50%; background:#2E8B57; }
+  .topbar-mid { font-size:13px; color:#B7C3D6; }
+  .timer-box { font-family:'Consolas','IBM Plex Mono',monospace; background:#16345C; border:1px solid #274A76; border-radius:4px; padding:6px 14px; font-size:16px; letter-spacing:1px; color:#fff; min-width:78px; text-align:center; }
+  .timer-box.warn { background:#4A1B15; border-color:#7A2E22; color:#FFD9CC; }
+  .shell { max-width:900px; margin:0 auto; padding:20px 20px 40px; }
+  .banner { background:#fff; border:1px solid #D8DCE4; border-left:4px solid #1E5F9E; border-radius:4px; padding:14px 18px; font-size:13px; color:#33465E; margin-bottom:18px; line-height:1.5; }
+  .banner b { color:#0F2540; }
+  .panel { background:#fff; border:1px solid #D8DCE4; border-radius:6px; overflow:hidden; }
+  .panel-head { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid #E3E6EC; background:#F7F9FC; }
+  .panel-head h1 { font-size:15px; font-weight:600; color:#0F2540; }
+  .qcount { font-size:13px; color:#5C6B80; font-weight:500; }
+  .stage { padding:36px 36px 30px; }
+  .stage-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#8A97A8; margin-bottom:14px; text-align:center; }
+  .qsentence { font-size:19px; line-height:1.6; color:#14202E; font-weight:500; text-align:center; max-width:640px; margin:0 auto 30px; }
+  .qsentence .err { color:#C4432B; text-decoration:underline wavy #C4432B; text-underline-offset:4px; }
+  .options { display:flex; flex-direction:column; gap:10px; max-width:520px; margin:0 auto 26px; }
+  .option { display:flex; align-items:center; gap:12px; padding:13px 16px; border:1px solid #D8DCE4; border-radius:6px; cursor:pointer; background:#fff; text-align:left; font-size:14px; color:#1A2733; transition:border-color .12s,background .12s; }
+  .option:hover { border-color:#1E5F9E; background:#F7FAFD; }
+  .option .letter { width:22px; height:22px; border-radius:50%; border:1px solid #C7CEDA; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#5C6B80; flex-shrink:0; }
+  .option.correct { border-color:#1B8A5A; background:#EEF8F2; }
+  .option.correct .letter { background:#1B8A5A; border-color:#1B8A5A; color:#fff; }
+  .option.wrong { border-color:#C4432B; background:#FCEFEC; }
+  .option.wrong .letter { background:#C4432B; border-color:#C4432B; color:#fff; }
+  .option.disabled { cursor:default; }
+  .explain { display:none; max-width:520px; margin:0 auto 22px; background:#F7F9FC; border:1px solid #E3E6EC; border-radius:6px; padding:14px 18px; font-size:13px; color:#33465E; line-height:1.55; text-align:left; }
+  .explain.show { display:block; }
+  .explain b { color:#0F2540; }
+  .qtimer-wrap { display:flex; justify-content:center; margin-bottom:22px; }
+  .qring { position:relative; width:52px; height:52px; }
+  .qring svg { transform:rotate(-90deg); }
+  .qring circle { fill:none; stroke-width:4; }
+  .qring .bg { stroke:#E3E6EC; }
+  .qring .fg { stroke:#1E5F9E; stroke-linecap:round; transition:stroke-dashoffset 1s linear; }
+  .qring-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:#1E5F9E; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .btn-row { display:flex; justify-content:center; gap:12px; }
+  .btn { padding:10px 26px; border-radius:4px; font-size:14px; font-weight:600; border:1px solid #C7CEDA; background:#fff; color:#33465E; cursor:pointer; }
+  .btn.primary { background:#1E5F9E; border-color:#1E5F9E; color:#fff; }
+  .btn.primary:hover { background:#184D82; }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  .dots { display:flex; justify-content:center; gap:8px; padding:16px 0 24px; }
+  .dot-step { width:9px; height:9px; border-radius:50%; background:#D8DCE4; }
+  .dot-step.done-right { background:#1B8A5A; }
+  .dot-step.done-wrong { background:#C4432B; }
+  .dot-step.active { background:#1E5F9E; width:22px; border-radius:5px; }
+  .final { display:none; padding:50px 30px; text-align:center; }
+  .final.show { display:block; }
+  .final h2 { font-size:20px; color:#0F2540; margin-bottom:10px; }
+  .final p { font-size:14px; color:#5C6B80; margin-bottom:26px; }
+  .final-stats { display:flex; justify-content:center; gap:28px; margin-bottom:30px; }
+  .final-stat .n { font-size:26px; font-weight:700; color:#14202E; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .final-stat .l { font-size:12px; color:#8A97A8; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span>Communication Assessment — Practice Mode</div>
+  <div class="topbar-mid">Section 3 of 5 · Grammar Correction</div>
+  <div class="timer-box" id="sectionTimer">15:00</div>
+</div>
+
+<div class="shell">
+  <div class="banner"><b>Instructions:</b> Each sentence contains one grammatical error, underlined in red. Choose the option that correctly replaces the underlined part. You have 25 seconds per question.</div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h1>Grammar and Sentence Correction</h1>
+      <div class="qcount" id="qcount">Question 1 of 25</div>
+    </div>
+
+    <div id="stageView" class="stage">
+      <div class="qtimer-wrap">
+        <div class="qring"><svg width="52" height="52"><circle class="bg" cx="26" cy="26" r="22"></circle><circle class="fg" id="ringFg" cx="26" cy="26" r="22" stroke-dasharray="138.2" stroke-dashoffset="0"></circle></svg><div class="qring-num" id="ringNum">25</div></div>
+      </div>
+      <div class="stage-label">Choose the correct replacement</div>
+      <div class="qsentence" id="qsentence"></div>
+      <div class="options" id="options"></div>
+      <div class="explain" id="explain"></div>
+      <div class="btn-row"><button class="btn primary" id="nextBtn" style="display:none;">Next question</button></div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <div id="finalView" class="final">
+      <h2>Section 3 complete</h2>
+      <p>Here's how you did on Grammar Correction.</p>
+      <div class="final-stats">
+        <div class="final-stat"><div class="n" id="finScore">—</div><div class="l">Correct</div></div>
+        <div class="final-stat"><div class="n" id="finPct">—</div><div class="l">Accuracy</div></div>
+      </div>
+      <button class="btn primary" id="restartBtn">Restart section</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { before:"Each of the employees ", err:"have submitted", after:" their timesheet on time.",
+    options:["have submitted","has submitted","having submitted","had been submit"], correct:1,
+    explain:"<b>Has submitted</b> is correct. \"Each\" is singular, so it takes a singular verb even though it refers to multiple employees." },
+  { before:"The manager, along with two team leads, ", err:"were present", after:" at the client review.",
+    options:["were present","was present","are present","have been present"], correct:1,
+    explain:"<b>Was present</b> is correct. Phrases like \"along with\" don't change the number of the subject — \"the manager\" is singular." },
+  { before:"Neither of the proposals ", err:"were approved", after:" by the leadership team.",
+    options:["were approved","was approved","have approved","are approving"], correct:1,
+    explain:"<b>Was approved</b> is correct. \"Neither\" takes a singular verb." },
+  { before:"By the time the client arrives, we ", err:"will finish", after:" the presentation.",
+    options:["will finish","will have finished","are finishing","had finish"], correct:1,
+    explain:"<b>Will have finished</b> is correct — future perfect tense is needed for an action completed before another future event." },
+  { before:"She is one of the analysts who ", err:"handles", after:" escalations independently.",
+    options:["handles","handle","is handling","was handled"], correct:1,
+    explain:"<b>Handle</b> is correct. \"Who\" refers to \"analysts\" (plural), so the verb must agree with the plural noun." },
+  { before:"The report, along with the supporting charts, ", err:"are ready", after:" for review.",
+    options:["are ready","is ready","were ready","have been ready"], correct:1,
+    explain:"<b>Is ready</b> is correct. The subject is \"the report\" (singular); the inserted phrase doesn't change agreement." },
+  { before:"If the server had been restarted earlier, the issue ", err:"would resolved", after:" sooner.",
+    options:["would resolved","would have resolved","will resolve","had resolved"], correct:1,
+    explain:"<b>Would have resolved</b> is correct — third conditional requires \"would have + past participle.\"" },
+  { before:"Everyone on the project team ", err:"were informed", after:" about the new deadline.",
+    options:["were informed","was informed","have informed","are informed"], correct:1,
+    explain:"<b>Was informed</b> is correct. \"Everyone\" is always singular." },
+  { before:"The manager insisted that he ", err:"submits", after:" the report by Monday.",
+    options:["submits","submit","submitted","will submit"], correct:1,
+    explain:"<b>Submit</b> is correct. After verbs like \"insist\" expressing a demand, the subjunctive mood requires the base form of the verb." },
+  { before:"The role requires strong communication skills, ", err:"being detail-oriented, and to manage time well", after:".",
+    options:["being detail-oriented, and to manage time well","attention to detail, and strong time management","detail-oriented, and managing time well","being detailed, and time management skills"], correct:1,
+    explain:"<b>Attention to detail, and strong time management</b> is correct. Parallel structure requires every item in a list to share the same grammatical form — all should be noun phrases." },
+  { before:"Having reviewed the proposal, ", err:"several concerns were raised by the board", after:".",
+    options:["several concerns were raised by the board","the board raised several concerns","concerns were raised, several, by the board","several concerns the board raised"], correct:1,
+    explain:"<b>The board raised several concerns</b> is correct. The introductory phrase must modify the subject that performed the action — the board, not \"concerns.\"" },
+  { before:"Not only ", err:"the manager was informed", after:", but also the entire team.",
+    options:["the manager was informed","was the manager informed","the manager informed","did the manager informed"], correct:1,
+    explain:"<b>Was the manager informed</b> is correct. When a sentence begins with a negative adverbial like \"not only,\" subject-verb inversion is required." },
+  { before:"If the team ", err:"would have communicated", after:" earlier, the delay could have been avoided.",
+    options:["would have communicated","had communicated","would communicate","have communicated"], correct:1,
+    explain:"<b>Had communicated</b> is correct. Third conditional \"if\" clauses use the past perfect, not \"would have.\"" },
+  { before:"The committee is responsible ", err:"to review", after:" all budget proposals.",
+    options:["to review","for reviewing","to reviewing","for review"], correct:1,
+    explain:"<b>For reviewing</b> is correct. The adjective \"responsible\" is followed by \"for\" plus a gerund, not a to-infinitive." },
+  { before:"This solution is more efficient than the older system, and it's ", err:"cost more effective", after:" too.",
+    options:["cost more effective","more cost-effective","costing more effectively","more cost effectively"], correct:1,
+    explain:"<b>More cost-effective</b> is correct — it's the properly hyphenated comparative adjective form." },
+  { before:"She said that she ", err:"is joining", after:" the project next week.",
+    options:["is joining","was joining","joins","has joined"], correct:1,
+    explain:"<b>Was joining</b> is correct. In reported speech, present continuous in the original statement shifts to past continuous." },
+  { before:"The proposal was neither cost-effective ", err:"or scalable", after:".",
+    options:["or scalable","nor scalable","or was it scalable","nor was scalable"], correct:1,
+    explain:"<b>Nor scalable</b> is correct. \"Neither\" must be paired with \"nor,\" not \"or.\"" },
+  { before:"The new policy should ", err:"be reviewing", after:" by all managers before rollout.",
+    options:["be reviewing","be reviewed","being reviewed","have reviewed"], correct:1,
+    explain:"<b>Be reviewed</b> is correct. Passive voice with a modal requires \"be\" plus the past participle." },
+  { before:"This is one of the issues that ", err:"was raised", after:" during the retrospective.",
+    options:["was raised","were raised","is raised","has raised"], correct:1,
+    explain:"<b>Were raised</b> is correct. \"That\" refers back to \"issues\" (plural), so the verb must agree with the plural noun, not \"one.\"" },
+  { before:"", err:"Less than twenty employees", after:" attended the town hall meeting.",
+    options:["Less than twenty employees","Fewer than twenty employees","Less than twenty employee's","Fewer than twenty employee"], correct:1,
+    explain:"<b>Fewer than twenty employees</b> is correct. \"Fewer\" is used with countable nouns like \"employees\"; \"less\" is for uncountable quantities." },
+  { before:"The team is responsible ", err:"of ensuring", after:" data accuracy.",
+    options:["of ensuring","for ensuring","in ensuring","to ensuring"], correct:1,
+    explain:"<b>For ensuring</b> is correct. The correct preposition following \"responsible\" is \"for,\" not \"of.\"" },
+  { before:"By next quarter, the company will ", err:"completed", after:" the migration to the cloud.",
+    options:["completed","have completed","be completed","has completed"], correct:1,
+    explain:"<b>Have completed</b> is correct. Future perfect tense (\"will have + past participle\") is needed for an action expected to be finished by a future point." },
+  { before:"The team provided a lot of ", err:"informations", after:" during the debrief.",
+    options:["informations","information","the informations","an information"], correct:1,
+    explain:"<b>Information</b> is correct. It is an uncountable noun and never takes a plural \"s.\"" },
+  { before:"The client was very ", err:"disappointing", after:" with the delayed shipment.",
+    options:["disappointing","disappointed","disappoint","disappointedly"], correct:1,
+    explain:"<b>Disappointed</b> is correct. The client experiences the feeling, so the -ed adjective form is required, not the -ing form which describes the cause." },
+  { before:"Her presentation skills are ", err:"as good, if not better than, her technical skills", after:".",
+    options:["as good, if not better than, her technical skills","as good as, if not better than, her technical skills","as good as, if not better, her technical skills","good as, if not better than her technical skills"], correct:1,
+    explain:"<b>As good as, if not better than, her technical skills</b> is correct — the first half of the comparison (\"as good as\") must be grammatically complete on its own." }
+];
+
+const QUESTION_TIME = 25;
+let current = 0;
+let correctCount = 0;
+let answers = [];
+let qTimerInterval = null;
+let sectionSeconds = 900;
+let sectionInterval = null;
+
+const qcountEl = document.getElementById('qcount');
+const qsentenceEl = document.getElementById('qsentence');
+const optionsEl = document.getElementById('options');
+const explainEl = document.getElementById('explain');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('dots');
+const ringFg = document.getElementById('ringFg');
+const ringNum = document.getElementById('ringNum');
+const finalView = document.getElementById('finalView');
+const stageView = document.getElementById('stageView');
+const dotsWrap = document.getElementById('dots');
+const sectionTimerEl = document.getElementById('sectionTimer');
+const RING_CIRC = 138.2;
+
+function buildDots(){ dotsEl.innerHTML=''; for(let i=0;i<questions.length;i++){ const d=document.createElement('div'); d.className='dot-step'; dotsEl.appendChild(d);} }
+function refreshDots(){
+  const nodes = dotsEl.children;
+  for(let i=0;i<nodes.length;i++){
+    let cls='dot-step';
+    if (i<current) cls += answers[i]===questions[i].correct ? ' done-right' : ' done-wrong';
+    else if (i===current) cls += ' active';
+    nodes[i].className = cls;
+  }
+}
+function startSectionTimer(){
+  sectionInterval = setInterval(()=>{
+    sectionSeconds--;
+    const m=String(Math.floor(sectionSeconds/60)).padStart(2,'0'), s=String(sectionSeconds%60).padStart(2,'0');
+    sectionTimerEl.textContent = m+':'+s;
+    if (sectionSeconds<=60) sectionTimerEl.classList.add('warn');
+    if (sectionSeconds<=0){ clearInterval(sectionInterval); finishSection(); }
+  },1000);
+}
+function shuffleOrder(n){
+  const arr = Array.from({length:n}, (_,i)=>i);
+  for (let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+let currentOrder = [];
+function loadQuestion(){
+  const q = questions[current];
+  qcountEl.textContent = `Question ${current+1} of ${questions.length}`;
+  qsentenceEl.innerHTML = q.before + '<span class="err">'+q.err+'</span>' + q.after;
+  optionsEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  currentOrder = shuffleOrder(q.options.length);
+  currentOrder.forEach((origIdx,displayIdx)=>{
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<span class="letter">${letters[displayIdx]}</span><span>${q.options[origIdx]}</span>`;
+    div.addEventListener('click', ()=> selectOption(origIdx));
+    optionsEl.appendChild(div);
+  });
+  explainEl.classList.remove('show');
+  nextBtn.style.display = 'none';
+  resetRing();
+  refreshDots();
+}
+function resetRing(){ ringFg.style.strokeDashoffset=0; ringNum.textContent=QUESTION_TIME; }
+function startQuestionTimer(){
+  let t = QUESTION_TIME;
+  ringNum.textContent = t;
+  qTimerInterval = setInterval(()=>{
+    t--; ringNum.textContent=t;
+    ringFg.style.strokeDashoffset = RING_CIRC*(1-t/QUESTION_TIME);
+    if (t<=0){ clearInterval(qTimerInterval); selectOption(-1); }
+  },1000);
+}
+function selectOption(idx){
+  clearInterval(qTimerInterval);
+  const q = questions[current];
+  answers[current] = idx;
+  if (idx === q.correct) correctCount++;
+  const opts = optionsEl.children;
+  for (let i=0;i<opts.length;i++){
+    opts[i].classList.add('disabled');
+    const origIdx = currentOrder[i];
+    if (origIdx === q.correct) opts[i].classList.add('correct');
+    else if (origIdx === idx) opts[i].classList.add('wrong');
+  }
+  explainEl.innerHTML = q.explain;
+  explainEl.classList.add('show');
+  nextBtn.style.display = 'inline-block';
+  refreshDots();
+}
+nextBtn.addEventListener('click', ()=>{
+  current++;
+  if (current >= questions.length) finishSection(); else { loadQuestion(); startQuestionTimer(); }
+});
+function finishSection(){
+  clearInterval(sectionInterval); clearInterval(qTimerInterval);
+  stageView.style.display='none'; dotsWrap.style.display='none'; finalView.classList.add('show');
+  document.getElementById('finScore').textContent = `${correctCount}/${questions.length}`;
+  document.getElementById('finPct').textContent = Math.round((correctCount/questions.length)*100)+'%';
+}
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  current=0; correctCount=0; answers=[]; sectionSeconds=900; sectionTimerEl.classList.remove('warn');
+  finalView.classList.remove('show'); stageView.style.display='block'; dotsWrap.style.display='flex';
+  buildDots(); loadQuestion(); startQuestionTimer(); startSectionTimer();
+});
+buildDots(); loadQuestion(); startQuestionTimer(); startSectionTimer();
+</script>
+</body>
+</html>

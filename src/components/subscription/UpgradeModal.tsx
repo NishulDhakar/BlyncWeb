@@ -3,6 +3,8 @@
 import { useState, useCallback } from "react";
 import { Zap, Check, X, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -154,13 +156,15 @@ export default function UpgradeModal() {
 
               {error && <p className="text-sm text-red-400 text-center">{error}</p>}
 
-              <Button
-                className="w-full h-12 text-base font-semibold"
-                onClick={handleUpgrade}
-                disabled={loading}
-              >
-                {loading ? "Opening checkout…" : "Upgrade to Pro — ₹49/month"}
-              </Button>
+              <CoolMode className="w-full">
+                <ShimmerButton
+                  className="w-full h-12 text-base font-semibold shadow-xl"
+                  onClick={handleUpgrade}
+                  disabled={loading}
+                >
+                  {loading ? "Opening checkout…" : "Upgrade to Pro — ₹49/month"}
+                </ShimmerButton>
+              </CoolMode>
 
               <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
                 <span>Cancel anytime</span>

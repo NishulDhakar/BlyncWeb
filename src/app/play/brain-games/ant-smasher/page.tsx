@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "Ant Smasher — Free Online Reflex Game | Blync",
   description:
     "Smash the ants before they escape! Test reflexes and hand-eye coordination. Free online brain game.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/ant-smasher` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/ant-smasher` },
   openGraph: {
     title: "Ant Smasher | Blync Brain Games",
     description: "Play Ant Smasher free online — fast-paced reflex game.",
-    url: `${siteConfig.url}/play/brain-games/ant-smasher`,
+    url: `${siteConfig.url}/games/brain/ant-smasher`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Ant Smasher — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/ant-smasher`,
+  url: `${siteConfig.url}/games/brain/ant-smasher`,
   description: "Fast-paced ant smashing reflex game — free online brain training.",
 };
 

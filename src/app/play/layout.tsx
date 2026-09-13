@@ -3,7 +3,7 @@ import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { UserProvider } from "@/context/UserContext";
 import Header from "@/components/common/Header";
-import HlsVideo from "@/components/common/HlsVideo";
+import GameBackgroundGrid from "@/components/common/GameBackgroundGrid";
 
 // Gameplay pages are not SEO targets — the /games/* pages are.
 // noindex prevents Google from indexing auth-gated gameplay URLs.
@@ -41,20 +41,10 @@ export default async function DashboardLayout({
 
   return (
     <UserProvider user={user}>
-              <Header />
-
-                   <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="none"
-        poster="/videos/play-poster.webp"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none gpu-accelerated"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260330_145725_08886141-ed95-4a8e-8d6d-b75eaadce638.mp4"
-      />
+      <Header />
+      <GameBackgroundGrid />
       
-      <main className="flex-1 p-3 sm:p-6">{children}</main>
+      <main className="relative z-10 flex-1 p-3 sm:p-6">{children}</main>
 
     </UserProvider>
   );

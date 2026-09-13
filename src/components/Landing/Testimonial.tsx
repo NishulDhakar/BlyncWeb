@@ -1,122 +1,89 @@
 // Server Component — no client JS shipped
 
-import React from "react";
 import { Star } from "lucide-react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Container from "../common/Container";
-
-interface TestimonialCardProps {
-  name: string;
-  role: string;
-  content: string;
-  rating: number;
-}
-
-function TestimonialCard({ name, role, content, rating }: TestimonialCardProps) {
-  return (
-    <div className="h-full">
-      <Card className="h-full flex flex-col border-border/50 bg-card/50 hover:bg-card/70 transition-colors duration-200">
-        <CardContent className="pt-6 flex-1">
-          <div className="flex gap-1 mb-4">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Star
-                key={index}
-                className={`h-4 w-4 ${
-                  index < rating
-                    ? "text-yellow-400 fill-yellow-400"
-                    : "text-muted"
-                }`}
-              />
-            ))}
-          </div>
-          <p className="text-muted-foreground leading-relaxed italic text-sm md:text-base">
-            &ldquo;{content}&rdquo;
-          </p>
-        </CardContent>
-        <CardHeader className="flex flex-row items-center gap-4 pt-0 pb-6">
-          <Avatar className="border border-border/40">
-            <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} />
-            <AvatarFallback className="bg-muted text-foreground font-semibold">{name[0]}</AvatarFallback>
-          </Avatar>
-          <div>
-            <h4 className="font-semibold text-sm">{name}</h4>
-            <p className="text-xs text-muted-foreground">{role}</p>
-          </div>
-        </CardHeader>
-      </Card>
-    </div>
-  );
-}
+import { SectionHeading } from "./_ui";
 
 const testimonials = [
   {
     name: "Akshay",
-    role: "B. Tech AIML (TIT Bhopal)",
+    role: "B.Tech AIML, TIT Bhopal",
     content:
-      "The dedicated practice modules for cognitive games gave me a real edge. I felt much more prepared for the actual assessment logic.",
-    rating: 5,
+      "The dedicated practice for cognitive games gave me a real edge. I walked into the actual assessment already knowing the logic.",
   },
   {
     name: "Shubham Kumar",
-    role: "Engineering Student",
+    role: "Engineering student",
     content:
-      "Excellent resource for pattern recognition puzzles. The difficulty progression is spot on for placement tests.",
-    rating: 5,
+      "Excellent for pattern recognition puzzles. The difficulty progression is spot on for placement tests.",
   },
   {
     name: "Priya Sharma",
-    role: "B. Tech IT (LNCT Bhopal)",
+    role: "B.Tech IT, LNCT Bhopal",
     content:
-      "A professional platform that cuts through the noise. Direct, relevant practice without unnecessary distractions.",
-    rating: 5,
+      "A platform that cuts through the noise. Direct, relevant practice with no distractions.",
   },
   {
     name: "Lovlesh",
-    role: "B. Tech CSE",
+    role: "B.Tech CSE",
     content:
-      "Structured and effective. It turns a usually stressful preparation process into a systematic training routine.",
-    rating: 5,
+      "Structured and effective. It turned a stressful prep process into a systematic routine.",
   },
   {
     name: "Vishal",
-    role: "B. Tech CSE",
+    role: "B.Tech CSE",
     content:
-      "The interface is clean and the games accurately reflect standard cognitive ability tests used by major recruiters.",
-    rating: 5,
+      "Clean interface, and the games accurately reflect the cognitive tests major recruiters use.",
   },
   {
     name: "Siya",
-    role: "B. Tech IT",
+    role: "B.Tech IT",
     content:
-      "Highly recommended for anyone looking to seriously improve their problem-solving speed and accuracy.",
-    rating: 5,
+      "Highly recommended for anyone serious about improving problem-solving speed and accuracy.",
   },
 ];
 
 export default function Testimonial() {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-20 sm:py-28">
       <Container>
-        <div className="mb-16 text-center max-w-3xl mx-auto relative z-10">
-          <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
-            Success Stories
-          </h2>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4">Student Success Stories</span>
-          <p className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10">
-            Hear from students who have used our platform to sharpen their skills and secure their dream placements.
-          </p>
-        </div>
+        <SectionHeading
+          kicker="Proof"
+          title="Students who walked in"
+          accent="prepared, not surprised."
+          description="Real notes from candidates who used Blync before their placement rounds."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={index}
-              name={testimonial.name}
-              role={testimonial.role}
-              content={testimonial.content}
-              rating={testimonial.rating}
-            />
+        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t) => (
+            <figure
+              key={t.name}
+              className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
+            >
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="size-4 fill-foreground text-foreground" />
+                ))}
+              </div>
+              <blockquote className="mt-4 flex-1 font-serif text-lg italic leading-relaxed text-foreground">
+                &ldquo;{t.content}&rdquo;
+              </blockquote>
+              <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
+                <Avatar className="size-9 border border-border">
+                  <AvatarImage
+                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(t.name)}`}
+                  />
+                  <AvatarFallback className="bg-secondary text-xs font-semibold text-foreground">
+                    {t.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-sm font-bold text-foreground">{t.name}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}</p>
+                </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </Container>

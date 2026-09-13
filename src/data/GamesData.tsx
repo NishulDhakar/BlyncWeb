@@ -15,9 +15,9 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/switch-challenge",
     description:
-      "A fast-paced game where you match color names with their actual displayed colors, testing speed and focus under tricky visual cues.",
+      "Deduce the hidden operator that transforms the input row of symbols into the target output sequence.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
   {
     id: 3,
@@ -25,9 +25,9 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/digit-challenge",
     description:
-      "A mathematical operation where you must find the correct answer using only the given digits, each used exactly once.",
+      "Solve rapid mental math equations using given single digits under strict time constraints.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
   {
     id: 2,
@@ -35,9 +35,9 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/deductive-challenge",
     description:
-      "A logical puzzle that tests deductive reasoning — draw specific conclusions from general rules using a Sudoku-style symbol grid.",
+      "Apply Latin square constraints to deduce missing symbols in a grid without repeating rows or columns.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
   {
     id: 4,
@@ -45,9 +45,9 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/motion-challenge",
     description:
-      "Objects move across the screen and you must track their final positions — testing focus, recall, and spatial reasoning.",
+      "Slide blocking obstacles to clear a path for the key ball to reach the target exit in minimal moves.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
   {
     id: 6,
@@ -55,9 +55,9 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/inductive-challenge",
     description:
-      "A visual puzzle where you identify the next figure in a sequence by spotting hidden patterns — sharpens abstract thinking.",
+      "Identify the hidden geometric transformation rule between paired diagrams to pick the matching pair.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
   {
     id: 5,
@@ -65,8 +65,8 @@ export const gameCards: GameCardData[] = [
     image: "/games/cognitive.png",
     rulesLink: "/play/grid-challenge",
     description:
-      "Memorize blinking dot positions, solve symmetry pattern puzzles, then recall the exact sequence — tests memory, attention, and spatial reasoning.",
+      "Dual-task working memory challenge: memorize dot coordinates while evaluating grid symmetry under clock pressure.",
     isAvailable: true,
-    isPremium: true,
+    isPremium: false,
   },
 ];

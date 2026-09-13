@@ -67,7 +67,7 @@ const CompanyGamesClient = ({
                         transition={{ duration: 0.6 }}
                         className="relative inline-block"
                     >
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-black mb-6">
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
                             {title}
                         </h1>
                     </motion.div>
@@ -76,7 +76,7 @@ const CompanyGamesClient = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-xl text-muted-foreground max-w-2xl mx-auto font-light text-base leading-relaxed"
+                        className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
                     >
                         {description}
                     </motion.p>
@@ -101,8 +101,8 @@ const CompanyGamesClient = ({
                     className="mt-20 text-center"
                 >
                     <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
-                        <Gamepad2 className="h-4 w-4 text-white" />
-                        <span className="text-white">{footerText}</span>
+                        <Gamepad2 className="h-4 w-4 text-foreground/70" />
+                        <span className="text-foreground/80">{footerText}</span>
                     </p>
                 </motion.div>
             </div>

@@ -127,7 +127,7 @@ function Podium({ top3 }: { top3: LeaderboardEntry[] }) {
                         {/* Score */}
                         <p className={`text-xs font-mono font-bold mt-0.5 ${cfg.score}`}>
                             {entry.score.toLocaleString()}
-                            <span className="text-white/30 font-normal ml-0.5">pts</span>
+                            <span className="text-white/60 font-normal ml-0.5">pts</span>
                         </p>
 
                         {/* Podium block */}
@@ -137,7 +137,7 @@ function Podium({ top3 }: { top3: LeaderboardEntry[] }) {
                             rounded-t-2xl backdrop-blur-sm
                             flex items-center justify-center
                         `}>
-                            <span className={`text-3xl font-black ${isFirst ? cfg.score : "text-white/20"}`}>
+                            <span className={`text-3xl font-black ${isFirst ? cfg.score : "text-white/40"}`}>
                                 {rank}
                             </span>
                         </div>
@@ -184,7 +184,7 @@ function MyRankCard({ userRank }: { userRank: LeaderboardEntry }) {
 
                     <div>
                         <div className="flex items-center gap-2 mb-0.5">
-                            <p className="text-xs text-white/40 uppercase tracking-widest font-semibold">Your Position</p>
+                            <p className="text-xs text-white/60 uppercase tracking-widest font-semibold">Your Position</p>
                             {isTop3 && <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${cfg!.label}`}>
                                 {userRank.rank === 1 ? "🏆 Champion" : userRank.rank === 2 ? "🥈 Runner-up" : "🥉 3rd Place"}
                             </span>}
@@ -193,18 +193,18 @@ function MyRankCard({ userRank }: { userRank: LeaderboardEntry }) {
                             <span className={`text-4xl font-black tabular-nums ${isTop3 ? cfg!.score : "text-white"}`}>
                                 #{userRank.rank}
                             </span>
-                            <span className="text-xs text-white/30">{userRank.name?.split(" ")[0] || "You"}</span>
+                            <span className="text-xs text-white/60">{userRank.name?.split(" ")[0] || "You"}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Right — score */}
                 <div className="text-right pr-1">
-                    <p className="text-xs text-white/40 uppercase tracking-widest font-semibold mb-0.5">Best Score</p>
+                    <p className="text-xs text-white/60 uppercase tracking-widest font-semibold mb-0.5">Best Score</p>
                     <p className={`text-3xl font-black tabular-nums ${isTop3 ? cfg!.score : "text-white"}`}>
                         {userRank.score.toLocaleString()}
                     </p>
-                    <p className="text-[11px] text-white/30">points</p>
+                    <p className="text-[11px] text-white/60">points</p>
                 </div>
             </div>
         </motion.div>
@@ -292,9 +292,9 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                     <TabsTrigger
                                         key={value}
                                         value={value}
-                                        className="rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-white/40
+                                        className="rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-white/60
                                                    data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-md
-                                                   hover:text-white/70 transition-all duration-200 flex items-center gap-1.5"
+                                                   hover:text-white/80 transition-all duration-200 flex items-center gap-1.5"
                                     >
                                         <Icon className="h-3.5 w-3.5 shrink-0" />
                                         <span>{label}</span>
@@ -316,17 +316,17 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                 <Card className="border-0 bg-white/5 backdrop-blur-xl ring-1 ring-white/10 rounded-2xl shadow-2xl overflow-hidden">
                                     <CardContent className="p-0">
                                         {data.length === 0 ? (
-                                            <div className="flex flex-col items-center justify-center py-32 text-white/25">
-                                                <Gamepad2 className="h-14 w-14 mb-4 opacity-25" />
+                                            <div className="flex flex-col items-center justify-center py-32 text-white/70">
+                                                <Gamepad2 className="h-14 w-14 mb-4 opacity-40" />
                                                 <p className="text-lg font-bold">No champions yet</p>
-                                                <p className="text-sm mt-1 opacity-60">Be the first to claim the top spot!</p>
+                                                <p className="text-sm mt-1 opacity-80">Be the first to claim the top spot!</p>
                                             </div>
                                         ) : (
                                             <>
                                                 {/* Header row */}
                                                 <div className="flex items-center justify-between px-5 sm:px-6 py-2.5 border-b border-white/6 bg-white/4">
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Rank · Player</span>
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Score</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/55">Rank · Player</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/55">Score</span>
                                                 </div>
 
                                                 {/* Rows */}
@@ -366,7 +366,7 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                                                                 {entry.rank}
                                                                             </div>
                                                                         ) : (
-                                                                            <span className="text-sm font-bold text-white/25 tabular-nums text-center w-full">{entry.rank}</span>
+                                                                            <span className="text-sm font-bold text-white/55 tabular-nums text-center w-full">{entry.rank}</span>
                                                                         )}
                                                                     </div>
 
@@ -407,7 +407,7 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                                                                         }`}>
                                                                         {entry.score.toLocaleString()}
                                                                     </span>
-                                                                    <span className="text-[10px] ml-0.5 text-white/25">pts</span>
+                                                                    <span className="text-[10px] ml-0.5 text-white/55">pts</span>
                                                                 </div>
                                                             </motion.div>
                                                         );
@@ -430,7 +430,7 @@ export default function LeaderboardClient({ data, gameId, currentUserId }: Leade
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}
-                    className="text-center text-[11px] text-white/20 mt-8"
+                    className="text-center text-[11px] text-white/55 mt-8"
                 >
                     Updated in real-time · Only your best score per game counts toward ranking
                 </motion.p>

@@ -1,178 +1,218 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { siteConfig, gamesConfig, getGamePlayUrl } from "@/config/site";
-import GameJsonLd from "@/components/seo/GameJsonLd";
+import { Clock, Gauge, Play, Sparkles } from "lucide-react";
+import { siteConfig } from "@/config/site";
+import { getGame, liveGames, playHref, relatedGames, seoHref } from "@/games/registry";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  gameLandingMetadata,
+  gameSchema,
+} from "@/games/seo";
 
-type Props = {
-  params: Promise<{ category: string; slug: string }>;
-};
+/**
+ * The indexable landing page for a single game — the page that has to rank.
+ *
+ * Everything on it comes from the registry entry, so the copy, the keywords,
+ * the FAQ and the structured data cannot drift apart the way they did when
+ * each page carried its own hardcoded metadata block.
+ *
+ * Statically generated: `generateStaticParams` enumerates every live game and
+ * nothing here reads cookies, headers, or the database, so each page is
+ * prerendered HTML at build time rather than server-rendered per request.
+ */
 
-// Static generation — one page per game at build time
+type Props = { params: Promise<{ category: string; slug: string }> };
+
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return gamesConfig.map((game) => ({
-    category: game.category,
-    slug: game.slug,
-  }));
+  return liveGames().map((game) => ({ category: game.category, slug: game.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params;
-  const game = gamesConfig.find((g) => g.slug === slug && g.category === category);
-  if (!game) return {};
-
-  const canonicalUrl = `${siteConfig.url}/games/${game.category}/${game.slug}`;
-
-  return {
-    title: `${game.headline} | Blync`,
-    description: game.description,
-    keywords: [...game.keywords, "free", "online", "cognitive", "brain training"],
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      title: game.headline,
-      description: game.description,
-      url: canonicalUrl,
-      type: "website",
-      images: [
-        {
-          url: siteConfig.ogImage,
-          width: 1200,
-          height: 630,
-          alt: `${game.name} — Blync Cognitive Games`,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: game.headline,
-      description: game.description,
-      images: [siteConfig.ogImage],
-    },
-  };
+  const game = getGame(slug);
+  if (!game || game.category !== category) return {};
+  return gameLandingMetadata(slug);
 }
 
-export default async function GameSeoPage({ params }: Props) {
+export default async function GameLandingPage({ params }: Props) {
   const { category, slug } = await params;
-  const game = gamesConfig.find((g) => g.slug === slug && g.category === category);
-  if (!game) notFound();
 
-  const canonicalUrl = `${siteConfig.url}/games/${game.category}/${game.slug}`;
+  const game = getGame(slug);
+  if (!game || game.category !== category || game.comingSoon) notFound();
+
+  const related = relatedGames(slug);
   const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
-
-  const relatedGames = gamesConfig.filter(
-    (g) => (game.related as readonly string[]).includes(g.slug)
-  );
+  const faq = faqSchema(game);
+  const playUrl = playHref(game);
 
   return (
     <>
-      <GameJsonLd
-        name={game.name}
-        description={game.description}
-        url={canonicalUrl}
-        breadcrumbs={[
-          { name: "Home", href: siteConfig.url },
-          { name: "Games", href: `${siteConfig.url}/games` },
-          { name: categoryLabel, href: `${siteConfig.url}/games/${category}` },
-          { name: game.name, href: canonicalUrl },
-        ]}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(gameSchema(game)) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema(game)) }}
+      />
+      {faq && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+        />
+      )}
 
-      <main className="max-w-4xl mx-auto px-4 py-12 mt-14">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-6">
+      <main className="mx-auto mt-14 max-w-4xl px-4 py-12">
+        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
-              <Link href="/" className="hover:underline">
-                Home
-              </Link>
+              <Link href="/" className="hover:underline">Home</Link>
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link href="/games" className="hover:underline">
-                Games
-              </Link>
+              <Link href="/games" className="hover:underline">Games</Link>
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link href={`/games/${category}`} className="hover:underline capitalize">
+              <Link href={`/games/${category}`} className="capitalize hover:underline">
                 {categoryLabel}
               </Link>
             </li>
             <li aria-hidden>/</li>
-            <li className="text-foreground font-medium">{game.name}</li>
+            <li className="font-medium text-foreground" aria-current="page">{game.name}</li>
           </ol>
         </nav>
 
-        {/* H1 — exact format requested */}
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">{game.headline}</h1>
+        {/* Exactly one h1, carrying the primary keyword. */}
+        <h1 className="mb-4 text-3xl font-bold md:text-4xl">{game.seo.headline}</h1>
 
-        <p className="text-lg text-muted-foreground mb-8 max-w-2xl">{game.description}</p>
+        <p className="mb-6 max-w-2xl text-lg text-muted-foreground">{game.seo.description}</p>
 
-        {/* Primary CTA */}
-        <div className="flex flex-wrap gap-3 mb-12">
+        <dl className="mb-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Clock className="size-4" aria-hidden="true" />
+            <dt className="sr-only">Session length</dt>
+            <dd>{game.duration}</dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <Gauge className="size-4" aria-hidden="true" />
+            <dt className="sr-only">Difficulty</dt>
+            <dd className="capitalize">{game.difficulty}</dd>
+          </div>
+          <div className="flex items-center gap-2">
+            <Sparkles className="size-4" aria-hidden="true" />
+            <dt className="sr-only">Skills trained</dt>
+            <dd>{game.skills.join(" · ")}</dd>
+          </div>
+        </dl>
+
+        <div className="mb-14 flex flex-wrap gap-3">
           <Link
-            href={getGamePlayUrl(game.slug)}
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors"
+            href={playUrl}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Play Free Now
+            <Play className="size-4" aria-hidden="true" />
+            Play {game.name} Free
           </Link>
-          {/* <Link
-            href={`/rules/${game.slug}`}
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-border hover:bg-accent transition-colors font-medium"
-          >
-            View Rules
-          </Link> */}
+          {game.hasRulesPage && (
+            <Link
+              href={`/rules/${game.slug}`}
+              className="inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 font-medium transition-colors hover:bg-accent"
+            >
+              Read the rules
+            </Link>
+          )}
         </div>
 
-        {/* About section */}
-        <section className="mb-12 prose prose-sm max-w-none dark:prose-invert">
-          <h2>What is {game.name}?</h2>
-          <p>
-            {game.name} is a free online {category} game designed to train your{" "}
-            {category === "memory" ? "working memory and recall" : "cognitive flexibility and reasoning"}{" "}
-            skills. It closely mirrors the format used in Capgemini and Cognizant game-based
-            aptitude tests, making it ideal for 2025 placement preparation.
+        <section className="mb-12">
+          <h2 className="mb-4 text-2xl font-semibold">What is {game.name}?</h2>
+          <p className="leading-7 text-muted-foreground">
+            {game.name} is a free, browser-based {category} exercise: {game.tagline.toLowerCase()}{" "}
+            It trains {game.skills.map((s) => s.toLowerCase()).join(", ")}, and mirrors the format
+            used in real placement assessments, so the pacing you practise against is the pacing
+            you will face.
           </p>
-          <p>
-            You can play {game.name} directly in your browser — no download, no app installation
-            required. The game is completely free and accessible after a quick sign-in.
+          <p className="mt-4 leading-7 text-muted-foreground">
+            A session runs about {game.duration}. Nothing to download or install — it runs in the
+            browser on desktop and mobile, and you can repeat it as often as you like.
           </p>
         </section>
 
-        {/* Keywords — target "free cognitive games online" etc. */}
-        <section className="mb-12 p-5 rounded-xl bg-muted/40 border border-border">
-          <h2 className="text-lg font-semibold mb-3">Why Practice {game.name}?</h2>
-          <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
-            <li>Matches the real {game.name} format used in Capgemini & Cognizant assessments</li>
-            <li>Free online — no download, no payment required</li>
-            <li>Timed sessions that simulate actual test pressure</li>
-            <li>Instant scoring and performance feedback after each session</li>
-            <li>Practice as many times as you need before your placement interview</li>
+        <section className="mb-12 rounded-xl border border-border bg-muted/40 p-5">
+          <h2 className="mb-3 text-lg font-semibold">Why practise {game.name}?</h2>
+          <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
+            <li>Matches the {game.name} format used in real assessment rounds</li>
+            <li>Free and unlimited — no payment, no download</li>
+            <li>Timed sessions that reproduce actual test pressure</li>
+            <li>Instant scoring and a leaderboard placement after every run</li>
+            <li>Trains {game.skills.slice(0, 2).map((s) => s.toLowerCase()).join(" and ")} directly</li>
           </ul>
         </section>
 
-        {/* Internal links — 3 related games (SEO: internal link graph) */}
-        {relatedGames.length > 0 && (
+        {/* Visible FAQ. The FAQPage JSON-LD above marks up exactly this copy —
+            marking up questions that are not on the page breaks Google's
+            structured data policy. */}
+        {game.seo.faq && game.seo.faq.length > 0 && (
+          <section className="mb-12">
+            <h2 className="mb-6 text-2xl font-semibold">
+              {game.name} — frequently asked questions
+            </h2>
+            <dl className="space-y-5">
+              {game.seo.faq.map((entry) => (
+                <div
+                  key={entry.question}
+                  className="rounded-xl border border-border/50 bg-muted/20 p-5"
+                >
+                  <dt className="mb-2 font-semibold text-foreground">
+                    <h3 className="text-base font-semibold">{entry.question}</h3>
+                  </dt>
+                  <dd className="text-sm leading-relaxed text-muted-foreground">{entry.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {related.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">Related Free Games</h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {relatedGames.map((related) => (
-                <li key={related.slug}>
+            <h2 className="mb-4 text-xl font-semibold">Related free games</h2>
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {related.map((item) => (
+                <li key={item.slug}>
                   <Link
-                    href={`/games/${related.category}/${related.slug}`}
-                    className="flex flex-col h-full p-4 rounded-lg border border-border hover:bg-accent transition-colors"
+                    href={seoHref(item)}
+                    className="flex h-full flex-col rounded-lg border border-border p-4 transition-colors hover:bg-accent"
                   >
-                    <span className="font-medium text-sm">{related.name}</span>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                      {related.description.slice(0, 90)}…
-                    </p>
-                    <span className="mt-2 text-xs text-primary font-medium">Play Free →</span>
+                    <span className="text-sm font-medium">{item.name}</span>
+                    <span className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                      {item.tagline}
+                    </span>
+                    <span className="mt-2 text-xs font-medium text-primary">Play free →</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </section>
         )}
+
+        <p className="mt-12 border-t border-border/40 pt-6 text-xs text-muted-foreground">
+          More practice:{" "}
+          <Link href={`/games/${category}`} className="underline hover:text-foreground">
+            all {categoryLabel.toLowerCase()} games
+          </Link>{" "}
+          ·{" "}
+          <Link href="/games" className="underline hover:text-foreground">
+            every game on {siteConfig.shortName}
+          </Link>
+          {" · "}
+          <Link href="/leaderboard" className="underline hover:text-foreground">
+            leaderboard
+          </Link>
+        </p>
       </main>
     </>
   );

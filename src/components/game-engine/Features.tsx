@@ -28,7 +28,7 @@ const features = [
 
 export default function Features() {
     return (
-        <section className="py-20 px-6 bg-[#12121e]">
+        <section id="features" className="py-20 px-6 bg-[#12121e]">
             <div className="max-w-6xl mx-auto">
                 <h2 className="font-game text-3xl md:text-4xl text-center text-white mb-16 shadow-purple-500 drop-shadow-lg">
                     Power Up Your Workflow

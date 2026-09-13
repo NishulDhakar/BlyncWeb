@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Assessment — Section 4: Listening Comprehension</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI','IBM Plex Sans',Arial,sans-serif; background:#EDEFF3; color:#1A2733; min-height:100vh; }
+  .topbar { background:#0F2540; color:#E9EEF5; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; }
+  .brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; letter-spacing:.3px; }
+  .brand .dot { width:10px; height:10px; border-radius:50%; background:#2E8B57; }
+  .topbar-mid { font-size:13px; color:#B7C3D6; }
+  .timer-box { font-family:'Consolas','IBM Plex Mono',monospace; background:#16345C; border:1px solid #274A76; border-radius:4px; padding:6px 14px; font-size:16px; letter-spacing:1px; color:#fff; min-width:78px; text-align:center; }
+  .timer-box.warn { background:#4A1B15; border-color:#7A2E22; color:#FFD9CC; }
+  .shell { max-width:900px; margin:0 auto; padding:20px 20px 40px; }
+  .banner { background:#fff; border:1px solid #D8DCE4; border-left:4px solid #1E5F9E; border-radius:4px; padding:14px 18px; font-size:13px; color:#33465E; margin-bottom:18px; line-height:1.5; }
+  .banner b { color:#0F2540; }
+  .panel { background:#fff; border:1px solid #D8DCE4; border-radius:6px; overflow:hidden; }
+  .panel-head { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid #E3E6EC; background:#F7F9FC; }
+  .panel-head h1 { font-size:15px; font-weight:600; color:#0F2540; }
+  .qcount { font-size:13px; color:#5C6B80; font-weight:500; }
+  .stage { padding:36px 36px 30px; }
+  .audio-card { background:#F7F9FC; border:1px solid #E3E6EC; border-radius:8px; padding:24px; text-align:center; margin-bottom:26px; }
+  .play-btn { width:64px; height:64px; border-radius:50%; border:none; background:#1E5F9E; color:#fff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 0 0 5px rgba(30,95,158,.12); margin-bottom:10px; }
+  .play-btn:hover { background:#184D82; }
+  .play-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .play-btn svg { width:24px; height:24px; }
+  .play-hint { font-size:13px; color:#5C6B80; }
+  .plays-left { font-size:12px; color:#8A97A8; margin-top:4px; }
+  .stage-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#8A97A8; margin-bottom:14px; text-align:center; }
+  .qtext { font-size:17px; line-height:1.5; color:#14202E; font-weight:500; text-align:center; max-width:640px; margin:0 auto 22px; }
+  .options { display:flex; flex-direction:column; gap:10px; max-width:520px; margin:0 auto 26px; }
+  .option { display:flex; align-items:center; gap:12px; padding:13px 16px; border:1px solid #D8DCE4; border-radius:6px; cursor:pointer; background:#fff; text-align:left; font-size:14px; color:#1A2733; transition:border-color .12s,background .12s; }
+  .option:hover { border-color:#1E5F9E; background:#F7FAFD; }
+  .option .letter { width:22px; height:22px; border-radius:50%; border:1px solid #C7CEDA; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#5C6B80; flex-shrink:0; }
+  .option.correct { border-color:#1B8A5A; background:#EEF8F2; }
+  .option.correct .letter { background:#1B8A5A; border-color:#1B8A5A; color:#fff; }
+  .option.wrong { border-color:#C4432B; background:#FCEFEC; }
+  .option.wrong .letter { background:#C4432B; border-color:#C4432B; color:#fff; }
+  .option.disabled { cursor:default; }
+  .btn-row { display:flex; justify-content:center; gap:12px; }
+  .btn { padding:10px 26px; border-radius:4px; font-size:14px; font-weight:600; border:1px solid #C7CEDA; background:#fff; color:#33465E; cursor:pointer; }
+  .btn.primary { background:#1E5F9E; border-color:#1E5F9E; color:#fff; }
+  .btn.primary:hover { background:#184D82; }
+  .dots { display:flex; justify-content:center; gap:8px; padding:16px 0 24px; }
+  .dot-step { width:9px; height:9px; border-radius:50%; background:#D8DCE4; }
+  .dot-step.done-right { background:#1B8A5A; }
+  .dot-step.done-wrong { background:#C4432B; }
+  .dot-step.active { background:#1E5F9E; width:22px; border-radius:5px; }
+  .final { display:none; padding:50px 30px; text-align:center; }
+  .final.show { display:block; }
+  .final h2 { font-size:20px; color:#0F2540; margin-bottom:10px; }
+  .final p { font-size:14px; color:#5C6B80; margin-bottom:26px; }
+  .final-stats { display:flex; justify-content:center; gap:28px; margin-bottom:30px; }
+  .final-stat .n { font-size:26px; font-weight:700; color:#14202E; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .final-stat .l { font-size:12px; color:#8A97A8; margin-top:4px; }
+  .unsupported { display:none; background:#FFF6E9; border:1px solid #F0D9A8; color:#7A5A12; padding:10px 16px; border-radius:4px; font-size:12.5px; margin-bottom:16px; }
+  .unsupported.show { display:block; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span>Communication Assessment — Practice Mode</div>
+  <div class="topbar-mid">Section 4 of 5 · Listening Comprehension</div>
+  <div class="timer-box" id="sectionTimer">20:00</div>
+</div>
+
+<div class="shell">
+  <div class="banner"><b>Instructions:</b> Listen to each short passage, then answer the question that follows. You may replay the audio up to 2 times.</div>
+  <div id="unsupportedMsg" class="unsupported">Audio playback uses your browser's built-in voice. If you hear nothing, check your system volume and browser permissions.</div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h1>Listening Comprehension</h1>
+      <div class="qcount" id="qcount">Passage 1 of 25</div>
+    </div>
+
+    <div id="stageView" class="stage">
+      <div class="audio-card">
+        <button class="play-btn" id="playBtn" aria-label="Play passage">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="play-hint">Tap to play the passage</div>
+        <div class="plays-left" id="playsLeft">2 replays remaining</div>
+      </div>
+
+      <div class="stage-label">Answer the question</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="btn-row"><button class="btn primary" id="nextBtn" style="display:none;">Next passage</button></div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <div id="finalView" class="final">
+      <h2>Section 4 complete</h2>
+      <p>Here's how you did on Listening Comprehension.</p>
+      <div class="final-stats">
+        <div class="final-stat"><div class="n" id="finScore">—</div><div class="l">Correct</div></div>
+        <div class="final-stat"><div class="n" id="finPct">—</div><div class="l">Accuracy</div></div>
+      </div>
+      <button class="btn primary" id="restartBtn">Restart section</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const passages = [
+  { audio:"The team completed the migration to the new server ahead of schedule, but two departments reported minor access issues during the first week.",
+    q:"What happened after the migration was completed?",
+    options:["The migration was cancelled","Two departments had minor access issues","All departments lost access","The server was reverted"], correct:1 },
+  { audio:"Cognizant's new onboarding program pairs every fresher with a mentor for the first ninety days, followed by an assessment before permanent project allocation.",
+    q:"When does the assessment take place?",
+    options:["Before the mentor is assigned","On the first day","After the first ninety days","There is no assessment"], correct:2 },
+  { audio:"Due to a scheduled maintenance window this weekend, the internal HR portal will be unavailable from Saturday ten p.m. until Sunday six a.m.",
+    q:"When will the HR portal be unavailable?",
+    options:["All weekend","Saturday 10pm to Sunday 6am","Only on Sunday","It won't be affected"], correct:1 },
+  { audio:"The client requested that the final deliverable include both a summary dashboard and a detailed data export, to be shared no later than Thursday.",
+    q:"What did the client request in addition to the summary dashboard?",
+    options:["A phone call","A detailed data export","A revised timeline","A team meeting"], correct:1 },
+  { audio:"New hires must complete three mandatory modules on data security within their first two weeks, or their system access will be temporarily suspended.",
+    q:"What happens if a new hire doesn't complete the modules in time?",
+    options:["Nothing changes","They get extra vacation days","Their system access is suspended","They are reassigned"], correct:2 },
+  { audio:"The pilot rollout of the new expense management tool showed a forty percent reduction in processing time, though several employees noted that the mobile interface still needs refinement.",
+    q:"What does the passage suggest about the mobile interface?",
+    options:["It has been removed","It still needs improvement","It caused the rollout to fail","It increased processing time"], correct:1 },
+  { audio:"Although the merger was expected to close by the end of the fiscal year, regulatory scrutiny in two jurisdictions has pushed the timeline into the following quarter.",
+    q:"Why has the merger timeline changed?",
+    options:["The companies withdrew the deal","Regulatory scrutiny caused delays","The fiscal year ended early","Both jurisdictions approved early"], correct:1 },
+  { audio:"The engineering team adopted a phased rollback strategy after the initial deployment caused intermittent latency spikes affecting roughly five percent of users.",
+    q:"Why did the team implement a rollback strategy?",
+    options:["To improve documentation","Because of latency spikes affecting some users","To reduce costs","Because all users were affected"], correct:1 },
+  { audio:"While the survey indicated high employee satisfaction with flexible work policies, it also revealed growing concerns about career progression opportunities in a remote setting.",
+    q:"What concern did the survey reveal?",
+    options:["Dissatisfaction with flexible work","Concerns about career progression","Complaints about remote tools","Requests for more holidays"], correct:1 },
+  { audio:"The vendor's proposal was rejected not because of cost, but due to its failure to meet the mandatory data residency requirements outlined in the RFP.",
+    q:"Why was the vendor's proposal rejected?",
+    options:["It was too expensive","It didn't meet data residency requirements","It was submitted late","It lacked references"], correct:1 },
+  { audio:"Despite a slower-than-expected adoption rate in its first month, the new collaboration platform saw usage triple once integration with existing tools was completed.",
+    q:"What caused usage to increase?",
+    options:["A marketing campaign","Integration with existing tools","A price reduction","Mandatory training"], correct:1 },
+  { audio:"The audit found that while financial controls were largely sound, documentation practices across regional offices were inconsistent and required standardization.",
+    q:"What did the audit recommend addressing?",
+    options:["Financial control failures","Inconsistent documentation practices","Regional office closures","Budget overruns"], correct:1 },
+  { audio:"The product team decided to delay the feature launch after beta testers reported that the onboarding flow was confusing for first-time users.",
+    q:"Why was the launch delayed?",
+    options:["Budget constraints","Confusing onboarding flow feedback","Legal issues","A competitor's launch"], correct:1 },
+  { audio:"Contrary to initial projections, the cost-saving initiative yielded only marginal returns, prompting leadership to explore alternative efficiency measures.",
+    q:"What does the passage imply about the initiative?",
+    options:["It exceeded expectations","It produced limited results","It was cancelled immediately","It doubled savings"], correct:1 },
+  { audio:"The client requested a revised proposal after determining that the original scope did not adequately address data migration risks.",
+    q:"Why did the client request a revised proposal?",
+    options:["The price was too high","The scope didn't address migration risks","The timeline was too long","They changed vendors"], correct:1 },
+  { audio:"Team leads were asked to submit revised capacity plans after the initial estimates failed to account for planned attrition over the next two quarters.",
+    q:"What was missing from the initial estimates?",
+    options:["Budget figures","Planned attrition","Project deadlines","Client feedback"], correct:1 },
+  { audio:"The new authentication system reduced login failures significantly, though a small subset of users on legacy browsers continue to experience compatibility issues.",
+    q:"Who is still experiencing issues with the new system?",
+    options:["All users","Users on legacy browsers","Only new employees","Mobile app users"], correct:1 },
+  { audio:"Although the initial budget allocated sufficient funds for hardware upgrades, unforeseen licensing costs required an additional round of approvals.",
+    q:"What required an additional approval round?",
+    options:["Hardware costs","Unforeseen licensing costs","Staff salaries","Office rent"], correct:1 },
+  { audio:"The research indicates that teams practicing asynchronous communication report higher satisfaction, provided that response time expectations are clearly defined.",
+    q:"What condition is necessary for higher satisfaction with asynchronous communication?",
+    options:["Daily meetings","Clearly defined response time expectations","Smaller team sizes","In-office attendance"], correct:1 },
+  { audio:"The vendor agreed to extend the support contract at no additional cost after the client escalated concerns about the delayed resolution of critical tickets.",
+    q:"Why did the vendor extend the support contract?",
+    options:["The client paid extra","The client escalated concerns about delays","The contract was expiring","New features were added"], correct:1 },
+  { audio:"Employee turnover in the technical division decreased notably after the introduction of a structured mentorship program paired with clearer promotion criteria.",
+    q:"What likely contributed to the decrease in turnover?",
+    options:["Salary increases only","A mentorship program and clearer promotion criteria","Reduced workload","Office relocation"], correct:1 },
+  { audio:"The compliance team flagged that several third-party vendors had not completed the annual security assessment required under the updated policy.",
+    q:"What did the compliance team flag?",
+    options:["Vendors missed the annual security assessment","Vendors overcharged the company","The policy was outdated","No vendors were compliant"], correct:1 },
+  { audio:"Initial customer feedback on the redesigned app was mixed, with praise for the visual design offset by complaints about slower load times.",
+    q:"What was the nature of the customer feedback?",
+    options:["Entirely negative","Entirely positive","Mixed — praise and complaints","No feedback was given"], correct:2 },
+  { audio:"The finance team proposed shifting to a rolling forecast model after recognizing that the annual budget process could not adapt quickly enough to market changes.",
+    q:"Why did the finance team propose a rolling forecast model?",
+    options:["The annual process was too flexible","The annual process couldn't adapt quickly to market changes","They wanted to reduce staff","It was required by regulation"], correct:1 },
+  { audio:"The IT security team recommended mandatory multi-factor authentication after a phishing simulation revealed that nearly a third of employees clicked on the suspicious link.",
+    q:"What prompted the recommendation for mandatory multi-factor authentication?",
+    options:["A real data breach","Results of a phishing simulation","A new government regulation","Employee request"], correct:1 }
+];
+
+let current = 0;
+let correctCount = 0;
+let answers = [];
+let sectionSeconds = 1200;
+let sectionInterval = null;
+let replaysLeft = 2;
+
+const qcountEl = document.getElementById('qcount');
+const qtextEl = document.getElementById('qtext');
+const optionsEl = document.getElementById('options');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('dots');
+const finalView = document.getElementById('finalView');
+const stageView = document.getElementById('stageView');
+const dotsWrap = document.getElementById('dots');
+const sectionTimerEl = document.getElementById('sectionTimer');
+const playBtn = document.getElementById('playBtn');
+const playsLeftEl = document.getElementById('playsLeft');
+
+if (!('speechSynthesis' in window)) document.getElementById('unsupportedMsg').classList.add('show');
+
+function buildDots(){ dotsEl.innerHTML=''; for(let i=0;i<passages.length;i++){ const d=document.createElement('div'); d.className='dot-step'; dotsEl.appendChild(d);} }
+function refreshDots(){
+  const nodes = dotsEl.children;
+  for(let i=0;i<nodes.length;i++){
+    let cls='dot-step';
+    if (i<current) cls += answers[i]===passages[i].correct ? ' done-right' : ' done-wrong';
+    else if (i===current) cls += ' active';
+    nodes[i].className = cls;
+  }
+}
+function startSectionTimer(){
+  sectionInterval = setInterval(()=>{
+    sectionSeconds--;
+    const m=String(Math.floor(sectionSeconds/60)).padStart(2,'0'), s=String(sectionSeconds%60).padStart(2,'0');
+    sectionTimerEl.textContent = m+':'+s;
+    if (sectionSeconds<=60) sectionTimerEl.classList.add('warn');
+    if (sectionSeconds<=0){ clearInterval(sectionInterval); finishSection(); }
+  },1000);
+}
+function shuffleOrder(n){
+  const arr = Array.from({length:n}, (_,i)=>i);
+  for (let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+let currentOrder = [];
+function loadQuestion(){
+  const p = passages[current];
+  qcountEl.textContent = `Passage ${current+1} of ${passages.length}`;
+  qtextEl.textContent = p.q;
+  optionsEl.innerHTML = '';
+  const letters=['A','B','C','D'];
+  currentOrder = shuffleOrder(p.options.length);
+  currentOrder.forEach((origIdx,displayIdx)=>{
+    const div=document.createElement('div');
+    div.className='option';
+    div.innerHTML = `<span class="letter">${letters[displayIdx]}</span><span>${p.options[origIdx]}</span>`;
+    div.addEventListener('click', ()=>selectOption(origIdx));
+    optionsEl.appendChild(div);
+  });
+  nextBtn.style.display='none';
+  replaysLeft = 2;
+  playsLeftEl.textContent = replaysLeft+' replays remaining';
+  playBtn.disabled = false;
+  playBtn.dataset.played = '';
+  refreshDots();
+}
+playBtn.addEventListener('click', ()=>{
+  if (playBtn.dataset.played === 'yes') {
+    replaysLeft--;
+    playsLeftEl.textContent = replaysLeft+' replays remaining';
+    if (replaysLeft<=0) playBtn.disabled = true;
+  }
+  playBtn.disabled = true;
+  const utter = new SpeechSynthesisUtterance(passages[current].audio);
+  utter.rate = 0.95;
+  utter.onend = () => { playBtn.dataset.played='yes'; if (replaysLeft>0) playBtn.disabled=false; };
+  utter.onerror = () => { playBtn.dataset.played='yes'; if (replaysLeft>0) playBtn.disabled=false; };
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+});
+function selectOption(idx){
+  const p = passages[current];
+  answers[current] = idx;
+  if (idx===p.correct) correctCount++;
+  const opts = optionsEl.children;
+  for (let i=0;i<opts.length;i++){
+    opts[i].classList.add('disabled');
+    const origIdx = currentOrder[i];
+    if (origIdx===p.correct) opts[i].classList.add('correct');
+    else if (origIdx===idx) opts[i].classList.add('wrong');
+  }
+  nextBtn.style.display='inline-block';
+  refreshDots();
+}
+nextBtn.addEventListener('click', ()=>{
+  current++;
+  if (current>=passages.length) finishSection(); else loadQuestion();
+});
+function finishSection(){
+  clearInterval(sectionInterval);
+  stageView.style.display='none'; dotsWrap.style.display='none'; finalView.classList.add('show');
+  document.getElementById('finScore').textContent = `${correctCount}/${passages.length}`;
+  document.getElementById('finPct').textContent = Math.round((correctCount/passages.length)*100)+'%';
+}
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  current=0; correctCount=0; answers=[]; sectionSeconds=1200; sectionTimerEl.classList.remove('warn');
+  finalView.classList.remove('show'); stageView.style.display='block'; dotsWrap.style.display='flex';
+  buildDots(); loadQuestion(); startSectionTimer();
+});
+buildDots(); loadQuestion(); startSectionTimer();
+</script>
+</body>
+</html>

@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Play, BookOpen, ChevronRight, Eye, EyeOff } from "lucide-react";
 import HlsVideo from "./HlsVideo";
+import { ShimmerButton } from "../ui/shimmer-button";
+import { CoolMode } from "../ui/cool-mode";
 
 export interface RuleData {
   title: string;
@@ -95,41 +98,48 @@ export default function RulePage({ data }: { data: RuleData }) {
             {/* Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-3">
               {data.Solution && (
-                <button
-                  onClick={() => setShowSolution(!showSolution)}
-                  className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-white/8 text-white/80 rounded-xl font-medium border border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25 transition-all duration-200 hover:scale-105 text-sm sm:text-base"
-                >
-                  {showSolution ? (
-                    <><EyeOff className="mr-2" size={16} /> Hide Solution</>
-                  ) : (
-                    <><Eye className="mr-2" size={16} /> Show Solution</>
-                  )}
-                </button>
+                <CoolMode>
+                  <button
+                    onClick={() => setShowSolution(!showSolution)}
+                    className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-white/8 text-white/80 rounded-xl font-medium border border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25 transition-all duration-200 hover:scale-105 text-sm sm:text-base"
+                  >
+                    {showSolution ? (
+                      <><EyeOff className="mr-2" size={16} /> Hide Solution</>
+                    ) : (
+                      <><Eye className="mr-2" size={16} /> Show Solution</>
+                    )}
+                  </button>
+                </CoolMode>
               )}
 
-              <a
-                href={data.playLink}
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-neutral-900 rounded-xl font-semibold shadow-lg hover:bg-white/90 hover:shadow-white/20 hover:shadow-xl transition-all duration-200 hover:scale-105 text-sm sm:text-base"
-              >
-                <Play className="mr-2 fill-neutral-900" size={16} />
-                Play Mock Test Now
-              </a>
+              <CoolMode>
+                <ShimmerButton
+                  href={data.playLink}
+                  borderRadius="0.75rem"
+                  background="#ffffff"
+                  shimmerColor="rgba(0, 0, 0, 0.3)"
+                  className="h-12 px-6 sm:px-8 text-sm sm:text-base font-semibold text-neutral-900 shadow-xl"
+                >
+                  <Play className="mr-2 fill-neutral-900 size-4" />
+                  Play Mock Test Now
+                </ShimmerButton>
+              </CoolMode>
             </div>
 
             {/* Solution content */}
             {showSolution && data.Solution && (
               <div className="mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="p-5 rounded-xl border border-white/10 bg-white/5">
-                  <h3 className="text-sm font-semibold text-white/50 uppercase tracking-widest mb-3">
+                  <h3 className="text-sm font-semibold text-white/65 uppercase tracking-widest mb-3">
                     Solution
                   </h3>
                   {data.Solution.match(/\.(png|jpg|jpeg)$/i) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={data.Solution}
                       alt="Solution"
-                      className="mx-auto rounded-lg shadow-md cursor-pointer hover:scale-[1.02] transition-transform duration-300"
+                      width={960}
+                      height={540}
+                      className="mx-auto h-auto w-full max-w-2xl rounded-lg shadow-md cursor-pointer hover:scale-[1.02] transition-transform duration-300"
                     />
                   ) : (
                     <p className="text-base text-white/65 leading-relaxed">

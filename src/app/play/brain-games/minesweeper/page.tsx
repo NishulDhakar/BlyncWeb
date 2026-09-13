@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "Minesweeper — Free Online Logic Game | Blync",
   description:
     "Play Minesweeper free online. Use deductive logic to uncover safe cells and flag mines. Classic brain game, no download.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/minesweeper` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/minesweeper` },
   openGraph: {
     title: "Minesweeper | Blync Brain Games",
     description: "Play Minesweeper free online — classic logic deduction game.",
-    url: `${siteConfig.url}/play/brain-games/minesweeper`,
+    url: `${siteConfig.url}/games/brain/minesweeper`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Minesweeper — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/minesweeper`,
+  url: `${siteConfig.url}/games/brain/minesweeper`,
   description: "Classic Minesweeper logic game — free online brain training.",
 };
 

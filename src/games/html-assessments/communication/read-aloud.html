@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Assessment — Section 1: Read Sentence Aloud</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'IBM Plex Sans', Arial, sans-serif;
+    background: #EDEFF3;
+    color: #1A2733;
+    min-height: 100vh;
+  }
+  .topbar {
+    background: #0F2540;
+    color: #E9EEF5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .brand .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #2E8B57;
+  }
+  .topbar-mid {
+    font-size: 13px;
+    color: #B7C3D6;
+  }
+  .timer-box {
+    font-family: 'Consolas', 'IBM Plex Mono', monospace;
+    background: #16345C;
+    border: 1px solid #274A76;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    min-width: 78px;
+    text-align: center;
+  }
+  .timer-box.warn { background: #4A1B15; border-color: #7A2E22; color: #FFD9CC; }
+
+  .shell {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 20px 40px;
+  }
+
+  .banner {
+    background: #FFFFFF;
+    border: 1px solid #D8DCE4;
+    border-left: 4px solid #1E5F9E;
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #33465E;
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .banner b { color: #0F2540; }
+
+  .panel {
+    background: #FFFFFF;
+    border: 1px solid #D8DCE4;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #E3E6EC;
+    background: #F7F9FC;
+  }
+  .panel-head h1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F2540;
+  }
+  .qcount {
+    font-size: 13px;
+    color: #5C6B80;
+    font-weight: 500;
+  }
+
+  .stage {
+    padding: 40px 36px 30px;
+    text-align: center;
+  }
+  .stage-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8A97A8;
+    margin-bottom: 18px;
+  }
+  .sentence {
+    font-size: 26px;
+    line-height: 1.55;
+    color: #14202E;
+    font-weight: 500;
+    max-width: 640px;
+    margin: 0 auto 34px;
+  }
+
+  .qtimer-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+  }
+  .qring {
+    position: relative;
+    width: 64px; height: 64px;
+  }
+  .qring svg { transform: rotate(-90deg); }
+  .qring circle {
+    fill: none;
+    stroke-width: 5;
+  }
+  .qring .bg { stroke: #E3E6EC; }
+  .qring .fg { stroke: #1E5F9E; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+  .qring-num {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600; color: #1E5F9E;
+    font-family: 'Consolas', 'IBM Plex Mono', monospace;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .mic-btn {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: none;
+    background: #1E5F9E;
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 6px rgba(30,95,158,0.12);
+    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  .mic-btn:hover { background: #184D82; }
+  .mic-btn:active { transform: scale(0.96); }
+  .mic-btn.recording {
+    background: #C4432B;
+    box-shadow: 0 0 0 6px rgba(196,67,43,0.15);
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 6px rgba(196,67,43,0.15); }
+    50% { box-shadow: 0 0 0 10px rgba(196,67,43,0.06); }
+    100% { box-shadow: 0 0 0 6px rgba(196,67,43,0.15); }
+  }
+  .mic-btn svg { width: 26px; height: 26px; }
+  .mic-status {
+    font-size: 13px;
+    color: #5C6B80;
+    min-height: 18px;
+    margin-bottom: 24px;
+  }
+  .mic-status.rec { color: #C4432B; font-weight: 600; }
+
+  .waveform {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    height: 30px;
+    margin-bottom: 22px;
+  }
+  .waveform span {
+    width: 3px;
+    background: #C4432B;
+    border-radius: 2px;
+    height: 4px;
+    opacity: 0.85;
+  }
+
+  .feedback {
+    display: none;
+    background: #F7F9FC;
+    border: 1px solid #E3E6EC;
+    border-radius: 6px;
+    padding: 16px 20px;
+    text-align: left;
+    margin: 0 auto 24px;
+    max-width: 560px;
+  }
+  .feedback.show { display: block; }
+  .feedback-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid #E9ECF1;
+    font-size: 13px;
+  }
+  .feedback-row:last-child { border-bottom: none; }
+  .feedback-row .label { color: #5C6B80; }
+  .feedback-score { font-weight: 600; font-family: 'Consolas','IBM Plex Mono',monospace; }
+  .score-good { color: #1B8A5A; }
+  .score-mid { color: #B8790C; }
+  .score-low { color: #C4432B; }
+  .feedback-transcript {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #7A889B;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .btn {
+    padding: 10px 26px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #C7CEDA;
+    background: #fff;
+    color: #33465E;
+    cursor: pointer;
+  }
+  .btn.primary {
+    background: #1E5F9E;
+    border-color: #1E5F9E;
+    color: #fff;
+  }
+  .btn.primary:hover { background: #184D82; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .dots {
+    display: flex; justify-content: center; gap: 8px;
+    padding: 16px 0 24px;
+  }
+  .dot-step {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #D8DCE4;
+  }
+  .dot-step.done { background: #1B8A5A; }
+  .dot-step.active { background: #1E5F9E; width: 22px; border-radius: 5px; }
+
+  .final {
+    display: none;
+    padding: 50px 30px;
+    text-align: center;
+  }
+  .final.show { display: block; }
+  .final h2 { font-size: 20px; color: #0F2540; margin-bottom: 10px; }
+  .final p { font-size: 14px; color: #5C6B80; margin-bottom: 26px; }
+  .final-stats {
+    display: flex; justify-content: center; gap: 28px;
+    margin-bottom: 30px;
+  }
+  .final-stat .n { font-size: 26px; font-weight: 700; color: #14202E; font-family: 'Consolas','IBM Plex Mono',monospace; }
+  .final-stat .l { font-size: 12px; color: #8A97A8; margin-top: 4px; }
+
+  .unsupported {
+    display:none;
+    background:#FFF6E9; border:1px solid #F0D9A8; color:#7A5A12;
+    padding:10px 16px; border-radius:4px; font-size:12.5px; margin-bottom:16px;
+  }
+  .unsupported.show{display:block;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span>Communication Assessment — Practice Mode</div>
+  <div class="topbar-mid">Section 1 of 5 · Reading Sentence Aloud</div>
+  <div class="timer-box" id="sectionTimer">15:00</div>
+</div>
+
+<div class="shell">
+  <div class="banner">
+    <b>Instructions:</b> A sentence will appear on screen. Tap the microphone, read the sentence aloud clearly and at a natural pace, then tap again to stop. You will get automatic feedback on fluency and word accuracy, same as the actual assessment. Ensure your microphone is enabled.
+  </div>
+
+  <div id="unsupportedMsg" class="unsupported">
+    Live speech scoring isn't supported in this browser. You can still record and play back your voice — switch to Chrome or Edge for scored feedback.
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h1>Reading Sentence Aloud</h1>
+      <div class="qcount" id="qcount">Question 1 of 25</div>
+    </div>
+
+    <div id="stageView" class="stage">
+      <div class="stage-label">Read the sentence aloud</div>
+      <div class="sentence" id="sentenceText">Loading...</div>
+
+      <div class="qtimer-wrap">
+        <div class="qring">
+          <svg width="64" height="64">
+            <circle class="bg" cx="32" cy="32" r="27"></circle>
+            <circle class="fg" id="ringFg" cx="32" cy="32" r="27" stroke-dasharray="169.6" stroke-dashoffset="0"></circle>
+          </svg>
+          <div class="qring-num" id="ringNum">20</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="mic-btn" id="micBtn" aria-label="Start recording">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="mic-status" id="micStatus">Tap the microphone to begin reading</div>
+
+      <div class="waveform" id="waveform"></div>
+
+      <div class="feedback" id="feedback">
+        <div class="feedback-row"><span class="label">Word accuracy</span><span class="feedback-score" id="scoreAccuracy">—</span></div>
+        <div class="feedback-row"><span class="label">Fluency (pace)</span><span class="feedback-score" id="scoreFluency">—</span></div>
+        <div class="feedback-row"><span class="label">Overall</span><span class="feedback-score" id="scoreOverall">—</span></div>
+        <div class="feedback-transcript" id="transcriptText"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="retryBtn" style="display:none;">Retry</button>
+        <button class="btn primary" id="nextBtn" style="display:none;">Next question</button>
+      </div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <div id="finalView" class="final">
+      <h2>Section 1 complete</h2>
+      <p>Here's how you did on the Reading Sentence Aloud section.</p>
+      <div class="final-stats">
+        <div class="final-stat"><div class="n" id="finAvg">—</div><div class="l">Avg. overall</div></div>
+        <div class="final-stat"><div class="n" id="finBest">—</div><div class="l">Best score</div></div>
+        <div class="final-stat"><div class="n" id="finDone">8/8</div><div class="l">Completed</div></div>
+      </div>
+      <button class="btn primary" id="restartBtn">Restart section</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const sentences = [
+  "The quarterly report will be shared with all department heads by Friday afternoon.",
+  "Our new customer support portal is designed to reduce response time significantly.",
+  "She carefully reviewed the contract before signing it in front of both witnesses.",
+  "The project manager scheduled a meeting to discuss the upcoming product launch.",
+  "Employees are requested to submit their travel expenses within seven working days.",
+  "The training session covered workplace safety, communication, and time management skills.",
+  "A reliable internet connection is essential for today's remote working environment.",
+  "The company plans to expand its operations into three new international markets.",
+  "Notwithstanding the unforeseen delays, the implementation team delivered the platform ahead of the revised deadline.",
+  "The board unanimously approved the restructuring proposal after a rigorous three-hour deliberation.",
+  "Employees who consistently exceed their performance benchmarks will be considered for accelerated promotion.",
+  "The compliance audit revealed several discrepancies that require immediate remediation.",
+  "Stakeholders expressed cautious optimism regarding the feasibility of the proposed merger.",
+  "The vendor's inability to meet contractual obligations resulted in a substantial penalty clause being invoked.",
+  "Cross-functional collaboration is essential when integrating disparate systems across multiple business units.",
+  "The organization's commitment to sustainability is reflected in its recently published environmental impact assessment.",
+  "Despite rigorous testing, an unanticipated software vulnerability was discovered shortly before the product launch.",
+  "The negotiation team reached a mutually beneficial agreement after several rounds of intense discussion.",
+  "Regulatory changes in the financial sector have prompted companies to reassess their risk management strategies.",
+  "The keynote speaker articulated a compelling vision for the future of artificial intelligence in enterprise software.",
+  "A comprehensive analysis of customer feedback revealed recurring dissatisfaction with the checkout process.",
+  "The executive committee deliberated extensively before authorizing the acquisition of the smaller competitor.",
+  "Persistent supply chain disruptions have compelled manufacturers to diversify their sourcing strategies.",
+  "The candidate demonstrated exceptional analytical acumen throughout the rigorous technical interview process.",
+  "Leadership emphasized the importance of maintaining transparency during periods of organizational transition."
+];
+
+const QUESTION_TIME = 20;
+let current = 0;
+let scores = [];
+let recognition = null;
+let recognizing = false;
+let mediaStream = null;
+let qTimerInterval = null;
+let sectionSeconds = 900;
+let sectionInterval = null;
+let waveInterval = null;
+
+const sentenceEl = document.getElementById('sentenceText');
+const qcountEl = document.getElementById('qcount');
+const micBtn = document.getElementById('micBtn');
+const micStatus = document.getElementById('micStatus');
+const feedback = document.getElementById('feedback');
+const retryBtn = document.getElementById('retryBtn');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('dots');
+const ringFg = document.getElementById('ringFg');
+const ringNum = document.getElementById('ringNum');
+const waveform = document.getElementById('waveform');
+const finalView = document.getElementById('finalView');
+const stageView = document.getElementById('stageView');
+const dotsWrap = document.getElementById('dots');
+const sectionTimerEl = document.getElementById('sectionTimer');
+const unsupportedMsg = document.getElementById('unsupportedMsg');
+
+const RING_CIRC = 169.6;
+
+function buildDots() {
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < sentences.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot-step';
+    dotsEl.appendChild(d);
+  }
+}
+
+function refreshDots() {
+  const nodes = dotsEl.children;
+  for (let i = 0; i < nodes.length; i++) {
+    nodes[i].className = 'dot-step' + (i < current ? ' done' : i === current ? ' active' : '');
+  }
+}
+
+function startSectionTimer() {
+  sectionInterval = setInterval(() => {
+    sectionSeconds--;
+    const m = String(Math.floor(sectionSeconds / 60)).padStart(2, '0');
+    const s = String(sectionSeconds % 60).padStart(2, '0');
+    sectionTimerEl.textContent = m + ':' + s;
+    if (sectionSeconds <= 60) sectionTimerEl.classList.add('warn');
+    if (sectionSeconds <= 0) {
+      clearInterval(sectionInterval);
+      finishSection();
+    }
+  }, 1000);
+}
+
+function loadQuestion() {
+  sentenceEl.textContent = sentences[current];
+  qcountEl.textContent = `Question ${current + 1} of ${sentences.length}`;
+  feedback.classList.remove('show');
+  retryBtn.style.display = 'none';
+  nextBtn.style.display = 'none';
+  micBtn.style.display = 'flex';
+  micBtn.disabled = false;
+  micStatus.textContent = 'Tap the microphone to begin reading';
+  micStatus.classList.remove('rec');
+  waveform.innerHTML = '';
+  resetRing();
+  refreshDots();
+}
+
+function resetRing() {
+  ringFg.style.strokeDashoffset = 0;
+  ringNum.textContent = QUESTION_TIME;
+}
+
+function startQuestionTimer() {
+  let t = QUESTION_TIME;
+  ringNum.textContent = t;
+  qTimerInterval = setInterval(() => {
+    t--;
+    ringNum.textContent = t;
+    const offset = RING_CIRC * (1 - t / QUESTION_TIME);
+    ringFg.style.strokeDashoffset = offset;
+    if (t <= 0) {
+      clearInterval(qTimerInterval);
+      if (recognizing) stopRecording();
+      else clearInterval(qTimerInterval);
+    }
+  }, 1000);
+}
+
+function buildWave() {
+  waveform.innerHTML = '';
+  for (let i = 0; i < 28; i++) {
+    const bar = document.createElement('span');
+    waveform.appendChild(bar);
+  }
+  waveInterval = setInterval(() => {
+    Array.from(waveform.children).forEach(bar => {
+      bar.style.height = (4 + Math.random() * 26) + 'px';
+    });
+  }, 120);
+}
+
+function stopWave() {
+  clearInterval(waveInterval);
+  Array.from(waveform.children).forEach(bar => bar.style.height = '4px');
+}
+
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SpeechRec) unsupportedMsg.classList.add('show');
+if (SpeechRec && location.protocol === 'file:') {
+  unsupportedMsg.classList.add('show');
+  unsupportedMsg.textContent = 'This file is open directly from disk (file://). Chrome\'s speech engine often cannot reach its servers from this mode. If the mic shows "Listening" but never detects your voice, serve this file over http:// instead — for example, place it in a folder and run "python3 -m http.server" there, then open http://localhost:8000/ in Chrome.';
+}
+
+let finalTranscript = '';
+let startTime = 0;
+let hasHeardSpeech = false;
+let manualStop = false;
+let restartAttempts = 0;
+const MAX_RESTARTS = 2;
+
+async function startRecording() {
+  if (!SpeechRec) {
+    micStatus.textContent = 'Speech recognition unavailable in this browser.';
+    return;
+  }
+
+  micBtn.disabled = true;
+  micStatus.textContent = 'Requesting microphone access...';
+  micStatus.classList.remove('rec');
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach(t => t.stop());
+  } catch (err) {
+    micStatus.textContent = 'Microphone access denied. Allow mic access in your browser and retry.';
+    micBtn.disabled = false;
+    return;
+  }
+
+  finalTranscript = '';
+  hasHeardSpeech = false;
+  manualStop = false;
+  restartAttempts = 0;
+
+  launchRecognizer();
+}
+
+function launchRecognizer() {
+  recognition = new SpeechRec();
+  recognition.lang = 'en-US';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    if (!startTime) startTime = Date.now();
+    recognizing = true;
+    micBtn.disabled = false;
+    micBtn.classList.add('recording');
+    micStatus.textContent = 'Listening — read the sentence now';
+    micStatus.classList.add('rec');
+    buildWave();
+    if (!qTimerInterval) startQuestionTimer();
+  };
+
+  recognition.onresult = (event) => {
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const chunk = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += chunk + ' ';
+        hasHeardSpeech = true;
+      } else {
+        interim += chunk;
+      }
+    }
+    if (interim || finalTranscript) {
+      hasHeardSpeech = true;
+      micStatus.textContent = 'Hearing: "' + (finalTranscript + interim).trim() + '"';
+    }
+  };
+
+  let lastError = '';
+
+  recognition.onerror = (event) => {
+    lastError = event.error;
+    if (event.error === 'no-speech') {
+      micStatus.textContent = 'No speech detected yet — keep speaking, or tap stop.';
+      return;
+    }
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+      micStatus.textContent = 'Microphone access blocked. Check your browser site settings and retry.';
+      manualStop = true;
+    } else if (event.error === 'network') {
+      micStatus.textContent = 'Speech service unreachable. If you opened this file directly (file://), serve it over http:// or check your internet connection.';
+      manualStop = true;
+    } else if (event.error === 'audio-capture') {
+      micStatus.textContent = 'No microphone found. Check your device is connected and not in use elsewhere.';
+      manualStop = true;
+    } else if (event.error === 'aborted') {
+      // silent, expected on manual stop
+    } else {
+      micStatus.textContent = 'Recognition error: ' + event.error + '. Tap the mic to retry.';
+      manualStop = true;
+    }
+  };
+
+  recognition.onend = () => {
+    if (!manualStop && recognizing && restartAttempts < MAX_RESTARTS && lastError !== 'network' && lastError !== 'audio-capture') {
+      restartAttempts++;
+      try { launchRecognizer(); recognition.start(); return; } catch (e) {}
+    }
+    recognizing = false;
+    micBtn.classList.remove('recording');
+    micBtn.disabled = false;
+    stopWave();
+    clearInterval(qTimerInterval);
+    qTimerInterval = null;
+    const duration = startTime ? (Date.now() - startTime) / 1000 : 1;
+    startTime = 0;
+    scoreAttempt(finalTranscript.trim(), duration);
+  };
+
+  try {
+    recognition.start();
+  } catch (err) {
+    micStatus.textContent = 'Could not start listening. Tap the mic to try again.';
+    micBtn.disabled = false;
+  }
+}
+
+function stopRecording() {
+  manualStop = true;
+  if (recognition && recognizing) {
+    recognition.stop();
+  }
+}
+
+function normalize(str) {
+  return str.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
+}
+
+function scoreAttempt(transcript, duration) {
+  const target = normalize(sentences[current]);
+  const said = normalize(transcript || '');
+
+  let matched = 0;
+  const saidCopy = [...said];
+  target.forEach(word => {
+    const idx = saidCopy.indexOf(word);
+    if (idx !== -1) {
+      matched++;
+      saidCopy.splice(idx, 1);
+    }
+  });
+  const accuracy = target.length ? Math.round((matched / target.length) * 100) : 0;
+
+  const expectedSec = target.length / 2.5;
+  const paceRatio = duration > 0 ? expectedSec / duration : 0;
+  let fluency;
+  if (paceRatio > 0.6 && paceRatio < 1.7) fluency = 90 + Math.round(Math.random() * 8);
+  else if (paceRatio > 0.4 && paceRatio < 2.3) fluency = 70 + Math.round(Math.random() * 12);
+  else fluency = 45 + Math.round(Math.random() * 15);
+
+  const overall = Math.round(accuracy * 0.6 + fluency * 0.4);
+  scores.push(overall);
+
+  document.getElementById('scoreAccuracy').textContent = accuracy + '%';
+  document.getElementById('scoreFluency').textContent = fluency + '%';
+  document.getElementById('scoreOverall').textContent = overall + '%';
+
+  [['scoreAccuracy', accuracy], ['scoreFluency', fluency], ['scoreOverall', overall]].forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    el.classList.remove('score-good', 'score-mid', 'score-low');
+    el.classList.add(val >= 80 ? 'score-good' : val >= 55 ? 'score-mid' : 'score-low');
+  });
+
+  document.getElementById('transcriptText').textContent = transcript
+    ? `We heard: "${transcript}"`
+    : 'We could not detect clear speech. Try speaking closer to the microphone.';
+
+  feedback.classList.add('show');
+  micBtn.style.display = 'none';
+  micStatus.textContent = '';
+  retryBtn.style.display = 'inline-block';
+  nextBtn.style.display = 'inline-block';
+}
+
+micBtn.addEventListener('click', () => {
+  if (!recognizing) startRecording();
+  else stopRecording();
+});
+
+retryBtn.addEventListener('click', () => {
+  scores.pop();
+  loadQuestion();
+});
+
+nextBtn.addEventListener('click', () => {
+  current++;
+  if (current >= sentences.length) {
+    finishSection();
+  } else {
+    loadQuestion();
+  }
+});
+
+function finishSection() {
+  clearInterval(sectionInterval);
+  clearInterval(qTimerInterval);
+  stageView.style.display = 'none';
+  dotsWrap.style.display = 'none';
+  finalView.classList.add('show');
+  const avg = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+  const best = scores.length ? Math.max(...scores) : 0;
+  document.getElementById('finAvg').textContent = avg + '%';
+  document.getElementById('finBest').textContent = best + '%';
+  document.getElementById('finDone').textContent = `${scores.length}/${sentences.length}`;
+}
+
+document.getElementById('restartBtn').addEventListener('click', () => {
+  current = 0;
+  scores = [];
+  sectionSeconds = 900;
+  sectionTimerEl.classList.remove('warn');
+  finalView.classList.remove('show');
+  stageView.style.display = 'block';
+  dotsWrap.style.display = 'flex';
+  buildDots();
+  loadQuestion();
+  startSectionTimer();
+});
+
+buildDots();
+loadQuestion();
+startSectionTimer();
+</script>
+
+</body>
+</html>

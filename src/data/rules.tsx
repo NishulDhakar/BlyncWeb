@@ -1,14 +1,15 @@
 import { RuleData } from "@/components/common/RulePage";
 
-
 export const deductiveChallengeRules: RuleData = {
   title: "Deductive Challenge",
   description:
-    "At the beginning of the game, a matrix like 3×3, 4×4, 5×5 etc is displayed on the screen with different symbols without a picturesque manner. To make it a picturesque matrix, you have to select appropriate symbols from the options given below the matrix.",
+    "Test your deductive logic with a Sudoku-style symbol puzzle (Latin square). Each grid contains unique geometric symbols where no symbol can repeat within any row or column. Deduce which symbol belongs in the question mark cell.",
   howToPlay: [
-    "Time duration is 4 minutes.",
-    "Neither a row nor a column should have similar symbols.",
-    "One mark is added for each correct attempt and one mark is subtracted for each wrong attempt.",
+    "You have roughly 4 minutes to solve as many grids as possible.",
+    "Examine rows and columns containing the target cell to eliminate existing symbols.",
+    "No symbol may appear more than once in any row or column.",
+    "Select the only possible remaining symbol from the options below.",
+    "Maintain high accuracy: incorrect answers penalize your overall efficiency score.",
   ],
   playLink: "/play/deductive-challenge",
 };
@@ -16,11 +17,13 @@ export const deductiveChallengeRules: RuleData = {
 export const SwitchChallengeRules: RuleData = {
   title: "Switch Challenge",
   description:
-    "Match the displayed color names with their actual colors as quickly as possible. Be alert — the text and color may differ to trick your mind.",
+    "Analyze an input row of 4 symbols and an output row that has been rearranged by an operator. Deduce the correct numeric operator (e.g., 3241) that describes how the symbols shifted position.",
   howToPlay: [
-    "You will see color names shown in various font colors.",
-    "Click the box that matches the actual color (not the text meaning).",
-    "Gain points for correct matches. Wrong selections will reduce your score.",
+    "Compare the input sequence of four symbols with the target output sequence.",
+    "Each 4-digit operator indicates which input position moves to each output slot (e.g., '3241' moves the 3rd symbol to slot 1, 2nd to slot 2, 4th to slot 3, and 1st to slot 4).",
+    "On advanced levels, two stacked operators transform the symbols sequentially.",
+    "Quickly eliminate wrong operators by checking just one unique symbol position first.",
+    "You have ~20 seconds per puzzle with ~3 minutes total round duration.",
   ],
   Solution: "/Switchchallenge-solution.png",
   playLink: "/play/switch-challenge",
@@ -29,13 +32,13 @@ export const SwitchChallengeRules: RuleData = {
 export const DigitChallengeRules: RuleData = {
   title: "Digit Challenge",
   description:
-    "Match the displayed color names with their actual colors as quickly as possible. Be alert — the text and color may differ to trick your mind.",
+    "Fast-paced quantitative agility drill. Construct target mathematical values or complete arithmetic equations using single-digit numbers under tight time limits.",
   howToPlay: [
-    "You will be given a mathematical operation to solve.",
-    "Use the available digits shown on the screen to form your answer.",
-    "Each digit can be used only once; no digit will repeat.",
-    "Correct answers earn you points, while wrong answers reduce your score.",
-    "Try to solve as many as possible before the timer runs out."
+    "Observe the target equation and the target result shown on screen.",
+    "Select the required digits and operators from the available pool to balance the equation.",
+    "Each digit can only be used once per equation.",
+    "Calculate mentally with speed: practice mental arithmetic shortcuts to save precious seconds.",
+    "Score points for every correct equation solved before the round timer expires.",
   ],
   playLink: "/play/digit-challenge",
 };
@@ -43,12 +46,13 @@ export const DigitChallengeRules: RuleData = {
 export const gridChallengeRules: RuleData = {
   title: "Grid Challenge",
   description:
-    "Memorize a matrix of characters and determine if the rows remain in non-decreasing order after sorting each row alphabetically.",
+    "A dual-task working memory test. Memorize the sequential positions of highlighted dots across a grid while answering alternating spatial symmetry questions under strict timing.",
   howToPlay: [
-    "You will be shown a grid of letters.",
-    "Sort each row alphabetically.",
-    "Check if the columns are also in alphabetical order from top to bottom.",
-    "Select 'YES' or 'NO' based on your answer.",
+    "A dot briefly blinks on a coordinate within the grid — memorize its location.",
+    "An intermediate task appears (such as evaluating whether a geometric figure is vertically symmetrical). Answer quickly.",
+    "Another dot position is revealed, followed by another symmetry check.",
+    "At the end of the round, recall and tap the dot positions in the exact order they appeared.",
+    "Accuracy in both the dot recall and the symmetry checks contributes to your final working memory score.",
   ],
   playLink: "/play/grid-challenge",
 };
@@ -56,11 +60,13 @@ export const gridChallengeRules: RuleData = {
 export const inductiveChallengeRules: RuleData = {
   title: "Inductive Challenge",
   description:
-    "Identify patterns in sequences of figures and determine the next figure that completes the sequence logically.",
+    "Evaluate abstract geometric diagrams to discover the underlying transformation rule. Identify which figure or pair of figures logically satisfies the derived rule.",
   howToPlay: [
-    "You will be shown a sequence of figures following a pattern.",
-    "Choose the figure that best continues the sequence.",
-    "The faster and more accurate you are, the better your score.",
+    "Examine the top set of paired diagrams to understand the relationship (rotation, shading, count, inversion, or scale).",
+    "Formulate an inductive rule that applies universally to the valid diagrams.",
+    "Compare the question diagram against your rule to determine the missing pair or figure.",
+    "Eliminate options that violate even a single geometric constraint.",
+    "Focus on rule consistency across shape count, orientation, and color fills.",
   ],
   playLink: "/play/inductive-challenge",
 };
@@ -68,11 +74,13 @@ export const inductiveChallengeRules: RuleData = {
 export const motionChallengeRules: RuleData = {
   title: "Motion Challenge",
   description:
-    "Track the movement of objects and identify their final positions. Tests your short-term memory and spatial tracking.",
+    "A spatial planning and problem-solving puzzle. Slide obstacles across a restricted grid to clear an unobstructed path for the main ball to reach the target exit hole in the minimum number of moves.",
   howToPlay: [
-    "Objects will move around the screen for a few seconds.",
-    "After they stop, you need to recall the position of a specific object.",
-    "Answer accurately and quickly to earn a higher score.",
+    "Analyze the maze configuration to identify which blocks are impeding the main ball's route.",
+    "Slide vertical blocks up/down and horizontal blocks left/right to free up space.",
+    "Plan your move sequence mentally before sliding to achieve the optimal path.",
+    "Fewer moves equate to a higher efficiency rating and placement score.",
+    "Complete the exit maneuvers swiftly before the round timer runs out.",
   ],
   playLink: "/play/motion-challenge",
 };

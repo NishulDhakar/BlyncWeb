@@ -3,6 +3,7 @@ import "./globals.css";
 import Script from "next/script";
 import { siteConfig } from "@/config/site";
 import LenisProvider from "@/components/common/LenisProvider";
+import Providers from "@/components/common/Providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -14,15 +15,19 @@ export const metadata: Metadata = {
   title: {
     default:
       "Capgemini & Cognizant Game-Based Aptitude Practice | Blync Placement Games",
-    template: "%s | Blync Cognitive Games",
+    template: "%s | Blync",
   },
 
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
 
-  alternates: {
-    canonical: siteConfig.url,
-  },
+  // NOTE: no `alternates.canonical` here on purpose.
+  // A canonical set on the root layout is inherited by every page that does not
+  // override it, so /about, /contact, /how-it-works, /iq-tests and the legal
+  // pages were all declaring themselves duplicates of the homepage — which is
+  // an instruction to Google to drop them from the index. The homepage gets its
+  // own canonical from src/app/(root)/layout.tsx; every other route now sets
+  // its own.
 
   openGraph: {
     title: "Capgemini & Cognizant Game-Based Aptitude Practice | Blync",
@@ -97,7 +102,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* ✅ Google AdSense — afterInteractive keeps it off the critical path */}
         <Script
@@ -168,32 +173,28 @@ export default function RootLayout({
         {/* ✅ FONT PRELOADS — avoids Flash of Invisible Text (FOIT) */}
         <link rel="preload" as="font" type="font/ttf" href="/fonts/Parkinsans-VariableFont_wght.ttf" crossOrigin="anonymous" />
         <link rel="preload" as="font" type="font/ttf" href="/fonts/SpaceGrotesk-VariableFont_wght.ttf" crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/ttf" href="/fonts/InstrumentSerif-Regular.ttf" crossOrigin="anonymous" />
       </head>
- 
+
       <body className="relative">
-        {/* Gradient blobs — Pre-blurred radial-gradient background to avoid GPU-heavy CSS filters */}
-        <div 
-          className="absolute top-0 left-0 w-full h-[1000px] opacity-40 mix-blend-multiply pointer-events-none overflow-hidden" 
-          aria-hidden="true"
-          style={{
-            backgroundImage: "radial-gradient(circle 50vw at 15% 0%, rgba(255, 107, 107, 0.5) 0%, transparent 80%), radial-gradient(circle 50vw at 85% 0%, rgba(79, 70, 229, 0.5) 0%, transparent 80%)"
-          }}
-        />
-
-        <LenisProvider>
+        <Providers>
           <main>{children}</main>
-        </LenisProvider>
 
-        {/* ✅ Service Worker registration for PWA */}
-        <Script id="sw-register" strategy="afterInteractive">
-          {`
+          {/* Smooth scroll. Deliberately a sibling, not a wrapper — see
+              LenisProvider for why wrapping children broke static rendering. */}
+          <LenisProvider />
+
+          {/* ✅ Service Worker registration for PWA */}
+          <Script id="sw-register" strategy="afterInteractive">
+            {`
             if ('serviceWorker' in navigator) {
               window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js');
               });
             }
           `}
-        </Script>
+          </Script>
+        </Providers>
       </body>
     </html>
   );

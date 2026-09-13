@@ -43,26 +43,26 @@ export const UserProvider = ({
   );
 };
 
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useUser must be used within a UserProvider");
-  return context.user;
-};
+/**
+ * Context readers.
+ *
+ * These return safe defaults instead of throwing when no provider is mounted.
+ * They used to throw, which was invisible for as long as the whole app bailed
+ * to client-side rendering — the error surfaced in a client error boundary and
+ * the page still painted. With server rendering restored, the same call in a
+ * page rendered outside UserProvider (e.g. /cognizant-games) fails the
+ * prerender and takes down the build.
+ *
+ * A missing provider means "no session information here", which is exactly what
+ * a logged-out read looks like, so returning the logged-out value is both safer
+ * and more truthful than throwing.
+ */
+export const useUser = () => useContext(UserContext)?.user ?? null;
 
-export const useSetUser = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useSetUser must be used within a UserProvider");
-  return context.setUser;
-};
+export const useStreak = () => useContext(UserContext)?.streak ?? DEFAULT_STREAK;
 
-export const useStreak = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useStreak must be used within a UserProvider");
-  return context.streak;
-};
+const noop = () => {};
 
-export const useSetStreak = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error("useSetStreak must be used within a UserProvider");
-  return context.setStreak;
-};
+export const useSetUser = () => useContext(UserContext)?.setUser ?? noop;
+
+export const useSetStreak = () => useContext(UserContext)?.setStreak ?? noop;

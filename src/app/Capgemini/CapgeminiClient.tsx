@@ -4,17 +4,18 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { gamesData } from "@/data/BlogData";
-import { Gamepad2, Shuffle, Brain, Eye, Grid2X2, MoveRight, Hash, Send } from "lucide-react";
+import { Gamepad2, Shuffle, Brain, Eye, Grid2X2, MoveRight, Hash, Github } from "lucide-react";
 import BackToDashboard from "@/components/common/BackToDashboard";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/config/site";
 
 const GAME_IMAGES: Record<number, string> = {
   5: "/switch.png",
   1: "/deductive.png",
   2: "/games/inductive.png",
-  3: "/games/comingsoon.png",
+  3: "/grid.png",
   4: "/games/motion.png",
   6: "/digit.png",
 };
@@ -75,8 +76,8 @@ export default function CapgeminiClient() {
                 </Link>
               </Button>
               <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
-                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
-                  <Send className="w-4 h-4" /> Contact @Savvyop for Free Games
+                <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4" /> Start Repo Locally
                 </a>
               </Button>
             </div>
@@ -161,15 +162,15 @@ export default function CapgeminiClient() {
         >
           <div className="text-left">
             <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
-              Want all games for free?
+              Start the repo locally
             </h3>
             <p className="text-muted-foreground text-sm md:text-base max-w-xl">
-              If you want free all games, contact us directly on Telegram to unlock everything.
+              Clone the BlyncWeb repo and run it locally for free access to all games.
             </p>
           </div>
           <Button asChild size="lg" className="shrink-0 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-2xl shadow-md transition-all duration-300 hover:scale-105 gap-2">
-            <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
-              <Send className="w-5 h-5" /> Contact @Savvyop
+            <a href={siteConfig.links.github} target="_blank" rel="noopener noreferrer">
+              <Github className="w-5 h-5" /> Open GitHub Repo
             </a>
           </Button>
         </motion.div>

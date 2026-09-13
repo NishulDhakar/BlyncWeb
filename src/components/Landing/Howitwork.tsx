@@ -1,73 +1,74 @@
 // Server Component — no client JS shipped
 
 import { Gamepad2, BarChart3, Trophy } from "lucide-react";
+import Container from "../common/Container";
+import { Kicker, landingHeadingClass, landingSubtitleClass } from "./_ui";
 
 const steps = [
   {
     number: "01",
     Icon: Gamepad2,
-    title: "Choose Your Game",
-    desc: "Pick from Switch, Digit, Grid, Motion, Inductive, or Deductive challenges — the exact games used in Capgemini & Cognizant assessments.",
+    title: "Choose your game",
+    desc: "Pick from Switch, Digit, Grid, Motion, Inductive or Deductive — the exact games in the Capgemini and Cognizant assessments.",
   },
   {
     number: "02",
     Icon: BarChart3,
-    title: "Practice with Mock Tests",
-    desc: "Play timed mock tests that replicate the real exam format. Build speed, sharpen accuracy, and get comfortable with every game type.",
+    title: "Run timed mocks",
+    desc: "Play rounds that replicate the real exam format. Build speed, sharpen accuracy, and get comfortable with every mechanic.",
   },
   {
     number: "03",
     Icon: Trophy,
-    title: "Track & Improve",
-    desc: "Monitor your scores on the leaderboard, identify weak spots, and repeat until you can clear every round with confidence.",
+    title: "Track and improve",
+    desc: "Watch your scores on the leaderboard, spot the weak rounds, and repeat until you can clear each one on the first try.",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="relative overflow-hidden py-28 px-6 md:px-16">
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-16 items-start">
-          {/* Left column */}
-          <div className="md:w-1/2 md:sticky md:top-32">
-            <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight text-white">
-              How it works
+    <section className="py-20 sm:py-28">
+      <Container>
+        <div className="flex flex-col gap-12 md:flex-row md:gap-16">
+          <div className="md:w-1/2 md:sticky md:top-32 md:self-start">
+            <Kicker>How it works</Kicker>
+            <h2 className={`mt-5 ${landingHeadingClass}`}>
+              Three steps from zero to{" "}
+              <span>clearing the round.</span>
             </h2>
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 text-xl md:text-xl font-bold tracking-tight mb-4">
-              Three steps to ace the test.
-            </span>
-            <p className="text-md md:text-lg text-white/60 max-w-2xl mt-10">
-              We stripped away the noise. What remains is a clean path from
-              zero to clearing Capgemini &amp; Cognizant game-based rounds.
+            <p className={`${landingSubtitleClass} mx-0`}>
+              We stripped away the noise. What is left is a clean path through
+              Capgemini and Cognizant game-based rounds.
             </p>
           </div>
 
-          {/* Steps */}
-          <div className="md:w-1/2 flex flex-col gap-5">
+          <div className="flex flex-col gap-4 md:w-1/2">
             {steps.map((step) => (
               <div
                 key={step.number}
-                className="rounded-2xl border border-white/10 bg-white/5 p-7 hover:border-white/20 transition-colors duration-200"
+                className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flex items-start gap-4">
-                  <div
-                    className="p-2.5 rounded-xl border border-white/10 bg-white/5 flex-shrink-0"
-                  >
-                    <step.Icon className="w-5 h-5 text-foreground/70" />
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border bg-secondary text-foreground">
+                    <step.Icon className="size-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold tracking-widest text-muted-foreground">
+                    <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                       {step.number}
                     </span>
-                    <h3 className="text-lg font-semibold text-white mt-1 mb-2">{step.title}</h3>
-                    <p className="text-white/60 text-sm leading-relaxed">{step.desc}</p>
+                    <h3 className="mt-1 font-heading text-lg font-bold text-foreground">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {step.desc}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

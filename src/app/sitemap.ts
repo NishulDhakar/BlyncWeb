@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { siteConfig, gamesConfig, ruleSlugs } from "@/config/site";
+import { siteConfig, ruleSlugs } from "@/config/site";
+import { activeCategories, liveGames, seoHref } from "@/games/registry";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -15,23 +16,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/cognizant-games`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/iq-tests`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/docs`, lastModified: now, changeFrequency: "monthly", priority: 0.65 },
     { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/feedback`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${baseUrl}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/terms-of-service`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 
   // ── /games/* — SEO money pages (fully indexed) ────────────────────────────
+  // Both the hub list and the per-game list come from src/games/registry.ts, so
+  // a new game is in the sitemap the moment it is registered. Before this, the
+  // category list was hardcoded and new categories were never submitted.
   const gamesHubPages: MetadataRoute.Sitemap = [
     { url: `${baseUrl}/games`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${baseUrl}/games/cognitive`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/games/memory`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/games/brain`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    ...activeCategories().map((category) => ({
+      url: `${baseUrl}/games/${category}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })),
   ];
 
-  const gameDetailPages: MetadataRoute.Sitemap = gamesConfig.map((game) => ({
-    url: `${baseUrl}/games/${game.category}/${game.slug}`,
+  const gameDetailPages: MetadataRoute.Sitemap = liveGames().map((game) => ({
+    url: `${baseUrl}${seoHref(game)}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.85,
@@ -55,6 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/blog/master-pattern-recognition`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/blog/cognitive-games-problem-solving`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.75,

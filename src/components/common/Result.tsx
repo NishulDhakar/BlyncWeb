@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
+import { ShimmerButton } from "../ui/shimmer-button";
+import { CoolMode } from "../ui/cool-mode";
 
 interface ResultCardProps {
   correct: number;
@@ -97,20 +99,25 @@ const ResultCard: React.FC<ResultCardProps> = ({
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button
-            onClick={resetGame}
-            variant="outline"
-            className="px-8 py-3 text-base font-medium border-white/20 hover:bg-white/5 rounded-lg"
-          >
-            Try Again
-          </Button>
+          <CoolMode>
+            <Button
+              onClick={resetGame}
+              variant="outline"
+              className="px-8 py-3 text-base font-medium border-white/20 hover:bg-white/5 rounded-lg"
+            >
+              Try Again
+            </Button>
+          </CoolMode>
 
-          <Button
-            onClick={onCheckRank}
-            className="px-8 py-3 text-base font-medium rounded-lg"
-          >
-            Check Your Rank
-          </Button>
+          <CoolMode>
+            <ShimmerButton
+              onClick={onCheckRank}
+              borderRadius="0.5rem"
+              className="px-8 py-3 text-base font-medium"
+            >
+              Check Your Rank
+            </ShimmerButton>
+          </CoolMode>
         </div>
       </div>
     </div>

@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { Brain, Clock, Activity, Zap, Layers, Grid3X3, ArrowRight } from "lucide-react";
 
 interface StartScreenProps {
@@ -93,13 +95,15 @@ export default function StartScreen({ onStart }: StartScreenProps) {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
             >
-                <Button
-                    onClick={onStart}
-                    size="lg"
-                    className="text-lg px-8 py-6 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
-                >
-                    Start Assessment <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                <CoolMode>
+                    <ShimmerButton
+                        onClick={onStart}
+                        borderRadius="0.75rem"
+                        className="text-base sm:text-lg px-8 py-4 font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40"
+                    >
+                        Start Assessment <ArrowRight className="ml-2 w-5 h-5" />
+                    </ShimmerButton>
+                </CoolMode>
                 <p className="mt-4 text-xs text-muted-foreground text-center">
                     By starting, you agree to the testing terms.
                 </p>

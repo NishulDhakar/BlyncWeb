@@ -1,60 +1,19 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
-import { getCachedSession } from "@/lib/auth";
-import { getUserIsPro } from "@/lib/subscription";
 import { redirect } from "next/navigation";
-import GridGame from "./GridGame";
+import { getCachedSession } from "@/lib/auth";
+import GameMount from "@/games/GameMount";
+import { gamePlayMetadata } from "@/games/seo";
 
-export const metadata: Metadata = {
-  title: "Grid Challenge — Capgemini Memory & Symmetry Game | Blync",
-  description:
-    "Practice Grid Challenge for Capgemini placement tests. Memorize dot positions, solve symmetry puzzles, and recall sequences. Free, no signup required.",
-  alternates: {
-    canonical: `${siteConfig.url}/play/grid-challenge`,
-  },
-  openGraph: {
-    title: "Grid Challenge | Blync Cognitive Games",
-    description:
-      "Memory + symmetry game for Capgemini aptitude tests. Blink, decide, recall.",
-    url: `${siteConfig.url}/play/grid-challenge`,
-    images: [
-      {
-        url: `${siteConfig.url}/og-logo.png`,
-        width: 1200,
-        height: 630,
-        alt: "Grid Challenge — Blync Cognitive Games",
-      },
-    ],
-  },
-};
+/**
+ * Gameplay route. Metadata, canonical and noindex all come from the registry
+ * (src/games/registry.ts) — see src/games/seo.ts. The indexable copy for this
+ * game lives at /games/cognitive/grid-challenge.
+ */
+export const metadata: Metadata = gamePlayMetadata("grid-challenge");
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Grid Challenge",
-  operatingSystem: "Web",
-  applicationCategory: "EducationalApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
-  url: `${siteConfig.url}/play/grid-challenge`,
-  description:
-    "Memory and symmetry pattern game for Capgemini game-based aptitude test preparation.",
-};
-
-export default async function GridChallengePage() {
+export default async function Page() {
   const session = await getCachedSession();
-
   if (!session) redirect("/register?redirect=/play/grid-challenge");
 
-  const isPro = await getUserIsPro(session.user.id);
-  if (!isPro) redirect("/pricing?from=grid-challenge");
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <GridGame />
-    </>
-  );
+  return <GameMount slug="grid-challenge" />;
 }

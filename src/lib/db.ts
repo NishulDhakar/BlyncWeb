@@ -16,9 +16,9 @@ const client =
     postgres(process.env.DATABASE_URL!, {
         prepare: false,    // required for Supabase PgBouncer pooled connection
         ssl: "require",
-        max: 1,            // one connection per pool — safe for Session-mode PgBouncer
+        max: 10,           // allow concurrent queries (Supabase pooler port 6543 in Transaction mode supports this)
         idle_timeout: 20,  // release idle connections quickly
-        connect_timeout: 3,
+        connect_timeout: 10,
     });
 
 if (process.env.NODE_ENV !== "production") {

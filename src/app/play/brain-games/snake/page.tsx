@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "Snake — Free Online Reflex & Strategy Game | Blync",
   description:
     "Play the classic Snake game free online. Navigate the growing snake to eat food while avoiding collisions. Free brain game.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/snake` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/snake` },
   openGraph: {
     title: "Snake | Blync Brain Games",
     description: "Play Snake free online — classic reflex and spatial awareness game.",
-    url: `${siteConfig.url}/play/brain-games/snake`,
+    url: `${siteConfig.url}/games/brain/snake`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Snake — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/snake`,
+  url: `${siteConfig.url}/games/brain/snake`,
   description: "Classic Snake game — free online reflex and spatial awareness training.",
 };
 

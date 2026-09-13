@@ -3,6 +3,8 @@
 import { useState, useCallback } from "react";
 import { Check, X, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -26,26 +28,26 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 const FREE_FEATURES = [
-  { text: "Leaderboard access", included: true },
-  { text: "Preview game library", included: true },
-  { text: "Memory / Recall games", included: true },
-  { text: "Switch Challenge", included: false },
-  { text: "Digit Challenge", included: false },
-  { text: "Deductive Challenge", included: false },
-  { text: "Motion Challenge", included: false },
-  { text: "Inductive Challenge", included: false },
+  { text: "All 6 Capgemini Cognitive Games", included: true },
+  { text: "Memory & Brain Training Games", included: true },
+  { text: "Global Leaderboard Ranking", included: true },
+  { text: "Basic Score & Accuracy Metrics", included: true },
+  { text: "Game Rules & Question Guides", included: true },
+  { text: "Advanced Performance Analytics", included: false },
+  { text: "Detailed Speed & Error Breakdown", included: false },
+  { text: "Placement Readiness Report", included: false },
 ];
 
 const PRO_FEATURES = [
-  { text: "All memory games (unlimited)", included: true },
-  { text: "All Capgemini games (unlimited)", included: true },
-  { text: "Switch Challenge", included: true },
-  { text: "Digit Challenge", included: true },
-  { text: "Deductive Challenge", included: true },
-  { text: "Motion Challenge", included: true },
-  { text: "Inductive Challenge", included: true },
-  { text: "Full score history", included: true },
-  { text: "Cancel anytime", included: true },
+  { text: "All 6 Capgemini Cognitive Games (unlimited)", included: true },
+  { text: "Memory & Brain Training Games", included: true },
+  { text: "Advanced Performance Analytics & Trends", included: true },
+  { text: "Detailed Speed & Error Breakdown", included: true },
+  { text: "Placement Readiness Score Report", included: true },
+  { text: "Full Historical Score Tracking", included: true },
+  { text: "Global Leaderboard Pro Badge", included: true },
+  { text: "Ad-free Focus Practice Experience", included: true },
+  { text: "Cancel anytime with 1-click", included: true },
 ];
 
 const PLANS = [
@@ -254,11 +256,11 @@ export default function PricingClient() {
               Current plan
             </Button>
 
-            <Link href="/games" className="w-full">
-              <Button variant="default" className="w-full">
-              Play now 
-            </Button>
-            </Link>
+            <CoolMode className="w-full">
+              <ShimmerButton href="/games" className="w-full h-10 font-semibold text-sm">
+                Play now
+              </ShimmerButton>
+            </CoolMode>
           </motion.div>
 
           {/* Pro */}
@@ -304,16 +306,18 @@ export default function PricingClient() {
                 Activating your subscription…
               </div>
             ) : (
-              <Button
-                className="w-full h-11 font-semibold gap-2"
-                onClick={handleUpgrade}
-                disabled={loading}
-              >
-                <Crown className="w-4 h-4" />
-                {loading
-                  ? "Opening checkout…"
-                  : `Upgrade — ${activePlan.price}${activePlan.period}`}
-              </Button>
+              <CoolMode className="w-full">
+                <ShimmerButton
+                  className="w-full h-11 font-semibold text-sm shadow-lg"
+                  onClick={handleUpgrade}
+                  disabled={loading}
+                >
+                  <Crown className="w-4 h-4 mr-1.5" />
+                  {loading
+                    ? "Opening checkout…"
+                    : `Upgrade — ${activePlan.price}${activePlan.period}`}
+                </ShimmerButton>
+              </CoolMode>
             )}
 
             <p className="text-xs text-center text-muted-foreground">

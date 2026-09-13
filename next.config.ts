@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "games.nishul.dev" },
       { protocol: "https", hostname: "www.nishul.dev" },
+      { protocol: "https", hostname: "cognitivegames.me" },
+      { protocol: "https", hostname: "www.cognitivegames.me" },
       // Avatar images from Google OAuth
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
@@ -64,7 +66,11 @@ const nextConfig: NextConfig = {
   // causing infinite redirect loops (ERR_TOO_MANY_REDIRECTS).
   async redirects() {
     return [
-      // ── Legacy/Malformed games/ route redirects ─────────────────────────
+      {
+        source: "/games/switchchallenge",
+        destination: "/games/cognitive/switch-challenge",
+        permanent: true,
+      },
       {
         source: "/games/gridchallenge",
         destination: "/games/cognitive/grid-challenge",
@@ -87,6 +93,38 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/games/inductivechallenge",
+        destination: "/games/cognitive/inductive-challenge",
+        permanent: true,
+      },
+
+      // ── Redirects from legacy /games/[slug] to /games/cognitive/[slug] ──
+      {
+        source: "/games/switch-challenge",
+        destination: "/games/cognitive/switch-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/digit-challenge",
+        destination: "/games/cognitive/digit-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/grid-challenge",
+        destination: "/games/cognitive/grid-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/motion-challenge",
+        destination: "/games/cognitive/motion-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/deductive-challenge",
+        destination: "/games/cognitive/deductive-challenge",
+        permanent: true,
+      },
+      {
+        source: "/games/inductive-challenge",
         destination: "/games/cognitive/inductive-challenge",
         permanent: true,
       },

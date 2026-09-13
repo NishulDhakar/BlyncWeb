@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Capgemini Game Based Aptitude Test 2026 — Free Practice | Blync",
     description:
       "Practice all 6 Capgemini cognitive games free. Complete guide with tips, strategies & unlimited attempts.",
-    url: `${siteConfig.url}/capgemini`,
+    url: `${siteConfig.url}/Capgemini`,
     type: "website",
     images: [
       {

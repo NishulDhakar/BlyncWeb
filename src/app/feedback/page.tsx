@@ -22,9 +22,14 @@ export default function FeedbackPage() {
     <div className="flex justify-center items-center min-h-screen p-6">
       <Card className="w-full max-w-lg shadow-lg">
         <CardHeader>
-          <CardTitle className="text-center text-xl font-semibold">
-            We value your Feedback ✨
-          </CardTitle>
+          {/* Rendered as an h1: this is the page's only heading, and the page
+              had none at all before, which left it with no crawlable topic. */}
+          <h1 className="text-center text-xl leading-none font-semibold">
+            Send Feedback on Blync&rsquo;s Aptitude Games
+          </h1>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            Tell us which placement round to add next, or what felt off in a game.
+          </p>
         </CardHeader>
         <CardContent>
           {submitted ? (

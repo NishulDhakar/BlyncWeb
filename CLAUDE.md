@@ -21,26 +21,44 @@
 
 ```
 src/
-├── app/                  # Next.js App Router — routes, layouts, API handlers
+├── app/                  # Next.js App Router — routes only, kept thin
 │   ├── (root)/           # Main site layout (Header + Footer + UserProvider)
 │   ├── (auth)/           # Auth layout (login / register)
-│   ├── play/             # Game pages (switch, digit, grid, motion, etc.)
-│   ├── games/            # Game listing pages
+│   ├── play/             # Gameplay routes (noindex, auth-gated)
+│   │   ├── [slug]/       # Every React game module — one dynamic route
+│   │   ├── assessments/  # HTML quiz + debugging assessments
+│   │   ├── communication/# Cognizant communication rounds
+│   │   └── brain-games/  # Embedded third-party puzzles
+│   ├── games/            # SEO landing pages (static, indexable)
+│   │   ├── [category]/          # Category hub
+│   │   └── [category]/[slug]/    # Per-game landing page
 │   ├── api/              # API routes (auth, scores, leaderboard, chat)
 │   └── blog/             # Blog / guide articles
+├── games/                # ★ THE GAME LAYER — see "Game architecture" below
+│   ├── registry.ts       # Single source of truth: every game, one entry
+│   ├── types.ts          # GameDefinition, GameCategory, CompanySlug…
+│   ├── seo.ts            # Metadata + JSON-LD builders, registry-driven
+│   ├── GameMount.tsx     # Client dynamic-import map (per-game code splitting)
+│   ├── moduleRegistry.ts # Server-readable list of React game slugs
+│   ├── shell/            # GameShell, start/result screens, HTML frame
+│   ├── hooks/            # useCountdown, useDelayedTransition, useGameSession
+│   ├── lib/              # random.ts, format.ts — shared game helpers
+│   ├── html-assessments/ # Self-contained HTML assessment documents
+│   └── <slug>/           # One self-contained module per game
 ├── components/
 │   ├── Landing/          # Hero, About, FAQ, Testimonial, Poll
-│   ├── common/           # Header, Footer, Container, GamePage, etc.
-│   ├── games/            # Game UI components (one per game type)
+│   ├── common/           # Header, Footer, Container, RulePage, etc.
+│   ├── games/            # GameGrid (registry-driven card grid), hub clients
 │   ├── ui/               # shadcn/ui primitives + custom atoms
 │   └── seo/              # JSON-LD structured data components
-├── config/               # site.ts (URLs, meta, IDs), navigation.ts, About.tsx
+├── config/               # site.ts (derives from games/registry), navigation.ts
 ├── context/              # UserContext (auth session passed from server layout)
-├── data/                 # Static data: Header nav, GamesData, BlogData, etc.
-├── features/             # Domain logic: auth actions, leaderboard, scoring
+├── data/                 # Static data: Header nav, BlogData, rules, etc.
+├── features/             # Domain logic: auth, leaderboard, scoring, streak…
 ├── lib/                  # auth.ts, auth-client.ts, db.ts, utils.ts, schema.ts
-└── types/                # Global TypeScript types (game.ts, user.ts)
+└── types/                # Global TypeScript types
 ```
+
 
 ## Dev Commands
 
@@ -67,13 +85,22 @@ Copy `.env.example` → `.env` and fill in:
 ## Architecture Decisions
 
 ### Auth Flow
-- Server-side session fetch in `(root)/layout.tsx` → passed via `UserContext` to all client components
-- Never fetch session on the client — read from `useUser()` context
+- Auth-gated subtrees (`/play`, `/profile`) resolve the session server-side in
+  their layout and pass it through `UserContext`.
+- Public `/games/*` pages do **not** fetch the session server-side — that would
+  make them dynamically rendered. `UserProvider` hydrates the session on the
+  client via `authClient.useSession()`.
+- In components, read the user from `useUser()`. It returns `null` rather than
+  throwing when no provider is mounted, so a page rendered outside
+  `UserProvider` still prerenders.
 
 ### Dynamic Imports
-- Heavy game UI components are centrally managed in `src/lib/dynamic-components.tsx`
-- When adding a new heavy component, add it there with a loading fallback
-- Lenis (smooth scroll) uses `{ ssr: false }` — do not remove this
+- Game modules are lazily imported in `src/games/GameMount.tsx` (one `next/dynamic`
+  call each, so every game gets its own chunk). Add new games there.
+- `ssr: false` is only legal inside a client module, and must never wrap a
+  layout's `{children}` — see "Rules that keep these pages fast and indexable".
+- Lenis (smooth scroll) still loads browser-only, via a dynamic `import()` inside
+  an effect in `LenisProvider`. Keep it a sibling of the content, not a wrapper.
 
 ### Images
 - Always use `next/image` (`<Image>`) for any image — never bare `<img>` tags
@@ -86,7 +113,9 @@ Copy `.env.example` → `.env` and fill in:
 - Use via CSS classes: `.font-one`, `.font-sec`, `.font-game`
 
 ### Performance Rules
-- **Never** add `preload="auto"` on videos — use `preload="none"` and lazy-load via IntersectionObserver
+- **Never** add `preload="auto"` on videos — and note `autoPlay` forces a fetch
+  regardless of `preload="none"`. Decorative video goes through `AmbientVideo`,
+  which paints the poster first and mounts the element on idle.
 - **Never** use `<script>` tags directly in `<head>` for third-party scripts — use Next.js `<Script strategy="afterInteractive">`
 - **Never** double-apply blur (both Tailwind `blur-3xl` class AND inline `filter:blur(...)` style)
 - Background/decoration elements must have `aria-hidden="true"` and `pointer-events-none`
@@ -97,17 +126,79 @@ Copy `.env.example` → `.env` and fill in:
 - Use `cn()` from `@/lib/utils` for conditional class merging
 
 ### SEO
-- Every page exports `metadata` from Next.js — follow the existing pattern
-- JSON-LD structured data is injected via `<Script type="application/ld+json">` in page files
-- Canonical URLs must always be set in `alternates.canonical`
+- Every page needs its own `metadata`. A client-component page cannot export it —
+  add a sibling `layout.tsx` that does (see `src/app/about/layout.tsx`).
+- Game pages get metadata and JSON-LD from `src/games/seo.ts`; do not hand-write
+  either for a game.
+- `alternates.canonical` must be set per route and must be self-referencing.
+  It is deliberately absent from the root layout.
+- Only mark up FAQ content in JSON-LD when the same questions are visible on the
+  page — marking up hidden content violates Google's structured data policy.
 
-## Adding a New Game
+## Game architecture
 
-1. Create `src/app/play/<game-name>/page.tsx` + game component file
-2. Add game data to `src/data/GamesData.tsx`
-3. Export the UI component from `src/lib/dynamic-components.tsx`
-4. Add rules page at `src/app/rules/<game-name>/page.tsx` using `RulePage` component
-5. Add JSON-LD game schema in `src/components/seo/GameJsonLd.tsx`
+Games are modules that plug into a shared shell. There are three kinds:
+
+| Kind | Where the code lives | Route template |
+|---|---|---|
+| `react` | `src/games/<slug>/{logic,ui}.tsx` | `/play/<slug>` |
+| `html` | `src/games/html-assessments/<folder>/` | `/play/assessments/<slug>` or `/play/communication/<slug>` |
+| `embed` | external URL in the registry entry | `/play/brain-games/<slug>` |
+
+**`src/games/registry.ts` is the single source of truth.** One `GameDefinition`
+per game drives all of this, with no other file to touch:
+
+- the play route and the indexable landing page at `/games/<category>/<slug>`
+- `generateMetadata` (title, description, keywords, canonical, OG, Twitter)
+- JSON-LD: `Game`, `BreadcrumbList`, and `FAQPage` when the entry has FAQ copy
+- `sitemap.xml` entries and the category hubs
+- the card grid (`components/games/GameGrid.tsx`) and footer link blocks
+- the "More challenges" cross-links inside `GameShell`
+
+### Adding a new game
+
+1. Add one entry to `src/games/registry.ts`. Fill in `seo.keywords` with real
+   search phrases — `keywords[0]` becomes the H1 and the `<title>`.
+2. Create `src/games/<slug>/logic.tsx` (client state machine) and `ui.tsx`
+   (presentational). Import shared helpers rather than re-implementing them:
+   - `@/games/lib/random` — `randomInt`, `shuffle`, `pickOne`, `sample`, `roundTo`
+   - `@/games/lib/format` — `formatTime`, `formatClock`, `toPercent`
+   - `@/games/hooks/useCountdown` — one-second countdown, fires `onExpire` once
+   - `@/games/hooks/useDelayedTransition` — the "pause then advance" timer
+   - `@/games/hooks/useGameSession` — writes the final score exactly once
+   - `@/games/shell/GameScreens` — `GameStartScreen`, `GameResultScreen`,
+     `LivesRow`, `StatTile`, `TimerBar`
+3. Register the lazy import in `src/games/GameMount.tsx` and add the slug to
+   `src/games/moduleRegistry.ts`.
+4. Optionally add a rules page at `src/app/rules/<slug>/page.tsx` and set
+   `hasRulesPage: true` on the registry entry.
+
+That is it — no new route file, no sitemap edit, no new card component.
+
+### Rules that keep these pages fast and indexable
+
+- **Never** put a `dynamic(..., { ssr: false })` component around `{children}`
+  in a layout. Doing so makes the whole subtree bail out to client-side
+  rendering — every page then prerenders to an empty document. `LenisProvider`
+  sits *beside* the content for exactly this reason.
+- **Never** read the session (`getCachedSession`, `getUserIsPro`, `getStreak`)
+  in a layout that wraps public `/games/*` pages. It forces dynamic rendering on
+  the pages the site ranks with, and `getUserIsPro` can make an outbound
+  Razorpay request before the first byte. `UserProvider` re-fetches the session
+  on the client anyway.
+- **Never** set `alternates.canonical` on the root layout — every page without
+  its own canonical inherits it and declares itself a duplicate of the homepage.
+  Each route sets its own; client-component pages use a sibling `layout.tsx`.
+- Every indexable page needs exactly one `<h1>` present in the server-rendered
+  HTML. Content gated behind `authClient.useSession()` renders as a spinner
+  during SSR, so put crawlable copy outside that gate.
+
+## Database
+
+All SQL lives in **`db/supabase-queries.sql`**, grouped by when to run it
+(one-time setup, per-migration, seed, runtime, ops) with the run order at the
+top of the file. Keep it in sync with `src/lib/schema.ts` when the schema
+changes.
 
 ## Key External Services
 

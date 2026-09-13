@@ -24,7 +24,7 @@ export default function GamesCard() {
       {gameCards.map((game) => {
         const isAvailable = game.isAvailable !== false;
         const locked = game.isPremium && !isPro;
-        const meta = GAME_META[game.id];
+        const meta = GAME_META[game.id] ?? { icon: <Brain className="w-5 h-5" /> };
 
         const href = !isAvailable ? "#" : locked ? "/pricing" : game.rulesLink;
 

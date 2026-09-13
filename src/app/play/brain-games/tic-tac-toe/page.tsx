@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "Tic Tac Toe — Free Online Strategy Game | Blync",
   description:
     "Play Tic Tac Toe free online against the computer. Classic strategy brain game. No download needed.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/tic-tac-toe` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/tic-tac-toe` },
   openGraph: {
     title: "Tic Tac Toe | Blync Brain Games",
     description: "Play Tic Tac Toe free online — classic strategy game.",
-    url: `${siteConfig.url}/play/brain-games/tic-tac-toe`,
+    url: `${siteConfig.url}/games/brain/tic-tac-toe`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Tic Tac Toe — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/tic-tac-toe`,
+  url: `${siteConfig.url}/games/brain/tic-tac-toe`,
   description: "Classic Tic Tac Toe strategy game — free online brain training.",
 };
 

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getPoll, submitVote } from "@/features/polls/actions";
 import Container from "../common/Container";
+import { landingHeadingClass, landingSubtitleClass } from "./_ui";
 
 type Option = {
     id: string;
@@ -97,7 +98,7 @@ export default function Poll() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-5xl md:text-6xl font-bold mb-4 tracking-tight"
+                        className={landingHeadingClass}
                     >
                         Which game next?
                     </motion.h2>
@@ -105,7 +106,7 @@ export default function Poll() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4 inline-block"
+                        className={`${landingSubtitleClass} inline-block`}
                     >
                         Help us shape the future of Cognitive Games.
                     </motion.span>
@@ -113,7 +114,7 @@ export default function Poll() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10"
+                        className={landingSubtitleClass}
                     >
                         Vote for the next practice module you want us to add to the platform.
                     </motion.p>

@@ -30,11 +30,13 @@ export default function Music() {
     <button
       onClick={toggleMusic}
       title={isPlaying ? "Mute music" : "Play music"}
-      className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+      aria-label={isPlaying ? "Mute music" : "Play music"}
+      aria-pressed={isPlaying}
+      className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
     >
       {isPlaying
         ? <Volume2 size={16} className="text-white/70" />
-        : <VolumeX size={16} className="text-white/30" />
+        : <VolumeX size={16} className="text-white/60" />
       }
     </button>
   );

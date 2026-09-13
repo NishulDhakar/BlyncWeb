@@ -7,7 +7,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useUser, useStreak } from "@/context/UserContext";
 import { Button } from "../ui/button";
-import { LogIn, LogOut, Flame, Zap, Crown } from "lucide-react";
+import { ShimmerButton } from "../ui/shimmer-button";
+import { CoolMode } from "../ui/cool-mode";
+import { LogIn, LogOut, Flame, Zap, Crown, User, LayoutDashboard } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -19,6 +21,7 @@ import {
 import { signOut } from "@/features/auth/actions";
 import { cn } from "@/lib/utils";
 import { GitHubStarsButton } from "../ui/shadcn-io/github-stars-button";
+import ThemeToggle from "./ThemeToggle";
 
 // Simple hamburger icon with CSS transitions
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -145,8 +148,8 @@ function Navbar() {
                   className={cn(
                     "relative text-sm font-medium py-1.5 px-3 rounded-lg transition-colors duration-200",
                     isActive
-                      ? "text-foreground bg-white/10"
-                      : "text-foreground/60 hover:text-foreground hover:bg-white/5"
+                      ? "text-foreground bg-foreground/10"
+                      : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
                   )}
                 >
                   {item.label}
@@ -162,28 +165,28 @@ function Navbar() {
               <GitHubStarsButton username="NishulDhakar" repo="BlyncWeb" />
             </div>
 
+            <ThemeToggle />
+
             {/* Streak — desktop, authenticated only */}
             {user && <StreakBadge count={streak.currentStreak} className="hidden md:flex" />}
 
             {/* Auth */}
             {!user ? (
-              <Button
-                asChild
-                variant="default"
-                size="sm"
-                className="h-9 px-4 md:h-10 md:px-6 text-sm font-semibold"
-              >
-                <Link href="/register">
+              <CoolMode>
+                <ShimmerButton
+                  href="/register"
+                  className="h-9 px-4 md:h-10 md:px-5 text-sm font-semibold"
+                >
                   <LogIn className="w-4 h-4 mr-1.5" />
                   Sign In
-                </Link>
-              </Button>
+                </ShimmerButton>
+              </CoolMode>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="h-9 w-9 rounded-full p-0 border border-border/50 hover:border-border transition-colors"
+                    className="h-11 w-11 rounded-full p-0 border border-border/50 hover:border-border transition-colors"
                   >
                     <Avatar className="h-8 w-8 border border-border/40">
                       <AvatarImage src={user.image || undefined} alt={user.email} />
@@ -223,6 +226,19 @@ function Navbar() {
                     )}
                   </div>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/profile" className="flex items-center">
+                      <User className="w-4 h-4 mr-2 text-foreground/80" />
+                      <span>Profile & Analytics</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/dashboard" className="flex items-center">
+                      <LayoutDashboard className="w-4 h-4 mr-2 text-foreground/80" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   {user?.isPro ? (
                     <DropdownMenuItem asChild className="cursor-pointer">
                       <Link href="/pricing" className="flex items-center">
@@ -253,7 +269,7 @@ function Navbar() {
             {/* Hamburger — mobile only */}
             <button
               onClick={() => setMobileOpen((o) => !o)}
-              className="md:hidden flex items-center justify-center w-9 h-9 rounded-full hover:bg-muted transition-colors"
+              className="md:hidden flex items-center justify-center w-11 h-11 rounded-full hover:bg-muted transition-colors"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
             >
@@ -292,7 +308,7 @@ function Navbar() {
                     className={cn(
                       "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-150",
                       isActive
-                        ? "bg-white/10 text-foreground"
+                        ? "bg-foreground/10 text-foreground"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     )}
                   >
@@ -314,37 +330,47 @@ function Navbar() {
               />
 
               {!user && (
-                <Button asChild variant="outline" className="w-full h-10">
-                  <Link href="/register" onClick={close}>
+                <CoolMode className="w-full">
+                  <ShimmerButton
+                    href="/register"
+                    onClick={close}
+                    className="w-full h-10 text-sm font-semibold"
+                  >
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
-                  </Link>
-                </Button>
+                  </ShimmerButton>
+                </CoolMode>
               )}
 
               {user && (
-                <div className="flex items-center gap-3 px-1">
-                  <Avatar className="h-8 w-8 border border-border/40 shrink-0">
-                    <AvatarImage src={user.image || undefined} alt={user.email} />
-                    <AvatarFallback className="bg-muted text-foreground text-xs">
-                      {user.email?.[0]?.toUpperCase() ?? "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
-                      {user?.isPro && (
-                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 shrink-0">
-                          <Zap className="w-2.5 h-2.5" />
-                          PRO
-                        </span>
-                      )}
+                <div className="flex items-center justify-between gap-3 px-1">
+                  <Link
+                    href="/profile"
+                    onClick={close}
+                    className="flex items-center gap-3 flex-1 min-w-0 p-1.5 -m-1.5 rounded-lg hover:bg-muted/60 transition-colors"
+                  >
+                    <Avatar className="h-8 w-8 border border-border/40 shrink-0">
+                      <AvatarImage src={user.image || undefined} alt={user.email} />
+                      <AvatarFallback className="bg-muted text-foreground text-xs">
+                        {user.email?.[0]?.toUpperCase() ?? "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="flex items-center gap-1.5">
+                        {user.name && <p className="text-sm font-medium truncate">{user.name}</p>}
+                        {user?.isPro && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 shrink-0">
+                            <Zap className="w-2.5 h-2.5" />
+                            PRO
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                     </div>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                  </div>
+                  </Link>
                   <button
                     onClick={handleSignOut}
-                    className="text-red-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-red-500/10"
+                    className="flex h-11 w-11 items-center justify-center text-red-500 hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/10"
                     aria-label="Sign out"
                   >
                     <LogOut className="w-4 h-4" />

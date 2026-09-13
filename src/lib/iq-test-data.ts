@@ -207,7 +207,7 @@ export const calculateIQ = (rawScore: number, totalTime: number) => {
     // - penalty for slow time?
 
     // This is just a placeholder logic.
-    let base = 70; // Minimum
+    const base = 70; // Minimum
     const scoreComponent = rawScore * 2.5; // Max 20 * 5 * 2 = 200.. let's normalize
     // Let's say max possible raw score (if we sum weighted difficulties) is approx 70.
     // 20 Qs, avg diff 3 = 60 points max.

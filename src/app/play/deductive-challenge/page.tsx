@@ -1,60 +1,19 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
-import { getCachedSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getUserIsPro } from "@/lib/subscription";
-import DeductiveGame from "./DeductiveGame";
+import { getCachedSession } from "@/lib/auth";
+import GameMount from "@/games/GameMount";
+import { gamePlayMetadata } from "@/games/seo";
 
-export const metadata: Metadata = {
-  title: "Deductive Challenge — Logical Reasoning Aptitude Practice",
-  description:
-    "Master Deductive Challenge used in Capgemini assessments. Solve symbol-based logic puzzles with 20-second timers and difficulty scaling. Free placement prep for 2025.",
-  alternates: {
-    canonical: `${siteConfig.url}/play/deductive-challenge`,
-  },
-  openGraph: {
-    title: "Deductive Challenge | Blync Cognitive Games",
-    description:
-      "Practice Deductive Challenge for Capgemini placement tests. Symbol logic puzzles with 20-second timers.",
-    url: `${siteConfig.url}/play/deductive-challenge`,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: "Deductive Challenge — Blync Cognitive Games",
-      },
-    ],
-  },
-};
+/**
+ * Gameplay route. Metadata, canonical and noindex all come from the registry
+ * (src/games/registry.ts) — see src/games/seo.ts. The indexable copy for this
+ * game lives at /games/cognitive/deductive-challenge.
+ */
+export const metadata: Metadata = gamePlayMetadata("deductive-challenge");
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Deductive Challenge",
-  operatingSystem: "Web",
-  applicationCategory: "EducationalApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/deductive-challenge`,
-  description:
-    "Symbol-based logical reasoning practice for Capgemini placement tests.",
-};
-
-export default async function DeductiveChallengePage() {
+export default async function Page() {
   const session = await getCachedSession();
- 
   if (!session) redirect("/register?redirect=/play/deductive-challenge");
 
-  const isPro = await getUserIsPro(session.user.id);
-  if (!isPro) redirect("/pricing?from=deductive-challenge");
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <DeductiveGame />
-    </>
-  );
+  return <GameMount slug="deductive-challenge" />;
 }

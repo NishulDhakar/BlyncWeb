@@ -20,6 +20,11 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Arcade press used across the game modules in src/games/. The button
+        // physically depresses (offset + shrinking hard shadow) rather than
+        // changing colour, which reads as tactile at game speeds.
+        pixel:
+          "bg-primary text-primary-foreground border-2 border-pixel-ink shadow-pixel-sm hover:translate-x-px hover:translate-y-px hover:shadow-pixel-xs active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -57,3 +62,4 @@ function Button({
 }
 
 export { Button, buttonVariants }
+export { ShimmerButton } from "./shimmer-button"

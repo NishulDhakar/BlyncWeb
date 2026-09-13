@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Assessment — Section 5: Open-ended Spoken Response</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI','IBM Plex Sans',Arial,sans-serif; background:#EDEFF3; color:#1A2733; min-height:100vh; }
+  .topbar { background:#0F2540; color:#E9EEF5; display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; }
+  .brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; letter-spacing:.3px; }
+  .brand .dot { width:10px; height:10px; border-radius:50%; background:#2E8B57; }
+  .topbar-mid { font-size:13px; color:#B7C3D6; }
+  .timer-box { font-family:'Consolas','IBM Plex Mono',monospace; background:#16345C; border:1px solid #274A76; border-radius:4px; padding:6px 14px; font-size:16px; letter-spacing:1px; color:#fff; min-width:78px; text-align:center; }
+  .timer-box.warn { background:#4A1B15; border-color:#7A2E22; color:#FFD9CC; }
+  .shell { max-width:900px; margin:0 auto; padding:20px 20px 40px; }
+  .banner { background:#fff; border:1px solid #D8DCE4; border-left:4px solid #1E5F9E; border-radius:4px; padding:14px 18px; font-size:13px; color:#33465E; margin-bottom:18px; line-height:1.5; }
+  .banner b { color:#0F2540; }
+  .unsupported { display:none; background:#FFF6E9; border:1px solid #F0D9A8; color:#7A5A12; padding:10px 16px; border-radius:4px; font-size:12.5px; margin-bottom:16px; }
+  .unsupported.show { display:block; }
+  .panel { background:#fff; border:1px solid #D8DCE4; border-radius:6px; overflow:hidden; }
+  .panel-head { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid #E3E6EC; background:#F7F9FC; }
+  .panel-head h1 { font-size:15px; font-weight:600; color:#0F2540; }
+  .qcount { font-size:13px; color:#5C6B80; font-weight:500; }
+  .stage { padding:40px 36px 30px; text-align:center; }
+  .stage-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#8A97A8; margin-bottom:18px; }
+  .prompt-card { background:#F7F9FC; border:1px solid #E3E6EC; border-radius:8px; padding:20px 24px; max-width:640px; margin:0 auto 30px; }
+  .prompt-text { font-size:19px; line-height:1.55; color:#14202E; font-weight:500; }
+  .prep-note { font-size:12.5px; color:#8A97A8; margin-top:10px; }
+  .qtimer-wrap { display:flex; justify-content:center; margin-bottom:26px; }
+  .qring { position:relative; width:72px; height:72px; }
+  .qring svg { transform:rotate(-90deg); }
+  .qring circle { fill:none; stroke-width:5; }
+  .qring .bg { stroke:#E3E6EC; }
+  .qring .fg { stroke:#1E5F9E; stroke-linecap:round; transition:stroke-dashoffset 1s linear; }
+  .qring-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; color:#1E5F9E; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .controls { display:flex; justify-content:center; align-items:center; gap:16px; margin-bottom:10px; }
+  .mic-btn { width:68px; height:68px; border-radius:50%; border:none; background:#1E5F9E; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 6px rgba(30,95,158,.12); transition:background .15s,box-shadow .15s,transform .1s; }
+  .mic-btn:hover { background:#184D82; }
+  .mic-btn:active { transform:scale(.96); }
+  .mic-btn:disabled { opacity:.4; cursor:not-allowed; }
+  .mic-btn.recording { background:#C4432B; box-shadow:0 0 0 6px rgba(196,67,43,.15); animation:pulse 1.4s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 6px rgba(196,67,43,.15);} 50%{box-shadow:0 0 0 10px rgba(196,67,43,.06);} 100%{box-shadow:0 0 0 6px rgba(196,67,43,.15);} }
+  .mic-btn svg { width:26px; height:26px; }
+  .mic-status { font-size:13px; color:#5C6B80; min-height:36px; margin-bottom:24px; max-width:560px; margin-left:auto; margin-right:auto; }
+  .mic-status.rec { color:#C4432B; font-weight:600; }
+  .waveform { display:flex; align-items:flex-end; justify-content:center; gap:3px; height:30px; margin-bottom:22px; }
+  .waveform span { width:3px; background:#C4432B; border-radius:2px; height:4px; opacity:.85; }
+  .feedback { display:none; background:#F7F9FC; border:1px solid #E3E6EC; border-radius:6px; padding:16px 20px; text-align:left; margin:0 auto 24px; max-width:560px; }
+  .feedback.show { display:block; }
+  .feedback-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #E9ECF1; font-size:13px; }
+  .feedback-row:last-child { border-bottom:none; }
+  .feedback-row .label { color:#5C6B80; }
+  .feedback-score { font-weight:600; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .score-good { color:#1B8A5A; } .score-mid { color:#B8790C; } .score-low { color:#C4432B; }
+  .feedback-transcript { margin-top:10px; font-size:12.5px; color:#7A889B; font-style:italic; line-height:1.5; max-height:100px; overflow-y:auto; }
+  .btn-row { display:flex; justify-content:center; gap:12px; }
+  .btn { padding:10px 26px; border-radius:4px; font-size:14px; font-weight:600; border:1px solid #C7CEDA; background:#fff; color:#33465E; cursor:pointer; }
+  .btn.primary { background:#1E5F9E; border-color:#1E5F9E; color:#fff; }
+  .btn.primary:hover { background:#184D82; }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  .dots { display:flex; justify-content:center; gap:8px; padding:16px 0 24px; }
+  .dot-step { width:9px; height:9px; border-radius:50%; background:#D8DCE4; }
+  .dot-step.done { background:#1B8A5A; }
+  .dot-step.active { background:#1E5F9E; width:22px; border-radius:5px; }
+  .final { display:none; padding:50px 30px; text-align:center; }
+  .final.show { display:block; }
+  .final h2 { font-size:20px; color:#0F2540; margin-bottom:10px; }
+  .final p { font-size:14px; color:#5C6B80; margin-bottom:26px; }
+  .final-stats { display:flex; justify-content:center; gap:28px; margin-bottom:30px; }
+  .final-stat .n { font-size:26px; font-weight:700; color:#14202E; font-family:'Consolas','IBM Plex Mono',monospace; }
+  .final-stat .l { font-size:12px; color:#8A97A8; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span>Communication Assessment — Practice Mode</div>
+  <div class="topbar-mid">Section 5 of 5 · Open-ended Spoken Response</div>
+  <div class="timer-box" id="sectionTimer">30:00</div>
+</div>
+
+<div class="shell">
+  <div class="banner"><b>Instructions:</b> You'll see a topic. You get 15 seconds to think, then up to 45 seconds to speak about it in your own words. Speak in complete sentences and try to cover at least 3 points. There is no single correct answer here — feedback focuses on fluency, word count, and pace.</div>
+  <div id="unsupportedMsg" class="unsupported"></div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h1>Open-ended Spoken Response</h1>
+      <div class="qcount" id="qcount">Topic 1 of 25</div>
+    </div>
+
+    <div id="stageView" class="stage">
+      <div class="stage-label" id="stageLabel">Prepare your answer</div>
+      <div class="prompt-card">
+        <div class="prompt-text" id="promptText"></div>
+        <div class="prep-note" id="prepNote">Preparation time: 15 seconds</div>
+      </div>
+
+      <div class="qtimer-wrap">
+        <div class="qring"><svg width="72" height="72"><circle class="bg" cx="36" cy="36" r="31"></circle><circle class="fg" id="ringFg" cx="36" cy="36" r="31" stroke-dasharray="194.8" stroke-dashoffset="0"></circle></svg><div class="qring-num" id="ringNum">15</div></div>
+      </div>
+
+      <div class="controls" id="controlsArea" style="display:none;">
+        <button class="mic-btn" id="micBtn" aria-label="Start speaking">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="mic-status" id="micStatus"></div>
+      <div class="waveform" id="waveform"></div>
+
+      <div class="feedback" id="feedback">
+        <div class="feedback-row"><span class="label">Word count</span><span class="feedback-score" id="scoreWords">—</span></div>
+        <div class="feedback-row"><span class="label">Fluency (pace)</span><span class="feedback-score" id="scoreFluency">—</span></div>
+        <div class="feedback-row"><span class="label">Overall</span><span class="feedback-score" id="scoreOverall">—</span></div>
+        <div class="feedback-transcript" id="transcriptText"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn primary" id="nextBtn" style="display:none;">Next topic</button>
+      </div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+    <div id="finalView" class="final">
+      <h2>Section 5 complete</h2>
+      <p>Here's how you did on Open-ended Spoken Response.</p>
+      <div class="final-stats">
+        <div class="final-stat"><div class="n" id="finAvg">—</div><div class="l">Avg. overall</div></div>
+        <div class="final-stat"><div class="n" id="finWords">—</div><div class="l">Avg. words</div></div>
+      </div>
+      <button class="btn primary" id="restartBtn">Restart section</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const topics = [
+  "Describe a time you had to work with a difficult teammate and how you handled it.",
+  "Talk about a skill you would like to develop over the next year and why.",
+  "Describe your ideal work environment and what makes you productive.",
+  "Talk about a goal you achieved that you are proud of.",
+  "Describe a situation where you had to meet a tight deadline under pressure.",
+  "Talk about a time you disagreed with a decision made by your manager and how you responded.",
+  "Describe how you prioritize tasks when handling multiple projects at once.",
+  "Talk about a mistake you made at work or in school and what you learned from it.",
+  "Describe a time you had to explain a complex idea to someone with less technical knowledge.",
+  "Talk about how you handle constructive criticism.",
+  "Describe a situation where you had to adapt quickly to an unexpected change.",
+  "Talk about a time you took initiative without being asked.",
+  "Describe how you would handle a conflict between two team members you're leading.",
+  "Talk about a time you had to persuade someone to see things your way.",
+  "Describe your approach to learning a new tool or technology quickly.",
+  "Talk about a time you received negative feedback from a client or customer.",
+  "Describe how you balance quality and speed when working under a deadline.",
+  "Talk about a time you had to make a decision with incomplete information.",
+  "Describe a project where collaboration across different teams was essential.",
+  "Talk about how you stay motivated when working on a repetitive or tedious task.",
+  "Describe a time you had to give difficult feedback to a colleague.",
+  "Talk about how you manage stress during high-pressure situations at work.",
+  "Describe a situation where you identified a problem before it became serious.",
+  "Talk about what leadership means to you, based on your own experience.",
+  "Describe a time you had to say no to a request and how you communicated it."
+];
+
+const PREP_TIME = 15;
+const SPEAK_TIME = 45;
+let current = 0;
+let scores = [];
+let wordCounts = [];
+let phase = 'prep';
+let recognition = null;
+let recognizing = false;
+let qTimerInterval = null;
+let sectionSeconds = 1800;
+let sectionInterval = null;
+let waveInterval = null;
+let finalTranscript = '';
+let startTime = 0;
+let manualStop = false;
+let restartAttempts = 0;
+const MAX_RESTARTS = 3;
+
+const qcountEl = document.getElementById('qcount');
+const promptText = document.getElementById('promptText');
+const prepNote = document.getElementById('prepNote');
+const stageLabel = document.getElementById('stageLabel');
+const controlsArea = document.getElementById('controlsArea');
+const micBtn = document.getElementById('micBtn');
+const micStatus = document.getElementById('micStatus');
+const feedback = document.getElementById('feedback');
+const nextBtn = document.getElementById('nextBtn');
+const dotsEl = document.getElementById('dots');
+const ringFg = document.getElementById('ringFg');
+const ringNum = document.getElementById('ringNum');
+const waveform = document.getElementById('waveform');
+const finalView = document.getElementById('finalView');
+const stageView = document.getElementById('stageView');
+const dotsWrap = document.getElementById('dots');
+const sectionTimerEl = document.getElementById('sectionTimer');
+const unsupportedMsg = document.getElementById('unsupportedMsg');
+const RING_CIRC_PREP = 194.8;
+const RING_CIRC_SPEAK = 194.8;
+
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SpeechRec) { unsupportedMsg.classList.add('show'); unsupportedMsg.textContent = "Live speech scoring isn't supported in this browser. Use Chrome or Edge."; }
+else if (location.protocol === 'file:') { unsupportedMsg.classList.add('show'); unsupportedMsg.textContent = 'Opened as a local file. If the mic never detects speech, serve this over http:// instead of double-clicking it.'; }
+
+function buildDots(){ dotsEl.innerHTML=''; for(let i=0;i<topics.length;i++){ const d=document.createElement('div'); d.className='dot-step'; dotsEl.appendChild(d);} }
+function refreshDots(){
+  const nodes = dotsEl.children;
+  for(let i=0;i<nodes.length;i++) nodes[i].className = 'dot-step'+(i<current?' done':i===current?' active':'');
+}
+function startSectionTimer(){
+  sectionInterval = setInterval(()=>{
+    sectionSeconds--;
+    const m=String(Math.floor(sectionSeconds/60)).padStart(2,'0'), s=String(sectionSeconds%60).padStart(2,'0');
+    sectionTimerEl.textContent = m+':'+s;
+    if (sectionSeconds<=60) sectionTimerEl.classList.add('warn');
+    if (sectionSeconds<=0){ clearInterval(sectionInterval); finishSection(); }
+  },1000);
+}
+function loadTopic(){
+  qcountEl.textContent = `Topic ${current+1} of ${topics.length}`;
+  promptText.textContent = topics[current];
+  feedback.classList.remove('show');
+  nextBtn.style.display = 'none';
+  controlsArea.style.display = 'none';
+  micStatus.textContent = '';
+  waveform.innerHTML = '';
+  stageLabel.textContent = 'Prepare your answer';
+  prepNote.textContent = 'Preparation time: '+PREP_TIME+' seconds';
+  phase = 'prep';
+  refreshDots();
+  ringFg.setAttribute('stroke-dasharray', RING_CIRC_PREP);
+  ringFg.style.strokeDashoffset = 0;
+  ringNum.textContent = PREP_TIME;
+  startPrepTimer();
+}
+function startPrepTimer(){
+  let t = PREP_TIME;
+  qTimerInterval = setInterval(()=>{
+    t--; ringNum.textContent = t;
+    ringFg.style.strokeDashoffset = RING_CIRC_PREP*(1-t/PREP_TIME);
+    if (t<=0){
+      clearInterval(qTimerInterval);
+      phase = 'speak';
+      stageLabel.textContent = 'Speak your answer';
+      prepNote.textContent = 'Speaking time: up to '+SPEAK_TIME+' seconds';
+      controlsArea.style.display = 'flex';
+      micStatus.textContent = 'Tap the microphone to begin speaking';
+      ringFg.setAttribute('stroke-dasharray', RING_CIRC_SPEAK);
+      ringFg.style.strokeDashoffset = 0;
+      ringNum.textContent = SPEAK_TIME;
+      startSpeakTimer();
+    }
+  },1000);
+}
+function startSpeakTimer(){
+  let t = SPEAK_TIME;
+  ringNum.textContent = t;
+  qTimerInterval = setInterval(()=>{
+    t--; ringNum.textContent=t;
+    ringFg.style.strokeDashoffset = RING_CIRC_SPEAK*(1-t/SPEAK_TIME);
+    if (t<=0){
+      clearInterval(qTimerInterval); qTimerInterval=null;
+      if (recognizing) stopRecording();
+      else scoreAttempt('', SPEAK_TIME);
+    }
+  },1000);
+}
+function buildWave(){
+  waveform.innerHTML='';
+  for(let i=0;i<28;i++){ const b=document.createElement('span'); waveform.appendChild(b); }
+  waveInterval = setInterval(()=>{ Array.from(waveform.children).forEach(b=>b.style.height=(4+Math.random()*26)+'px'); },120);
+}
+function stopWave(){ clearInterval(waveInterval); Array.from(waveform.children).forEach(b=>b.style.height='4px'); }
+
+async function startRecording(){
+  if (!SpeechRec){ micStatus.textContent='Speech recognition unavailable in this browser.'; return; }
+  micBtn.disabled = true;
+  micStatus.textContent = 'Requesting microphone access...';
+  micStatus.classList.remove('rec');
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    stream.getTracks().forEach(t=>t.stop());
+  } catch(e){
+    micStatus.textContent = 'Microphone access denied. Allow mic access and retry.';
+    micBtn.disabled = false; return;
+  }
+  finalTranscript=''; manualStop=false; restartAttempts=0;
+  launchRecognizer();
+}
+function launchRecognizer(){
+  recognition = new SpeechRec();
+  recognition.lang='en-US'; recognition.continuous=true; recognition.interimResults=true; recognition.maxAlternatives=1;
+  let lastError='';
+  recognition.onstart = () => {
+    if (!startTime) startTime = Date.now();
+    recognizing=true; micBtn.disabled=false; micBtn.classList.add('recording');
+    micStatus.textContent='Listening — keep speaking'; micStatus.classList.add('rec');
+    buildWave();
+  };
+  recognition.onresult = (event) => {
+    let interim='';
+    for (let i=event.resultIndex;i<event.results.length;i++){
+      const chunk=event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalTranscript+=chunk+' '; else interim+=chunk;
+    }
+    const preview = (finalTranscript+interim).trim();
+    micStatus.textContent = preview ? 'Hearing: "'+preview.slice(-140)+'"' : 'Listening — keep speaking';
+  };
+  recognition.onerror = (event) => {
+    lastError = event.error;
+    if (event.error==='no-speech'){ micStatus.textContent='No speech detected — keep speaking, or tap stop.'; return; }
+    if (event.error==='not-allowed'||event.error==='service-not-allowed'){ micStatus.textContent='Microphone blocked. Check browser settings.'; manualStop=true; }
+    else if (event.error==='network'){ micStatus.textContent='Speech service unreachable. Serve over http:// or check your connection.'; manualStop=true; }
+    else if (event.error==='audio-capture'){ micStatus.textContent='No microphone found.'; manualStop=true; }
+    else if (event.error!=='aborted'){ micStatus.textContent='Recognition error: '+event.error; manualStop=true; }
+  };
+  recognition.onend = () => {
+    if (!manualStop && recognizing && restartAttempts<MAX_RESTARTS && lastError!=='network' && lastError!=='audio-capture'){
+      restartAttempts++; try { launchRecognizer(); recognition.start(); return; } catch(e){}
+    }
+    recognizing=false; micBtn.classList.remove('recording'); micBtn.disabled=false; stopWave();
+    clearInterval(qTimerInterval); qTimerInterval=null;
+    const duration = startTime ? (Date.now()-startTime)/1000 : 1; startTime=0;
+    scoreAttempt(finalTranscript.trim(), duration);
+  };
+  try { recognition.start(); } catch(e){ micStatus.textContent='Could not start listening. Tap mic to retry.'; micBtn.disabled=false; }
+}
+function stopRecording(){ manualStop=true; if (recognition && recognizing) recognition.stop(); }
+
+function scoreAttempt(transcript, duration){
+  const words = transcript ? transcript.trim().split(/\s+/).filter(Boolean) : [];
+  const wc = words.length;
+  wordCounts.push(wc);
+  const wps = duration>0 ? wc/duration : 0;
+  let fluency;
+  if (wps>=1.7 && wps<=3.2) fluency = 88+Math.round(Math.random()*10);
+  else if (wps>=1.1 && wps<4.0) fluency = 68+Math.round(Math.random()*14);
+  else fluency = 40+Math.round(Math.random()*18);
+  const wordScore = wc>=25 ? 95 : wc>=15 ? 78 : wc>=8 ? 55 : 30;
+  const overall = Math.round(wordScore*0.5+fluency*0.5);
+  scores.push(overall);
+  document.getElementById('scoreWords').textContent = wc+' words';
+  document.getElementById('scoreFluency').textContent = fluency+'%';
+  document.getElementById('scoreOverall').textContent = overall+'%';
+  [['scoreFluency',fluency],['scoreOverall',overall]].forEach(([id,val])=>{
+    const el=document.getElementById(id); el.classList.remove('score-good','score-mid','score-low');
+    el.classList.add(val>=80?'score-good':val>=55?'score-mid':'score-low');
+  });
+  const wcEl = document.getElementById('scoreWords');
+  wcEl.classList.remove('score-good','score-mid','score-low');
+  wcEl.classList.add(wc>=25?'score-good':wc>=12?'score-mid':'score-low');
+  document.getElementById('transcriptText').textContent = transcript ? `You said: "${transcript}"` : 'We could not detect clear speech.';
+  feedback.classList.add('show');
+  controlsArea.style.display='none';
+  micStatus.textContent='';
+  nextBtn.style.display='inline-block';
+}
+micBtn.addEventListener('click', ()=>{ if(!recognizing) startRecording(); else stopRecording(); });
+nextBtn.addEventListener('click', ()=>{
+  current++;
+  if (current>=topics.length) finishSection(); else loadTopic();
+});
+function finishSection(){
+  clearInterval(sectionInterval); clearInterval(qTimerInterval);
+  stageView.style.display='none'; dotsWrap.style.display='none'; finalView.classList.add('show');
+  const avg = scores.length? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;
+  const avgW = wordCounts.length? Math.round(wordCounts.reduce((a,b)=>a+b,0)/wordCounts.length):0;
+  document.getElementById('finAvg').textContent = avg+'%';
+  document.getElementById('finWords').textContent = avgW;
+}
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  current=0; scores=[]; wordCounts=[]; sectionSeconds=1800; sectionTimerEl.classList.remove('warn');
+  finalView.classList.remove('show'); stageView.style.display='block'; dotsWrap.style.display='flex';
+  buildDots(); loadTopic(); startSectionTimer();
+});
+buildDots(); loadTopic(); startSectionTimer();
+</script>
+</body>
+</html>

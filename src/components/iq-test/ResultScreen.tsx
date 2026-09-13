@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { Download, RefreshCcw, Home, Share2 } from "lucide-react";
 import Link from "next/link";
 
@@ -149,17 +151,21 @@ export default function ResultScreen({ results, onRetry }: ResultScreenProps) {
                 transition={{ delay: 0.5 }}
                 className="flex flex-wrap gap-4 items-center justify-center"
             >
-                <Button onClick={onRetry} variant="outline" className="gap-2">
-                    <RefreshCcw className="w-4 h-4" /> Retake Test
-                </Button>
-                <Button asChild className="gap-2 px-8">
-                    <Link href="/dashboard">
-                        <Home className="w-4 h-4" /> Back to Dashboard
-                    </Link>
-                </Button>
-                <Button variant="ghost" className="gap-2">
-                    <Share2 className="w-4 h-4" /> Share Result
-                </Button>
+                <CoolMode>
+                    <Button onClick={onRetry} variant="outline" className="gap-2">
+                        <RefreshCcw className="w-4 h-4" /> Retake Test
+                    </Button>
+                </CoolMode>
+                <CoolMode>
+                    <ShimmerButton href="/dashboard" className="h-10 text-sm font-semibold gap-2 px-6">
+                        <Home className="w-4 h-4 mr-1.5" /> Back to Dashboard
+                    </ShimmerButton>
+                </CoolMode>
+                <CoolMode>
+                    <Button variant="ghost" className="gap-2">
+                        <Share2 className="w-4 h-4" /> Share Result
+                    </Button>
+                </CoolMode>
             </motion.div>
         </div>
     );

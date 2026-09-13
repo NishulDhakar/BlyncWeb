@@ -1,26 +1,28 @@
-'use client';
-
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface BackToDashboardProps {
-    className?: string;
+  href?: string;
+  label?: string;
+  className?: string;
 }
 
-export default function BackToDashboard({ className }: BackToDashboardProps) {
-    const router = useRouter();
-
-    return (
-        <button
-            onClick={() => router.push("/")}
-            className={cn(
-                "group flex items-center gap-2 px-5 py-2.5 rounded-full text-white/70 backdrop-blur-md border border-border/50 text-sm font-medium hover:text-white/80 hover:bg-accent/10 transition-all hover:pl-4 hover:pr-6 shadow-sm hover:shadow-md",
-                className
-            )}
-        >
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Dashboard
-        </button>
-    );
+export default function BackToDashboard({
+  href = "/",
+  label = "Back to Home",
+  className,
+}: BackToDashboardProps) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "group inline-flex items-center gap-2 px-4 py-2 rounded-full text-muted-foreground bg-card/60 backdrop-blur-md border border-border/50 text-xs sm:text-sm font-medium hover:text-foreground hover:bg-accent/40 transition-all hover:pl-3.5 hover:pr-4.5 shadow-sm hover:shadow-md",
+        className
+      )}
+    >
+      <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+      <span>{label}</span>
+    </Link>
+  );
 }

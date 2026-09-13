@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "15 Puzzle — Free Online Sliding Tile Game | Blync",
   description:
     "Solve the classic 15 sliding tile puzzle online. Arrange numbered tiles in order. Free brain game, no download.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/15-puzzle` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/15-puzzle` },
   openGraph: {
     title: "15 Puzzle | Blync Brain Games",
     description: "Play the 15 Puzzle free online — classic sliding tile brain game.",
-    url: `${siteConfig.url}/play/brain-games/15-puzzle`,
+    url: `${siteConfig.url}/games/brain/15-puzzle`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "15 Puzzle — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/15-puzzle`,
+  url: `${siteConfig.url}/games/brain/15-puzzle`,
   description: "Classic 15 sliding tile puzzle — free online spatial reasoning game.",
 };
 

@@ -3,19 +3,14 @@
 import { motion } from "framer-motion";
 import { PixelButton, FloatingPlatform, PixelCoin } from "./PixelComponents";
 import { Gamepad2, Sparkles, Zap } from "lucide-react";
+import GameBackgroundGrid from "@/components/common/GameBackgroundGrid";
 
 export default function Hero() {
     return (
         <div className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white">
 
             {/* Background Grid */}
-            <div
-                className="absolute inset-0 opacity-20 pointer-events-none"
-                style={{
-                    backgroundImage: `linear-gradient(#4f4f4f 1px, transparent 1px), linear-gradient(90deg, #4f4f4f 1px, transparent 1px)`,
-                    backgroundSize: "40px 40px"
-                }}
-            ></div>
+            <GameBackgroundGrid />
 
             {/* Floating Elements (Decorative) */}
             <div className="absolute top-20 left-10">

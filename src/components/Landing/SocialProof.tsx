@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ExternalLink, Linkedin, Sparkles } from "lucide-react";
 import Container from "../common/Container";
+import { landingHeadingClass, landingSubtitleClass } from "./_ui";
 
 /* ── Social proof data ───────────────────────────────────────────────────── */
 
@@ -53,13 +55,13 @@ export default function SocialProof() {
           transition={{ duration: 0.5 }}
           className="mb-16 text-center max-w-3xl mx-auto relative z-10"
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
+          <h2 className={landingHeadingClass}>
             See What People Say
           </h2>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50 text-xl md:text-xl font-bold tracking-tight mb-4">
+          <span className={`${landingSubtitleClass} block`}>
             Real Posts, Real Feedback
           </span>
-          <p className="text-md md:text-lg text-muted-foreground max-w-2xl mx-auto mt-10">
+          <p className={landingSubtitleClass}>
             Don&apos;t just take our word for it — see genuine posts, success reviews, and community reactions from our LinkedIn network.
           </p>
         </motion.div>
@@ -125,10 +127,12 @@ export default function SocialProof() {
               style={{ height: 450 }}
             >
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-neutral-950/40 flex items-center justify-center p-2">
-                <img
+                <Image
                   src="/review/review.jpg"
                   alt="Student Placement Review Feedback"
-                  className="max-w-full max-h-full object-contain rounded-lg transition-transform duration-300 hover:scale-[1.02]"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 90vw"
+                  className="object-contain rounded-lg transition-transform duration-300 hover:scale-[1.02]"
                 />
               </div>
             </div>

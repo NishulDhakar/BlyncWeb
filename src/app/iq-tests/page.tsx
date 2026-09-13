@@ -3,6 +3,7 @@
 import IQTestContainer from "@/components/iq-test/IQTestContainer";
 import BackToDashboard from "@/components/common/BackToDashboard";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function IQTestPage() {
     return (
@@ -21,6 +22,32 @@ export default function IQTestPage() {
                 >
                     <BackToDashboard />
                 </motion.div>
+
+                {/* Server-rendered intro.
+                    IQTestContainer gates its content on authClient.useSession(),
+                    which is always "pending" during SSR — so the prerendered HTML
+                    for this page used to contain a loading spinner and no heading
+                    at all. This section is plain markup, so the page now ships a
+                    real H1 and indexable copy whether or not JS has run. */}
+                <section className="mx-auto mb-10 max-w-3xl">
+                    <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+                        Free Online IQ Test — Logical Reasoning &amp; Pattern Recognition
+                    </h1>
+                    <p className="leading-7 text-muted-foreground">
+                        Take a free IQ-style assessment covering logical reasoning, number
+                        sequences, pattern recognition and spatial ability — the same skill
+                        groups placement tests measure. Answer each question against the clock
+                        and get a scored breakdown at the end.
+                    </p>
+                    <p className="mt-4 leading-7 text-muted-foreground">
+                        No download and no payment. If you are preparing for a specific
+                        employer, the{" "}
+                        <Link href="/games/cognitive" className="underline hover:text-foreground">
+                            Capgemini and Cognizant cognitive games
+                        </Link>{" "}
+                        match those rounds more closely than a general IQ test does.
+                    </p>
+                </section>
 
                 <IQTestContainer />
             </div>

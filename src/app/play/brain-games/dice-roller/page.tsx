@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: "Dice Roller — Free Online Probability Game | Blync",
   description:
     "Roll virtual dice for board games, math practice, or probability experiments. Free online, instant results.",
-  alternates: { canonical: `${siteConfig.url}/play/brain-games/dice-roller` },
+  alternates: { canonical: `${siteConfig.url}/games/brain/dice-roller` },
   openGraph: {
     title: "Dice Roller | Blync Brain Games",
     description: "Roll virtual dice free online — great for board games and math.",
-    url: `${siteConfig.url}/play/brain-games/dice-roller`,
+    url: `${siteConfig.url}/games/brain/dice-roller`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Dice Roller — Blync" }],
   },
 };
@@ -22,7 +22,7 @@ const schema = {
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  url: `${siteConfig.url}/play/brain-games/dice-roller`,
+  url: `${siteConfig.url}/games/brain/dice-roller`,
   description: "Virtual dice roller — free online for board games and probability.",
 };
 
