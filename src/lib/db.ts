@@ -21,10 +21,8 @@ const client =
         connect_timeout: 10,
     });
 
-if (process.env.NODE_ENV !== "production") {
-    // Only cache in dev — production serverless functions are single-use anyway
-    global._pgClient = client;
-}
+// Cache client on global scope to preserve connection pool across hot reloads and warm instances
+global._pgClient = client;
 
 export const db = drizzle(client, { schema });
 

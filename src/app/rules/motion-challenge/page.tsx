@@ -3,13 +3,13 @@ import { motionChallengeRules } from "@/data/rules";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Motion Challenge Practice Free 2026 — Capgemini Game Guide | Blync",
-  description: "Master Motion Challenge for Capgemini cognitive test. Free practice, motion pattern tips & complete strategy guide. Top-ranked resource. Start practicing now!",
+  title: "Motion Challenge Practice Guide 2026 — Capgemini Game Prep | Blync",
+  description: "Master Motion Challenge for Capgemini cognitive test. Motion pattern tips, rules & complete strategy guide. Practice with Blync Pro!",
   keywords: [
     "motion challenge",
     "motion challenge practice",
     "capgemini motion challenge",
-    "motion challenge free",
+    "motion challenge rules",
     "motion pattern game",
     "motion challenge capgemini",
     "capgemini game based aptitude test",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
     canonical: "https://www.cognitivegames.me/rules/motion-challenge",
   },
   openGraph: {
-    title: "Motion Challenge Practice Free 2026 — Capgemini Game Guide",
-    description: "Free Motion Challenge practice for Capgemini placement. Expert tips, pattern strategies & unlimited attempts.",
+    title: "Motion Challenge Practice Guide 2026 — Capgemini Game Prep",
+    description: "Motion Challenge practice guide for Capgemini placement. Expert tips, pattern strategies & mock tests with Blync Pro.",
     url: "https://www.cognitivegames.me/rules/motion-challenge",
     type: "article",
   },

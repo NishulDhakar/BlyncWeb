@@ -17,7 +17,7 @@ import type { CompanySlug, GameCategory, GameDefinition } from "./types";
  * lands in the H1, the <title>, and the opening sentence, so keep it the exact
  * phrase people search — not a paraphrase.
  */
-export const GAMES: readonly GameDefinition[] = [
+const RAW_GAMES: readonly GameDefinition[] = [
   // ══════════════════════════════════════════════════════════════════════════
   // CAPGEMINI — cognitive game-based aptitude round
   // ══════════════════════════════════════════════════════════════════════════
@@ -971,7 +971,18 @@ export const GAMES: readonly GameDefinition[] = [
       related: ["sudoku", "tic-tac-toe", "ant-smasher"],
     },
   },
-] as const;
+];
+
+export const GAMES: readonly GameDefinition[] = RAW_GAMES.map((game) => ({
+  ...game,
+  pro: true,
+  seo: {
+    ...game.seo,
+    headline: game.seo.headline.replace(/Free\s+/gi, "").replace(/\s+Free/gi, ""),
+    description: game.seo.description.replace(/free\s+online/gi, "online").replace(/\bfree\b/gi, "pro"),
+  },
+}));
+
 
 // ── Derived lookups ─────────────────────────────────────────────────────────
 

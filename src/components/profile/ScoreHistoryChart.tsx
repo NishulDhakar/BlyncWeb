@@ -20,16 +20,24 @@ export function ScoreHistoryChart({
 
   const sessions = formatGameHistoryChart(scoreHistory, selectedGame);
 
+  const hasSessions = sessions.length > 0;
   const scores = sessions.map((s) => s.score);
-  const highest = scores.length > 0 ? Math.max(...scores) : 0;
+  const highest = hasSessions ? Math.max(...scores) : null;
   const average =
-    scores.length > 0
+    hasSessions
       ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
-      : 0;
-  const latest = scores.length > 0 ? scores[scores.length - 1] : 0;
-  const first = scores.length > 0 ? scores[0] : 0;
-  const diff = latest - first;
-  const improvement = diff > 0 ? `+${diff}%` : diff === 0 ? "0%" : `${diff}%`;
+      : null;
+  const latest = hasSessions ? scores[scores.length - 1] : null;
+  const first = hasSessions ? scores[0] : null;
+  const diff = latest !== null && first !== null ? latest - first : 0;
+  const improvement =
+    scores.length >= 2
+      ? diff > 0
+        ? `+${diff}%`
+        : diff === 0
+        ? "0%"
+        : `${diff}%`
+      : "—";
 
   return (
     <div
@@ -85,24 +93,32 @@ export function ScoreHistoryChart({
       <div className="mt-4 grid grid-cols-4 gap-2 border-y border-border/40 py-2.5 text-center text-xs">
         <div>
           <span className="block text-[11px] text-muted-foreground">Highest</span>
-          <span className="font-bold tabular-nums text-foreground">{highest}%</span>
+          <span className="font-bold tabular-nums text-foreground">
+            {highest !== null ? `${highest}%` : "—"}
+          </span>
         </div>
         <div>
           <span className="block text-[11px] text-muted-foreground">Average</span>
-          <span className="font-bold tabular-nums text-foreground">{average}%</span>
+          <span className="font-bold tabular-nums text-foreground">
+            {average !== null ? `${average}%` : "—"}
+          </span>
         </div>
         <div>
           <span className="block text-[11px] text-muted-foreground">Latest</span>
-          <span className="font-bold tabular-nums text-foreground">{latest}%</span>
+          <span className="font-bold tabular-nums text-foreground">
+            {latest !== null ? `${latest}%` : "—"}
+          </span>
         </div>
         <div>
           <span className="block text-[11px] text-muted-foreground">Trajectory</span>
           <span
             className={cn(
               "font-bold tabular-nums",
-              diff >= 0
-                ? "text-emerald-600 dark:text-emerald-400"
-                : "text-amber-600 dark:text-amber-400"
+              scores.length >= 2
+                ? diff >= 0
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-amber-600 dark:text-amber-400"
+                : "text-muted-foreground"
             )}
           >
             {improvement}
@@ -110,54 +126,63 @@ export function ScoreHistoryChart({
         </div>
       </div>
 
-      {/* Interactive Bar Progression Chart */}
-      <div className="mt-5">
-        <div className="relative flex h-32 items-end gap-1.5 border-b border-border/50 pb-2 pt-4 sm:gap-2">
-          {sessions.map((session, idx) => {
-            const heightPercent = Math.max(12, session.score);
-            const isHovered = hoveredIndex === idx;
+      {/* Interactive Bar Progression Chart or Empty State */}
+      {!hasSessions ? (
+        <div className="mt-5 flex h-36 flex-col items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20 p-6 text-center">
+          <p className="text-xs font-medium text-foreground">No assessment sessions recorded yet</p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Complete rounds in any challenge to begin tracking your performance trajectory over time.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-5">
+          <div className="relative flex h-32 items-end gap-1.5 border-b border-border/50 pb-2 pt-4 sm:gap-2">
+            {sessions.map((session, idx) => {
+              const heightPercent = Math.max(12, session.score);
+              const isHovered = hoveredIndex === idx;
 
-            return (
-              <div
-                key={session.sessionNumber}
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className="group relative flex flex-1 flex-col items-center justify-end h-full cursor-pointer"
-              >
-                {/* Tooltip */}
-                {isHovered && (
-                  <div className="absolute -top-10 z-20 flex flex-col items-center rounded-md border border-border/70 bg-popover px-2 py-1 shadow-md animate-in fade-in-0 duration-100">
-                    <span className="text-[10px] font-bold text-popover-foreground">
-                      {session.score}%
-                    </span>
-                    <span className="text-[9px] text-muted-foreground whitespace-nowrap">
-                      {session.dateStr}
-                    </span>
-                  </div>
-                )}
-
-                {/* Bar */}
+              return (
                 <div
-                  className={cn(
-                    "w-full rounded-t-sm transition-all duration-150",
-                    isHovered
-                      ? "bg-primary"
-                      : "bg-muted-foreground/25 group-hover:bg-primary/70"
+                  key={session.sessionNumber}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="group relative flex flex-1 flex-col items-center justify-end h-full cursor-pointer"
+                >
+                  {/* Tooltip */}
+                  {isHovered && (
+                    <div className="absolute -top-10 z-20 flex flex-col items-center rounded-md border border-border/70 bg-popover px-2 py-1 shadow-md animate-in fade-in-0 duration-100">
+                      <span className="text-[10px] font-bold text-popover-foreground">
+                        {session.score}%
+                      </span>
+                      <span className="text-[9px] text-muted-foreground whitespace-nowrap">
+                        {session.dateStr}
+                      </span>
+                    </div>
                   )}
-                  style={{ height: `${heightPercent}%` }}
-                />
-              </div>
-            );
-          })}
-        </div>
 
-        {/* X-axis labels */}
-        <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
-          <span>Session {sessions[0]?.sessionNumber ?? 1}</span>
-          <span>Session {sessions[Math.floor(sessions.length / 2)]?.sessionNumber ?? 4}</span>
-          <span>Session {sessions[sessions.length - 1]?.sessionNumber ?? 7}</span>
+                  {/* Bar */}
+                  <div
+                    className={cn(
+                      "w-full rounded-t-sm transition-all duration-150",
+                      isHovered
+                        ? "bg-primary"
+                        : "bg-muted-foreground/25 group-hover:bg-primary/70"
+                    )}
+                    style={{ height: `${heightPercent}%` }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* X-axis labels */}
+          <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
+            <span>Session {sessions[0]?.sessionNumber ?? 1}</span>
+            <span>Session {sessions[Math.floor(sessions.length / 2)]?.sessionNumber ?? 4}</span>
+            <span>Session {sessions[sessions.length - 1]?.sessionNumber ?? 7}</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

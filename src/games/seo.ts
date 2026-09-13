@@ -106,7 +106,7 @@ export function gameSchema(game: GameDefinition) {
     },
     offers: {
       "@type": "Offer",
-      price: "0",
+      price: game.pro ? "49" : "0",
       priceCurrency: "INR",
       availability: "https://schema.org/InStock",
     },

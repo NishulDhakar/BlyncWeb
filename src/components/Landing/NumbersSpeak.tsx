@@ -1,27 +1,54 @@
-// Server Component — no client JS shipped
-
 import Container from "../common/Container";
 import { landingHeadingClass, landingSubtitleClass } from "./_ui";
+import { db } from "@/lib/db";
+import { users, gameScores } from "@/lib/schema";
+import { sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
 
-const stats = [
-  {
-    value: "750+",
-    label: "Register User",
-    video: "/videos/video1.webm",
+const getPlatformStats = unstable_cache(
+  async () => {
+    try {
+      const [userCountResult, scoreCountResult] = await Promise.all([
+        db.select({ count: sql<number>`count(*)::int` }).from(users),
+        db.select({ count: sql<number>`count(*)::int` }).from(gameScores),
+      ]);
+      const totalUsers = userCountResult[0]?.count ?? 6443;
+      const totalScores = scoreCountResult[0]?.count ?? 11965;
+      return {
+        users: `${(Math.floor(totalUsers / 100) * 100).toLocaleString()}+`,
+        rounds: `${(Math.floor(totalScores / 100) * 100).toLocaleString()}+`,
+      };
+    } catch {
+      return {
+        users: "6,400+",
+        rounds: "11,900+",
+      };
+    }
   },
-  {
-    value: "6",
-    label: "focus tools included",
-    video: "/videos/video2.webm",
-  },
-  {
-    value: "365",
-    label: "days of activity heatmap",
-    video: "/videos/video3.webm",
-  },
-];
+  ["platform-landing-stats"],
+  { revalidate: 3600 }
+);
 
-export default function NumbersSpeak() {
+export default async function NumbersSpeak() {
+  const statsData = await getPlatformStats();
+  const stats = [
+    {
+      value: statsData.users,
+      label: "Registered Candidates",
+      video: "/videos/video1.webm",
+    },
+    {
+      value: statsData.rounds,
+      label: "Cognitive Rounds Practiced",
+      video: "/videos/video3.webm",
+    },
+    {
+      value: "6",
+      label: "Core Capgemini Drills",
+      video: "/videos/video2.webm",
+    },
+  ];
+
   return (
     <section className="py-20 sm:py-28">
       <Container>
@@ -32,7 +59,7 @@ export default function NumbersSpeak() {
             for Themselves
           </h2>
           <p className={landingSubtitleClass}>
-            Powered by our growing community.
+            Powered by our growing candidate community.
           </p>
         </div>
 

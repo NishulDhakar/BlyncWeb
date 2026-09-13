@@ -3,9 +3,9 @@ import { siteConfig } from "@/config/site";
 import CapgeminiClient from "./CapgeminiClient";
 
 export const metadata: Metadata = {
-  title: "Capgemini Game Based Aptitude Test 2026 — Free Practice | Blync",
+  title: "Capgemini Game Based Aptitude Test 2026 — Practice & Prep | Blync Pro",
   description:
-    "Complete guide to Capgemini's game-based aptitude test. Practice all 6 cognitive games free — Switch, Grid, Digit, Motion, Inductive & Deductive. 5,000+ students prepared. No signup required.",
+    "Complete guide to Capgemini's game-based aptitude test. Practice all 6 cognitive games — Switch, Grid, Digit, Motion, Inductive & Deductive with Blync Pro. 5,000+ students prepared.",
   keywords: [
     "capgemini game based aptitude test",
     "capgemini game based aptitude",
@@ -14,15 +14,15 @@ export const metadata: Metadata = {
     "capgemini gaming round",
     "game based aptitude test capgemini",
     "capgemini game based aptitude test 2026",
-    "capgemini cognitive games free"
+    "capgemini cognitive games practice"
   ],
   alternates: {
     canonical: `${siteConfig.url}/Capgemini`,
   },
   openGraph: {
-    title: "Capgemini Game Based Aptitude Test 2026 — Free Practice | Blync",
+    title: "Capgemini Game Based Aptitude Test 2026 — Practice & Prep | Blync Pro",
     description:
-      "Practice all 6 Capgemini cognitive games free. Complete guide with tips, strategies & unlimited attempts.",
+      "Practice all 6 Capgemini cognitive games. Complete guide with tips, strategies & unlimited attempts with Blync Pro.",
     url: `${siteConfig.url}/Capgemini`,
     type: "website",
     images: [
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Capgemini Game Based Aptitude Test 2026 — Free Practice",
-    description: "Practice all 6 Capgemini cognitive games free. No signup required.",
+    title: "Capgemini Game Based Aptitude Test 2026 — Practice & Prep | Blync Pro",
+    description: "Practice all 6 Capgemini cognitive games with Blync Pro.",
     images: [`${siteConfig.url}/og-logo.png`],
   },
 };

@@ -11,15 +11,15 @@ import { siteConfig } from "@/config/site";
  * which keeps it out of the index entirely.
  */
 export const metadata: Metadata = {
-  title: "Free Online IQ Test — Measure Reasoning & Pattern Skills",
+  title: "Online IQ Assessment & Cognitive Breakdown | Blync Pro",
   description:
-    "Take a free online IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Instant scoring, no signup, no download.",
-  keywords: ["iq test online free", "free iq test with results", "logical reasoning test online", "pattern recognition iq test"],
+    "Take an in-depth IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Timed rounds, instant scoring, and percentile metrics with Blync Pro.",
+  keywords: ["iq test online", "iq test with results", "logical reasoning test online", "pattern recognition iq test", "cognitive test"],
   alternates: { canonical: `${siteConfig.url}/iq-tests` },
   openGraph: {
-    title: "Free Online IQ Test — Measure Reasoning & Pattern Skills | Blync",
+    title: "Online IQ Assessment & Cognitive Breakdown | Blync Pro",
     description:
-      "Take a free online IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Instant scoring, no signup, no download.",
+      "Take an in-depth IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Timed rounds, instant scoring, and percentile metrics with Blync Pro.",
     url: `${siteConfig.url}/iq-tests`,
     type: "website",
     siteName: siteConfig.name,
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Free Online IQ Test — Measure Reasoning & Pattern Skills — Blync",
+        alt: "Online IQ Assessment & Cognitive Breakdown — Blync Pro",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Online IQ Test — Measure Reasoning & Pattern Skills | Blync",
+    title: "Online IQ Assessment & Cognitive Breakdown | Blync Pro",
     description:
-      "Take a free online IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Instant scoring, no signup, no download.",
+      "Take an in-depth IQ-style test measuring logical reasoning, pattern recognition and spatial ability. Timed rounds, instant scoring, and percentile metrics with Blync Pro.",
     images: [siteConfig.ogImage],
   },
 };

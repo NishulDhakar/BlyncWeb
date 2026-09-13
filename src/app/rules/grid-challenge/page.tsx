@@ -3,8 +3,8 @@ import { gridChallengeRules } from "@/data/rules";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Grid Challenge Practice Free 2026 — Capgemini Game Guide | Blync",
-  description: "Practice Grid Challenge for Capgemini placement. Free unlimited attempts, spatial reasoning tips & complete strategy guide. 1,000+ students improved. Start now!",
+  title: "Grid Challenge Practice Guide 2026 — Capgemini Game Guide | Blync",
+  description: "Practice Grid Challenge for Capgemini placement. Spatial reasoning tips, rules & complete strategy guide with Blync Pro. 1,000+ students improved.",
   keywords: [
     "grid challenge",
     "grid challenge game",
@@ -13,15 +13,15 @@ export const metadata: Metadata = {
     "capgemini grid challenge online",
     "grid challenge test",
     "capgemini game based aptitude test",
-    "spatial reasoning game free",
-    "grid challenge free"
+    "spatial reasoning game",
+    "grid challenge rules"
   ],
   alternates: {
     canonical: "https://www.cognitivegames.me/rules/grid-challenge",
   },
   openGraph: {
-    title: "Grid Challenge Practice Free 2026 — Capgemini Game Guide",
-    description: "Free Grid Challenge practice for Capgemini placement. Unlimited attempts, expert tips & spatial reasoning guide.",
+    title: "Grid Challenge Practice Guide 2026 — Capgemini Game Guide",
+    description: "Grid Challenge practice guide for Capgemini placement. Expert tips & spatial reasoning mock tests with Blync Pro.",
     url: "https://www.cognitivegames.me/rules/grid-challenge",
     type: "article",
   },

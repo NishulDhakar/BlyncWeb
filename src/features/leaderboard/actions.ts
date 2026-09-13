@@ -97,23 +97,27 @@ export async function getLeaderboard(
           ut.total_rounds as "gamesPlayed", 
           u.name, 
           u.image, 
-          COALESCE(u."isPro", false) as "isPro"
+          COALESCE(u."isPro", false) as "isPro",
+          COUNT(*) OVER ()::int as total_players
         FROM user_totals ut
         JOIN "user" u ON u.id = ut."userId"
         ORDER BY ut.total_score DESC, ut.total_rounds DESC
         LIMIT ${limit};
       `)) as any[];
 
-      return rows.map((r, i) => ({
-        rank: i + 1,
-        userId: r.userId,
-        name: r.name,
-        image: r.image,
-        score: Number(r.score) || 0,
-        gamesPlayed: Number(r.gamesPlayed) || 1,
-        isPro: Boolean(r.isPro),
-        percentile: calculatePercentile(i + 1, 2098),
-      }));
+      return rows.map((r, i) => {
+        const total = Number(r.total_players) || rows.length || 1;
+        return {
+          rank: i + 1,
+          userId: r.userId,
+          name: r.name,
+          image: r.image,
+          score: Number(r.score) || 0,
+          gamesPlayed: Number(r.gamesPlayed) || 1,
+          isPro: Boolean(r.isPro),
+          percentile: calculatePercentile(i + 1, total),
+        };
+      });
     }
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
@@ -191,7 +195,7 @@ export async function getUserStanding(
       if (rows.length === 0) return null;
       const r = rows[0];
       const rank = Number(r.rank) || 1;
-      const totalCandidates = Number(r.total_players) || 2098;
+      const totalCandidates = Number(r.total_players) || 1;
 
       return {
         rank,
@@ -213,22 +217,22 @@ export async function getLeaderboardStats(): Promise<LeaderboardPlatformStats> {
       SELECT 
         COUNT(DISTINCT "userId")::int as active_candidates,
         COUNT(*)::int as total_rounds,
-        MAX(score)::int as leader_score
+        COALESCE(MAX(score), 0)::int as leader_score
       FROM game_score;
     `)) as any[];
 
-    if (rows.length === 0) {
-      return { activeCandidates: 2098, totalRounds: 11959, leaderScore: 1048 };
+    if (!rows || rows.length === 0) {
+      return { activeCandidates: 0, totalRounds: 0, leaderScore: 0 };
     }
 
     return {
-      activeCandidates: Number(rows[0].active_candidates) || 2098,
-      totalRounds: Number(rows[0].total_rounds) || 11959,
-      leaderScore: Number(rows[0].leader_score) || 1048,
+      activeCandidates: Number(rows[0].active_candidates) || 0,
+      totalRounds: Number(rows[0].total_rounds) || 0,
+      leaderScore: Number(rows[0].leader_score) || 0,
     };
   } catch (error) {
     console.error("Error fetching leaderboard stats:", error);
-    return { activeCandidates: 2098, totalRounds: 11959, leaderScore: 1048 };
+    return { activeCandidates: 0, totalRounds: 0, leaderScore: 0 };
   }
 }
 

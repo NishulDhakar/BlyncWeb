@@ -4,14 +4,17 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { gamesData } from "@/data/BlogData";
-import { ArrowLeft, Clock, Brain, Gamepad2, ChevronDown } from "lucide-react";
+import { ArrowLeft, Clock, Brain, Gamepad2, ChevronDown, Lock } from "lucide-react";
 import BackToDashboard from "@/components/common/BackToDashboard";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@/context/UserContext";
 
 export default function BlogPage() {
   const [openGame, setOpenGame] = useState<number | null>(null);
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -120,8 +123,14 @@ export default function BlogPage() {
                             <p className="text-muted-foreground text-sm leading-relaxed mb-4">{game.description}</p>
 
                             <Button asChild size="sm" className="w-full sm:w-auto gap-2">
-                              <Link href={game.playLink}>
-                                🎮 Play Now
+                              <Link href={isPro ? game.playLink : "/pricing"}>
+                                {isPro ? (
+                                  <>🎮 Play Now</>
+                                ) : (
+                                  <>
+                                    <Lock className="w-3.5 h-3.5" /> Unlock Challenge with Pro
+                                  </>
+                                )}
                               </Link>
                             </Button>
                           </div>

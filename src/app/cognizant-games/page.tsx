@@ -5,7 +5,7 @@ import CognizantGamesClient from "./client";
 export const metadata: Metadata = {
     title: "Cognizant GenC Game Based Aptitude Test 2026 | Pattern & Puzzle Practice",
     description:
-        "Prepare for the Cognizant GenC Elevate game based round. Practice the exact puzzle, spatial, deductive logic, and memory challenges used in 2026 placements. Free, no signup.",
+        "Prepare for the Cognizant GenC Elevate game based round. Practice the exact puzzle, spatial, deductive logic, and memory challenges used in 2026 placements with Blync Pro.",
     keywords: [
         "cognizant game based aptitude test",
         "cognizant genc elevate game round",
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
         canonical: `${siteConfig.url}/cognizant-games`,
     },
     openGraph: {
-        title: "Cognizant GenC Game Based Aptitude Test 2026 | Blync",
-        description: "Practice Cognizant GenC Elevate game round — deductive logic, grid puzzles, spatial reasoning. Free, no signup. 2026 placement prep.",
+        title: "Cognizant GenC Game Based Aptitude Test 2026 | Blync Pro",
+        description: "Practice Cognizant GenC Elevate game round — deductive logic, grid puzzles, spatial reasoning with Blync Pro. 2026 placement prep.",
         url: `${siteConfig.url}/cognizant-games`,
         type: "website",
         images: [
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Cognizant GenC Game Based Aptitude Test 2026 | Blync",
-        description: "Practice Cognizant game round free. Deductive, grid, and spatial challenges for 2026 placements.",
+        title: "Cognizant GenC Game Based Aptitude Test 2026 | Blync Pro",
+        description: "Practice Cognizant game round online. Deductive, grid, and spatial challenges with Blync Pro.",
         images: [`${siteConfig.url}/og-logo.png`],
     },
 };
@@ -87,7 +87,7 @@ const softwareSchema = {
     },
     offers: {
         "@type": "Offer",
-        price: "0",
+        price: "49",
         priceCurrency: "INR",
     },
 };

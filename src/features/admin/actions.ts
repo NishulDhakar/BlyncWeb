@@ -16,8 +16,15 @@ async function getSessionUser() {
   return session?.user ?? null;
 }
 
-function isAdmin(email: string | undefined | null) {
-  return ADMIN_EMAIL && email === ADMIN_EMAIL;
+async function isAdmin(email: string | undefined | null) {
+  if (!email) return false;
+  if (ADMIN_EMAIL && email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) return true;
+  const [dbUser] = await db
+    .select({ role: users.role })
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+  return dbUser?.role === "super_admin" || dbUser?.role === "admin";
 }
 
 const transporter = nodemailer.createTransport({
@@ -71,7 +78,7 @@ export async function sendBroadcast({
   imageName?: string;
 }) {
   const user = await getSessionUser();
-  if (!isAdmin(user?.email)) return { success: false, error: "Unauthorized" };
+  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
 
   const allUsers = await db.select({ id: users.id, email: users.email }).from(users);
   if (allUsers.length === 0) return { success: false, error: "No users found." };
@@ -139,7 +146,7 @@ export async function sendBroadcast({
 
 export async function retryFailed(broadcastId: string) {
   const user = await getSessionUser();
-  if (!isAdmin(user?.email)) return { success: false, error: "Unauthorized" };
+  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
 
   const broadcast = await db
     .select()
@@ -199,7 +206,7 @@ export async function retryFailed(broadcastId: string) {
 
 export async function getBroadcastHistory() {
   const user = await getSessionUser();
-  if (!isAdmin(user?.email)) return { success: false, error: "Unauthorized", data: [] };
+  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized", data: [] };
 
   const rows = await db
     .select()
@@ -211,7 +218,7 @@ export async function getBroadcastHistory() {
 
 export async function getUserCount() {
   const user = await getSessionUser();
-  if (!isAdmin(user?.email)) return { success: false, error: "Unauthorized" };
+  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
 
   const result = await db.select({ email: users.email }).from(users);
   return { success: true, count: result.length };

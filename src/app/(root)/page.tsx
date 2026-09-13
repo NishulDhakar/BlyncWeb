@@ -28,27 +28,27 @@ const faqPageSchema = {
 export const metadata: Metadata = {
   title: "Capgemini Cognitive Games Practice 2026 | Blync",
   description:
-    "Master all 6 Capgemini cognitive games free. Switch, Grid, Digit, Motion, Inductive & Deductive challenges — no signup required. Trusted by 5,000+ students for 2026 placement prep.",
+    "Master all 6 Capgemini cognitive games. Switch, Grid, Digit, Motion, Inductive & Deductive challenge drills. Trusted by 6,400+ candidates for 2026 placement prep.",
   keywords: [
     "capgemini cognitive games",
     "capgemini game based aptitude",
     "capgemini cognitive ability games",
     "game based aptitude test",
     "aptitude games",
-    "cognitive ability test free",
+    "cognitive ability test practice",
     "switch challenge practice",
     "digit challenge practice",
     "grid challenge practice",
     "motion challenge practice",
     "capgemini placement 2026",
-    "game based aptitude test free practice"
+    "game based aptitude test practice"
   ],
   alternates: {
     canonical: siteConfig.url,
   },
   openGraph: {
     title: "Capgemini Cognitive Games Practice 2026 | Blync",
-    description: "5,000+ students practicing. All 6 Capgemini games free. No signup required. Start now.",
+    description: "6,400+ candidates practicing. All 6 Capgemini games and cognitive assessment drills. Start now.",
     url: siteConfig.url,
     type: "website",
     images: [
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Capgemini Cognitive Games Practice 2026 | Blync",
-    description: "Master all 6 Capgemini cognitive games free. No signup. 5,000+ students preparing.",
+    description: "Master all 6 Capgemini cognitive games. Comprehensive placement assessment drills for 2026.",
     images: [`${siteConfig.url}/og-logo.png`],
   },
 };

@@ -6,6 +6,7 @@ import {
   timestamp,
   index,
   unique,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 
@@ -26,6 +27,10 @@ export const users = pgTable("user", {
   razorpayCustomerId: text("razorpayCustomerId"),
   // 'active' | 'halted' | 'cancelled' | null
   subscriptionStatus: text("subscriptionStatus"),
+  // ── Admin & Status fields ─────────────────────────────────────────────────
+  role: text("role").default("user").notNull(), // 'super_admin' | 'admin' | 'support' | 'user'
+  status: text("status").default("active").notNull(), // 'active' | 'suspended' | 'cancelled'
+  notes: text("notes"),
 });
 
 export const sessions = pgTable("session", {
@@ -191,3 +196,172 @@ export const subscriptions = pgTable(
   },
   (t) => [index("subscription_user_idx").on(t.userId)]
 );
+
+// ── Payments Table ────────────────────────────────────────────────────────────
+export const payments = pgTable(
+  "payment",
+  {
+    id: text("id").primaryKey(),
+    userId: text("userId").references(() => users.id, { onDelete: "set null" }),
+    subscriptionId: text("subscriptionId").references(() => subscriptions.id, { onDelete: "set null" }),
+    razorpayPaymentId: text("razorpayPaymentId").unique(),
+    amount: integer("amount").notNull(), // in paise (e.g. 4900 = ₹49)
+    currency: text("currency").default("INR").notNull(),
+    planType: text("planType"), // 'monthly' | 'biannual'
+    provider: text("provider").default("razorpay").notNull(),
+    status: text("status").default("succeeded").notNull(), // 'succeeded' | 'pending' | 'failed' | 'refunded'
+    method: text("method"), // upi, card, netbanking, etc.
+    email: text("email"),
+    contact: text("contact"),
+    refundedAmount: integer("refundedAmount").default(0),
+    refundId: text("refundId"),
+    metadata: jsonb("metadata"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (t) => [
+    index("payment_user_idx").on(t.userId),
+    index("payment_status_idx").on(t.status),
+    index("payment_created_idx").on(t.createdAt),
+  ]
+);
+
+// ── Companies Table ───────────────────────────────────────────────────────────
+export const companies = pgTable("company", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  logo: text("logo"),
+  website: text("website"),
+  description: text("description"),
+  assessmentType: text("assessmentType"),
+  status: text("status").default("active").notNull(), // 'active' | 'archived'
+  region: text("region").default("india"),
+  monogram: text("monogram"),
+  accent: text("accent"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+// ── Games Table ───────────────────────────────────────────────────────────────
+export const games = pgTable("game", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description"),
+  category: text("category").notNull(), // 'cognitive' | 'memory' | 'brain' | 'quiz' | 'communication'
+  difficulty: text("difficulty").default("medium").notNull(), // 'easy' | 'medium' | 'hard'
+  duration: text("duration"),
+  timeLimit: integer("timeLimit"), // in seconds
+  rounds: integer("rounds"),
+  skills: jsonb("skills"),
+  companySlug: text("companySlug"),
+  kind: text("kind").default("react").notNull(),
+  status: text("status").default("active").notNull(), // 'active' | 'draft' | 'archived' | 'inactive'
+  hasRulesPage: boolean("hasRulesPage").default(false),
+  pro: boolean("pro").default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+// ── Mock Tests & Assessment Table ─────────────────────────────────────────────
+export const mockTests = pgTable("mock_test", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  companySlug: text("companySlug").notNull(),
+  gameSlugs: jsonb("gameSlugs").notNull(), // array of strings
+  orderIndex: integer("orderIndex").default(0),
+  timeLimit: integer("timeLimit").default(45).notNull(), // in minutes
+  difficulty: text("difficulty").default("medium").notNull(),
+  passingScore: integer("passingScore").default(70).notNull(),
+  status: text("status").default("published").notNull(), // 'published' | 'draft' | 'archived'
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export const mockTestAttempts = pgTable(
+  "mock_test_attempt",
+  {
+    id: text("id").primaryKey(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    mockTestId: text("mockTestId")
+      .notNull()
+      .references(() => mockTests.id, { onDelete: "cascade" }),
+    score: integer("score").notNull(),
+    maxScore: integer("maxScore").default(100).notNull(),
+    passed: boolean("passed").default(false).notNull(),
+    timeSpent: integer("timeSpent").default(0).notNull(), // in seconds
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => [
+    index("mock_attempt_user_idx").on(t.userId),
+    index("mock_attempt_test_idx").on(t.mockTestId),
+  ]
+);
+
+// ── Content Management Table ──────────────────────────────────────────────────
+export const contentItems = pgTable("content_item", {
+  id: text("id").primaryKey(),
+  type: text("type").notNull(), // 'instruction' | 'question' | 'explanation' | 'tutorial' | 'resource'
+  gameSlug: text("gameSlug"),
+  companySlug: text("companySlug"),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  status: text("status").default("published").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+// ── Support & Feedback Table ──────────────────────────────────────────────────
+export const supportTickets = pgTable(
+  "support_ticket",
+  {
+    id: text("id").primaryKey(),
+    userId: text("userId").references(() => users.id, { onDelete: "set null" }),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    type: text("type").default("feedback").notNull(), // 'report' | 'feedback' | 'bug' | 'contact'
+    subject: text("subject").notNull(),
+    message: text("message").notNull(),
+    rating: integer("rating"),
+    status: text("status").default("open").notNull(), // 'open' | 'in_progress' | 'resolved' | 'closed'
+    priority: text("priority").default("medium").notNull(), // 'low' | 'medium' | 'high' | 'urgent'
+    notes: text("notes"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (t) => [index("support_status_idx").on(t.status)]
+);
+
+// ── Audit Logs Table (Immutable) ──────────────────────────────────────────────
+export const auditLogs = pgTable(
+  "audit_log",
+  {
+    id: text("id").primaryKey(),
+    adminId: text("adminId").notNull(),
+    adminEmail: text("adminEmail").notNull(),
+    adminName: text("adminName"),
+    action: text("action").notNull(), // e.g. 'user.plan_change', 'payment.refund', 'game.edit'
+    targetType: text("targetType").notNull(), // 'user' | 'payment' | 'company' | 'game' | 'mock_test' | 'setting'
+    targetId: text("targetId").notNull(),
+    metadata: jsonb("metadata"),
+    ipAddress: text("ipAddress"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => [
+    index("audit_admin_idx").on(t.adminId),
+    index("audit_action_idx").on(t.action),
+    index("audit_created_idx").on(t.createdAt),
+  ]
+);
+
+// ── System Settings Table ─────────────────────────────────────────────────────
+export const systemSettings = pgTable("system_setting", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").notNull(),
+  updatedBy: text("updatedBy"),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});

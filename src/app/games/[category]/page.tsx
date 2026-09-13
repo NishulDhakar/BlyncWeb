@@ -10,23 +10,23 @@ import { Github } from "lucide-react";
 // ── Category configuration ──────────────────────────────────────────────────
 const CATEGORY_CONFIG = {
   cognitive: {
-    title: "All 6 Capgemini Cognitive Games — Free Practice 2026",
+    title: "All 6 Capgemini Cognitive Games — Practice & Mock Tests 2026",
     description:
-      "Practice all 6 Capgemini cognitive ability games free. Switch, Digit, Motion, Grid, Inductive & Deductive challenges. No download, no signup. Unlimited practice for 2026 placements.",
+      "Practice all 6 Capgemini cognitive ability games. Switch, Digit, Motion, Grid, Inductive & Deductive challenges with full mock tests & solutions on Blync Pro.",
     keywords: [
       "capgemini cognitive games",
       "aptitude games",
-      "cognitive ability games free",
+      "cognitive ability games",
       "capgemini cognitive ability games",
       "cognizant game based aptitude practice",
-      "free cognitive games online",
+      "cognitive games online",
       "placement aptitude practice 2026",
       "switch challenge capgemini",
-      "game based aptitude test free",
+      "game based aptitude test",
     ],
-    ogTitle: "All 6 Capgemini Cognitive Games — Free Practice 2026 | Blync",
+    ogTitle: "All 6 Capgemini Cognitive Games — Practice & Prep 2026 | Blync Pro",
     ogDescription:
-      "Practice all 6 Capgemini & Cognizant cognitive aptitude games free. No signup, unlimited attempts.",
+      "Practice all 6 Capgemini & Cognizant cognitive aptitude games with Blync Pro. Unlimited attempts & analytics.",
     ogAlt: "Capgemini Cognitive Games — Blync",
     heading: "Cognitive Games",
     heroText: (count: number) => (
@@ -34,7 +34,7 @@ const CATEGORY_CONFIG = {
         Practice all{" "}
         <span className="text-foreground font-semibold">{count} cognitive games</span>{" "}
         used in <span className="text-foreground font-semibold">Capgemini &amp; Cognizant</span> game-based
-        aptitude rounds. Free online, no download. Each game matches the real assessment format.
+        aptitude rounds. Realistic exam timing, solutions, and scoring guides.
       </p>
     ),
     faq: [
@@ -52,34 +52,33 @@ const CATEGORY_CONFIG = {
       },
       {
         name: "Are these cognitive games free to practice?",
-        text: "Yes. All cognitive games on Blync are completely free. No payment, no download — just sign in and start practicing.",
+        text: "Free accounts can read complete game guides, rules, and strategies. The interactive challenges, mock tests, and performance analytics require Blync Pro (from ₹49/month).",
       },
     ],
     crossLink: null,
   },
   memory: {
-    title: "Memory Games Online Free — Brain Training & Recall Practice",
+    title: "Memory Games Online — Brain Training & Recall Practice | Blync Pro",
     description:
-      "Play free online memory games to improve recall speed, working memory, and short-term retention. Memory Challenge & Recall Challenge — free brain training, no download needed.",
+      "Play online memory games to improve recall speed, working memory, and short-term retention. Memory Challenge & Recall Challenge with Blync Pro.",
     keywords: [
-      "memory games online free",
+      "memory games online",
       "brain training memory game",
-      "recall challenge free",
+      "recall challenge",
       "memory challenge online",
       "improve working memory game",
-      "free memory brain training",
+      "memory brain training",
     ],
-    ogTitle: "Free Memory Games Online | Blync",
+    ogTitle: "Memory Games Online | Blync Pro",
     ogDescription:
-      "Play free online memory games. Improve recall, working memory & retention. No download, no signup.",
+      "Play online memory games. Improve recall, working memory & retention with Blync Pro.",
     ogAlt: "Memory Games — Blync",
     heading: "Memory Games",
     heroText: (count: number) => (
       <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
         Improve your{" "}
         <span className="text-foreground font-semibold">working memory, recall speed</span>, and
-        short-term retention with free online memory games. No download, no payment — train your
-        brain directly in the browser.
+        short-term retention with online memory games. Train your brain directly in the browser with Blync Pro.
       </p>
     ),
     faq: [
@@ -93,29 +92,29 @@ const CATEGORY_CONFIG = {
       },
       {
         name: "Are these memory games free to play?",
-        text: "Yes. All memory games on Blync are completely free. No payment, no app download — just sign in and start training your memory.",
+        text: "Interactive memory challenges and performance tracking are part of Blync Pro. Free accounts have full access to memory guides and techniques.",
       },
     ],
     crossLink: { label: "Also explore Cognitive Games", href: "/games/cognitive", description: "Switch, Digit, Motion & more — perfect for Capgemini &amp; Cognizant aptitude rounds." },
   },
   brain: {
-    title: "Brain Games Online Free — Logic, Puzzles & Reflex Training",
+    title: "Brain Games Online — Logic, Puzzles & Reflex Training | Blync Pro",
     description:
-      "Play free online brain games — Sudoku, Minesweeper, 15 Puzzle, Snake, Tic Tac Toe & more. Sharpen logic, strategy, reflexes, and memory. No download, no signup required.",
+      "Play online brain games — Sudoku, Minesweeper, 15 Puzzle, Snake, Tic Tac Toe & more. Sharpen logic, strategy, reflexes, and memory with Blync Pro.",
     keywords: [
-      "brain games online free",
-      "free brain training games",
+      "brain games online",
+      "brain training games",
       "logic puzzles online",
-      "sudoku online free",
-      "minesweeper online free",
+      "sudoku online",
+      "minesweeper online",
       "brain teaser games",
-      "puzzle games free online",
+      "puzzle games online",
       "cognitive brain games",
       "reflex training games",
     ],
-    ogTitle: "Free Brain Games Online | Blync",
+    ogTitle: "Brain Games Online | Blync Pro",
     ogDescription:
-      "Play free brain games — Sudoku, Minesweeper, Snake & more. Sharpen logic and reflexes. No download, no signup.",
+      "Play brain games — Sudoku, Minesweeper, Snake & more. Sharpen logic and reflexes with Blync Pro.",
     ogAlt: "Brain Games — Blync",
     heading: "Brain Games",
     heroText: (count: number) => (
@@ -123,7 +122,7 @@ const CATEGORY_CONFIG = {
         Sharpen your{" "}
         <span className="text-foreground font-semibold">logic, strategy, reflexes</span>, and
         problem-solving skills with classic brain teasers. Sudoku, Minesweeper, Snake, and more —
-        all free, instantly playable in your browser.
+        playable in your browser with Blync Pro.
       </p>
     ),
     faq: [
@@ -137,7 +136,7 @@ const CATEGORY_CONFIG = {
       },
       {
         name: "Are these brain games free to play?",
-        text: "Yes. All brain games on Blync are completely free. No payment, no app download — just open and play directly in your browser.",
+        text: "Interactive brain game rounds and leaderboard tracking are unlocked with Blync Pro.",
       },
       {
         name: "Can I play these brain games on my phone?",
@@ -147,20 +146,20 @@ const CATEGORY_CONFIG = {
     crossLink: { label: "Also explore Cognitive Games", href: "/games/cognitive", description: "Switch, Digit, Motion & more — perfect for Capgemini &amp; Cognizant aptitude rounds." },
   },
   quiz: {
-    title: "Free Placement Assessment Practice — Technical & Debugging Rounds",
+    title: "Placement Assessment Practice — Technical & Debugging Rounds | Blync Pro",
     description:
-      "Practice full-length placement assessments free online. A 150-question Accenture technical quiz and two timed Capgemini-style debugging rounds, with instant explanations.",
+      "Practice full-length placement assessments online. A 150-question Accenture technical quiz and two timed Capgemini-style debugging rounds with instant explanations on Blync Pro.",
     keywords: [
       "accenture technical assessment questions",
       "capgemini debugging questions",
-      "placement assessment practice online free",
+      "placement assessment practice online",
       "technical round practice test",
       "debugging round questions with answers",
       "campus placement assessment 2026",
     ],
-    ogTitle: "Free Placement Assessment Practice | Blync",
+    ogTitle: "Placement Assessment Practice | Blync Pro",
     ogDescription:
-      "Full-length technical and debugging assessments with timers, instant explanations and answer keys. Free.",
+      "Full-length technical and debugging assessments with timers, instant explanations and answer keys on Blync Pro.",
     ogAlt: "Placement Assessments — Blync",
     heading: "Technical & Debugging Assessments",
     heroText: (count: number) => (
@@ -168,7 +167,7 @@ const CATEGORY_CONFIG = {
         Sit{" "}
         <span className="text-foreground font-semibold">{count} full-length assessments</span>{" "}
         under real exam timing — the Accenture technical quiz and two Capgemini-style debugging
-        rounds. Instant explanations, section-wise answer keys, no signup.
+        rounds. Instant explanations and section-wise answer keys with Blync Pro.
       </p>
     ),
     faq: [
@@ -182,34 +181,33 @@ const CATEGORY_CONFIG = {
       },
       {
         name: "Are the assessments free?",
-        text: "Yes. Both debugging rounds and the technical quiz are free to attempt as many times as you want.",
+        text: "Complete timed assessments, score diagnostics, and full solution keys are available to Blync Pro members.",
       },
     ],
     crossLink: { label: "Also practise the game rounds", href: "/games/cognitive", description: "Switch, Grid, Motion and more — the cognitive half of the same assessments." },
   },
   communication: {
-    title: "Cognizant Communication Round Practice — Free Speaking & Grammar Tests",
+    title: "Cognizant Communication Round Practice — Speaking & Grammar Tests | Blync Pro",
     description:
-      "Practice all five Cognizant communication rounds free online: read aloud, listen and repeat, grammar, listening comprehension and open response. Browser-based, nothing uploaded.",
+      "Practice all five Cognizant communication rounds online: read aloud, listen and repeat, grammar, listening comprehension and open response with Blync Pro.",
     keywords: [
       "cognizant communication round practice",
       "cognizant genc communication assessment",
       "read aloud test practice online",
       "listen and repeat test practice",
       "english communication test for placements",
-      "versant test practice free",
+      "versant test practice",
     ],
-    ogTitle: "Free Cognizant Communication Round Practice | Blync",
+    ogTitle: "Cognizant Communication Round Practice | Blync Pro",
     ogDescription:
-      "All five Cognizant communication rounds — speaking, listening, grammar and comprehension. Free, in-browser.",
+      "All five Cognizant communication rounds — speaking, listening, grammar and comprehension with Blync Pro.",
     ogAlt: "Communication Rounds — Blync",
     heading: "Communication Rounds",
     heroText: (count: number) => (
       <p className="relative text-lg text-muted-foreground max-w-2xl leading-relaxed">
         Work through all{" "}
         <span className="text-foreground font-semibold">{count} communication rounds</span>{" "}
-        used in the Cognizant GenC assessment — speaking, listening, grammar and comprehension.
-        Everything runs in your browser; no recording leaves your device.
+        used in the Cognizant GenC assessment — speaking, listening, grammar and comprehension with Blync Pro.
       </p>
     ),
     faq: [
@@ -338,7 +336,7 @@ export default async function CategoryPage({ params }: Props) {
                 Classic Puzzles
               </span>
               <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
-                {categoryGames.length} Games Free
+                {categoryGames.length} Challenges Available
               </span>
             </div>
           )}
@@ -353,7 +351,7 @@ export default async function CategoryPage({ params }: Props) {
                 Improve Recall Speed
               </span>
               <span className="text-xs font-medium px-3.5 py-1.5 rounded-full border border-border/40 bg-white/5 text-muted-foreground">
-                {categoryGames.length} Game Free
+                {categoryGames.length} Challenges Available
               </span>
             </div>
           )}
@@ -380,14 +378,14 @@ export default async function CategoryPage({ params }: Props) {
               {(category === "brain"
                 ? [
                     { value: String(categoryGames.length), label: "Games" },
-                    { value: "Free", label: "Always" },
+                    { value: "Pro", label: "Access" },
                     { value: "No", label: "Download" },
                     { value: "Instant", label: "Play" },
                   ]
                 : [
                     { value: String(categoryGames.length), label: "Live Now" },
-                    { value: "Free", label: "Always" },
-                    { value: "No", label: "Signup" },
+                    { value: "Pro", label: "Access" },
+                    { value: "Full", label: "Solutions" },
                     { value: "Instant", label: "Results" },
                   ]
               ).map((s) => (

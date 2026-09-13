@@ -33,7 +33,7 @@ export default function GamesSection() {
           kicker="The catalogue"
           title="Pick a track and"
           accent="start where it matters."
-          description="Two focused categories, every game type inside. Free to play, unlimited attempts."
+          description="Two focused categories, every game type inside. Complete challenge suite with Blync Pro."
         />
 
         <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">

@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Play, BookOpen, ChevronRight, Eye, EyeOff } from "lucide-react";
+import { Play, BookOpen, ChevronRight, Eye, EyeOff, Lock } from "lucide-react";
 import HlsVideo from "./HlsVideo";
 import { ShimmerButton } from "../ui/shimmer-button";
 import { CoolMode } from "../ui/cool-mode";
+import { useUser } from "@/context/UserContext";
 
 export interface RuleData {
   title: string;
@@ -16,6 +17,8 @@ export interface RuleData {
 }
 
 export default function RulePage({ data }: { data: RuleData }) {
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [showSolution, setShowSolution] = useState(false);
 
@@ -114,14 +117,23 @@ export default function RulePage({ data }: { data: RuleData }) {
 
               <CoolMode>
                 <ShimmerButton
-                  href={data.playLink}
+                  href={isPro ? data.playLink : "/pricing"}
                   borderRadius="0.75rem"
                   background="#ffffff"
                   shimmerColor="rgba(0, 0, 0, 0.3)"
                   className="h-12 px-6 sm:px-8 text-sm sm:text-base font-semibold text-neutral-900 shadow-xl"
                 >
-                  <Play className="mr-2 fill-neutral-900 size-4" />
-                  Play Mock Test Now
+                  {isPro ? (
+                    <>
+                      <Play className="mr-2 fill-neutral-900 size-4" />
+                      Play Mock Test Now
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="mr-2 size-4 text-neutral-900" />
+                      Unlock Mock Test with Pro
+                    </>
+                  )}
                 </ShimmerButton>
               </CoolMode>
             </div>

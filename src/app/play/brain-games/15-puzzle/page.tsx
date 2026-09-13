@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "15 Puzzle — Free Online Sliding Tile Game | Blync",
+  title: "15 Puzzle — Online Sliding Tile Challenge | Blync Pro",
   description:
-    "Solve the classic 15 sliding tile puzzle online. Arrange numbered tiles in order. Free brain game, no download.",
+    "Solve the classic 15 sliding tile puzzle online. Arrange numbered tiles in order. Train spatial reasoning with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/15-puzzle` },
   openGraph: {
-    title: "15 Puzzle | Blync Brain Games",
-    description: "Play the 15 Puzzle free online — classic sliding tile brain game.",
+    title: "15 Puzzle | Blync Pro Brain Games",
+    description: "Play the 15 Puzzle online — classic sliding tile brain game with Blync Pro.",
     url: `${siteConfig.url}/games/brain/15-puzzle`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "15 Puzzle — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "15 Puzzle",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/15-puzzle`,
-  description: "Classic 15 sliding tile puzzle — free online spatial reasoning game.",
+  description: "Classic 15 sliding tile puzzle — online spatial reasoning game on Blync Pro.",
 };
 
 export default function FifteenPuzzlePage() {

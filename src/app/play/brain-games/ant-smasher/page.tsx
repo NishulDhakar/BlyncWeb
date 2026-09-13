@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "Ant Smasher — Free Online Reflex Game | Blync",
+  title: "Ant Smasher — Reflex & Coordination Challenge | Blync Pro",
   description:
-    "Smash the ants before they escape! Test reflexes and hand-eye coordination. Free online brain game.",
+    "Smash the ants before they escape! Test reflexes and hand-eye coordination with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/ant-smasher` },
   openGraph: {
-    title: "Ant Smasher | Blync Brain Games",
-    description: "Play Ant Smasher free online — fast-paced reflex game.",
+    title: "Ant Smasher | Blync Pro Brain Games",
+    description: "Play Ant Smasher online — fast-paced reflex game with Blync Pro.",
     url: `${siteConfig.url}/games/brain/ant-smasher`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Ant Smasher — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "Ant Smasher",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/ant-smasher`,
-  description: "Fast-paced ant smashing reflex game — free online brain training.",
+  description: "Fast-paced ant smashing reflex game — online brain training with Blync Pro.",
 };
 
 export default function AntSmasherPage() {

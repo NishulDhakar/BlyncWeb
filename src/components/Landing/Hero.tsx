@@ -23,9 +23,9 @@ import { CoolMode } from "../ui/cool-mode";
 import { landingHeadingClass, landingSubtitleClass } from "./_ui";
 
 const heroStats = [
-  { value: "13+", label: "Practice games" },
-  { value: "5k+", label: "Students preparing" },
-  { value: "Free", label: "No signup needed" },
+  { value: "26+", label: "Assessment games" },
+  { value: "6.4k+", label: "Students preparing" },
+  { value: "₹49/mo", label: "All games unlocked" },
 ];
 
 const previewGames = [
@@ -206,7 +206,7 @@ export default function Hero() {
               href="/games/cognitive"
               className="h-12 px-7 text-sm font-semibold shadow-lg"
             >
-              Start practising free
+              Start practising now
               <ArrowUpRight className="size-4" />
             </ShimmerButton>
           </CoolMode>

@@ -96,15 +96,15 @@ export default function GamesHubClient() {
           </h1>
 
           <p className="text-sm md:text-md text-muted-foreground leading-relaxed max-w-xl font-light">
-            Practice free online cognitive games for <strong className="font-semibold text-foreground">Capgemini &amp; Cognizant</strong> aptitude rounds. Train memory, logic, and pattern recognition instantly.
+            Practice online cognitive games for <strong className="font-semibold text-foreground">Capgemini &amp; Cognizant</strong> aptitude rounds. Train memory, logic, and pattern recognition with Blync Pro.
           </p>
-                      <div className="mt-6">
-              <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
-                <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
-                  <Send className="w-4 h-4" /> Contact Here for Free Games
-                </a>
-              </Button>
-            </div>
+          <div className="mt-6">
+            <Button asChild size="sm" variant="outline" className="border-sky-500/30 hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-500 gap-2">
+              <a href="https://t.me/Savvyop" target="_blank" rel="noopener noreferrer">
+                <Send className="w-4 h-4" /> Join Student Community
+              </a>
+            </Button>
+          </div>
         </div>
 
         {/* Categories Section */}

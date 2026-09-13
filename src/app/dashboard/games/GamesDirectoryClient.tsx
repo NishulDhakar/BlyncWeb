@@ -33,9 +33,12 @@ import {
   Gamepad2,
   SlidersHorizontal,
   CheckCircle2,
+  Crown,
+  Lock,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
 import type { GameDefinition, GameCategory, CompanySlug } from "@/games/types";
 
 const GAME_ICON_MAP: Record<string, LucideIcon> = {
@@ -95,6 +98,8 @@ const COMPANIES: { id: string; label: string }[] = [
 const DIFFICULTIES = ["all", "easy", "medium", "hard"] as const;
 
 export default function GamesDirectoryClient({ games }: Props) {
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedCompany, setSelectedCompany] = useState("all");
@@ -306,6 +311,10 @@ export default function GamesDirectoryClient({ games }: Props) {
                       >
                         {game.difficulty}
                       </span>
+                      <span className="rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.2 text-[9px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide flex items-center gap-1">
+                        <Crown className="h-2.5 w-2.5" />
+                        Pro
+                      </span>
                     </div>
                   </div>
 
@@ -330,10 +339,16 @@ export default function GamesDirectoryClient({ games }: Props) {
                 {/* Actions Footer */}
                 <div className="mt-4 pt-3 border-t border-border/60 flex items-center gap-2">
                   <Link
-                    href={game.href}
-                    className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-border/80 bg-foreground px-3 text-xs font-semibold text-background hover:opacity-90 transition-opacity cursor-pointer"
+                    href={isPro ? game.href : "/pricing"}
+                    className={cn(
+                      "inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-opacity cursor-pointer",
+                      isPro
+                        ? "border-border/80 bg-foreground text-background hover:opacity-90"
+                        : "border-amber-500/30 bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25"
+                    )}
                   >
-                    <span>Play Now</span>
+                    {!isPro && <Lock className="h-3 w-3" />}
+                    <span>{isPro ? "Play Now" : "Unlock with Pro"}</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
 

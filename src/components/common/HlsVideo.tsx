@@ -38,9 +38,11 @@ export default function HlsVideo({ src, className, style }: HlsVideoProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    let hls: any;
+    let hls: any = null;
+    let cancelled = false;
 
     import('hls.js').then((HlsModule) => {
+      if (cancelled) return;
       const Hls = HlsModule.default;
       if (Hls.isSupported()) {
         hls = new Hls();
@@ -52,6 +54,7 @@ export default function HlsVideo({ src, className, style }: HlsVideoProps) {
     });
 
     return () => {
+      cancelled = true;
       if (hls) hls.destroy();
     };
   }, [src, isVisible]);

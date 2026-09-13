@@ -4,6 +4,7 @@ import Script from "next/script";
 import { siteConfig } from "@/config/site";
 import LenisProvider from "@/components/common/LenisProvider";
 import Providers from "@/components/common/Providers";
+import BlyncChatbot from "@/components/chat/BlyncChatbot";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Capgemini & Cognizant Game-Based Aptitude Practice | Blync",
     description:
-      "Free game-based aptitude practice for Capgemini & Cognizant. Play Switch, Digit, Grid, Motion, Spacio, Inductive & Deductive challenges with full solutions.",
+      "Premier game-based aptitude practice for Capgemini & Cognizant. Master Switch, Digit, Grid, Motion, Spacio, Inductive & Deductive challenges with full solutions.",
     url: siteConfig.url,
     siteName: siteConfig.shortName,
     locale: siteConfig.locale,
@@ -73,7 +74,7 @@ const websiteSchema = {
   alternateName: "Capgemini & Cognizant Placement Games",
   url: siteConfig.url,
   description:
-    "Free platform for practicing game-based cognitive aptitude tests used in Capgemini, Cognizant & other campus placements.",
+    "Premier platform for practicing game-based cognitive aptitude tests used in Capgemini, Cognizant & other campus placements.",
 };
 
 const organizationSchema = {
@@ -179,6 +180,9 @@ export default function RootLayout({
       <body className="relative">
         <Providers>
           <main>{children}</main>
+
+          {/* Global AI Chatbot Bubble on every page */}
+          <BlyncChatbot />
 
           {/* Smooth scroll. Deliberately a sibling, not a wrapper — see
               LenisProvider for why wrapping children broke static rendering. */}

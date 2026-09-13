@@ -17,15 +17,15 @@ export interface ReadinessCardProps {
 }
 
 export function ReadinessCard({
-  score = 68,
-  gamesCompleted = 12,
-  gamesTotal = 20,
-  mockTestsCompleted = 5,
-  mockTestsTotal = 10,
-  accuracy = 87,
-  consistency = "Good",
-  milestoneTitle = "Complete 5 more games",
-  milestoneProgress = 2,
+  score = 0,
+  gamesCompleted = 0,
+  gamesTotal = 6,
+  mockTestsCompleted = 0,
+  mockTestsTotal = 0,
+  accuracy = 0,
+  consistency = "New Candidate",
+  milestoneTitle = "Complete your first challenge",
+  milestoneProgress = 0,
   milestoneTarget = 5,
   className,
 }: ReadinessCardProps) {

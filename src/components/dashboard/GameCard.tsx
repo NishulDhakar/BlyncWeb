@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Crown, Lock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
 
 export interface GameCardProps {
   slug: string;
@@ -25,6 +26,9 @@ export function GameCard({
   icon: Icon,
   className,
 }: GameCardProps) {
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
+
   return (
     <div
       className={cn(
@@ -37,9 +41,15 @@ export function GameCard({
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-muted/40 text-foreground transition-colors group-hover:border-primary/40 group-hover:text-primary">
             <Icon className="h-4 w-4" />
           </div>
-          <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
-            <Clock className="h-3 w-3" />
-            <span>{duration}</span>
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span>{duration}</span>
+            </div>
+            <span className="rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.2 text-[9px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide flex items-center gap-0.5">
+              <Crown className="h-2.5 w-2.5" />
+              Pro
+            </span>
           </div>
         </div>
 
@@ -65,10 +75,16 @@ export function GameCard({
 
       <div className="mt-4 pt-1">
         <Link
-          href={href}
-          className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border border-border/80 bg-secondary/50 px-3 text-xs font-medium text-foreground transition-colors hover:bg-secondary hover:text-foreground cursor-pointer"
+          href={isPro ? href : "/pricing"}
+          className={cn(
+            "inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-medium transition-colors cursor-pointer",
+            isPro
+              ? "border-border/80 bg-secondary/50 text-foreground hover:bg-secondary hover:text-foreground"
+              : "border-amber-500/30 bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25"
+          )}
         >
-          <span>{attempts > 0 ? "Continue" : "Start"}</span>
+          {!isPro && <Lock className="h-3 w-3" />}
+          <span>{isPro ? (attempts > 0 ? "Continue" : "Start") : "Unlock with Pro"}</span>
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
         </Link>
       </div>

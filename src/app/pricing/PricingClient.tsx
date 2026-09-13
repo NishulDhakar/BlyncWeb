@@ -28,25 +28,25 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 const FREE_FEATURES = [
-  { text: "All 6 Capgemini Cognitive Games", included: true },
-  { text: "Memory & Brain Training Games", included: true },
-  { text: "Global Leaderboard Ranking", included: true },
-  { text: "Basic Score & Accuracy Metrics", included: true },
-  { text: "Game Rules & Question Guides", included: true },
-  { text: "Advanced Performance Analytics", included: false },
-  { text: "Detailed Speed & Error Breakdown", included: false },
-  { text: "Placement Readiness Report", included: false },
+  { text: "Company Assessment Directories & Guides", included: true },
+  { text: "Game Rules, Mechanics & Solutions", included: true },
+  { text: "Public Candidate Leaderboards", included: true },
+  { text: "All 26+ Cognitive & Placement Games", included: false },
+  { text: "Timed Exam Simulation Drills", included: false },
+  { text: "Full Performance Trajectory Analytics", included: false },
+  { text: "Speed & Error Cognitive Breakdown", included: false },
+  { text: "Placement Readiness Benchmark Report", included: false },
 ];
 
 const PRO_FEATURES = [
-  { text: "All 6 Capgemini Cognitive Games (unlimited)", included: true },
-  { text: "Memory & Brain Training Games", included: true },
-  { text: "Advanced Performance Analytics & Trends", included: true },
-  { text: "Detailed Speed & Error Breakdown", included: true },
-  { text: "Placement Readiness Score Report", included: true },
-  { text: "Full Historical Score Tracking", included: true },
-  { text: "Global Leaderboard Pro Badge", included: true },
-  { text: "Ad-free Focus Practice Experience", included: true },
+  { text: "All 26+ Cognitive & Placement Games (Unlimited)", included: true },
+  { text: "Capgemini Switch, Grid, Digit & Motion Challenges", included: true },
+  { text: "Deductive & Inductive Reasoning Tests", included: true },
+  { text: "Authentic Exam Timers & Real Scoring Rules", included: true },
+  { text: "Advanced Performance Analytics & Trajectory", included: true },
+  { text: "Per-Question Speed & Error Breakdown", included: true },
+  { text: "Placement Readiness Score & Benchmark", included: true },
+  { text: "Full Score History & Leaderboard Pro Badge", included: true },
   { text: "Cancel anytime with 1-click", included: true },
 ];
 
@@ -188,7 +188,7 @@ export default function PricingClient() {
         >
           <h1 className="text-3xl sm:text-4xl font-bold">Simple pricing</h1>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Memory games are free. Upgrade to unlock all Capgemini cognitive games.
+            Upgrade to unlock the complete cognitive game suite and placement prep drills.
           </p>
         </motion.div>
 
@@ -256,11 +256,12 @@ export default function PricingClient() {
               Current plan
             </Button>
 
-            <CoolMode className="w-full">
-              <ShimmerButton href="/games" className="w-full h-10 font-semibold text-sm">
-                Play now
-              </ShimmerButton>
-            </CoolMode>
+            <Link
+              href="/rules"
+              className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-border/70 bg-secondary/50 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Browse Game Guides
+            </Link>
           </motion.div>
 
           {/* Pro */}

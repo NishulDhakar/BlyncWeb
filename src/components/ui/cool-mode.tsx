@@ -197,11 +197,18 @@ const applyParticleEffect = (
   }
 
   let animationFrame: number | undefined
+  let isRunning = false
+  let isDestroyed = false
 
   let lastParticleTimestamp = 0
   const particleGenerationDelay = 30
 
   function loop() {
+    if (isDestroyed) {
+      isRunning = false
+      return
+    }
+
     const currentTime = performance.now()
     if (
       autoAddParticle &&
@@ -213,10 +220,21 @@ const applyParticleEffect = (
     }
 
     refreshParticles()
-    animationFrame = requestAnimationFrame(loop)
+
+    if (autoAddParticle || particles.length > 0) {
+      animationFrame = requestAnimationFrame(loop)
+    } else {
+      isRunning = false
+      animationFrame = undefined
+    }
   }
 
-  loop()
+  function startLoop() {
+    if (!isRunning && !isDestroyed) {
+      isRunning = true
+      animationFrame = requestAnimationFrame(loop)
+    }
+  }
 
   const isTouchInteraction = "ontouchstart" in window
 
@@ -237,6 +255,7 @@ const applyParticleEffect = (
   const tapHandler = (e: MouseEvent | TouchEvent) => {
     updateMousePosition(e)
     autoAddParticle = true
+    startLoop()
   }
 
   const disableAutoAddParticle = () => {
@@ -251,21 +270,23 @@ const applyParticleEffect = (
   })
 
   return () => {
+    isDestroyed = true
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame)
+      animationFrame = undefined
+    }
+
     element.removeEventListener(move, updateMousePosition)
     element.removeEventListener(tap, tapHandler)
     element.removeEventListener(tapEnd, disableAutoAddParticle)
     element.removeEventListener("mouseleave", disableAutoAddParticle)
 
-    const interval = setInterval(() => {
-      if (animationFrame && particles.length === 0) {
-        cancelAnimationFrame(animationFrame)
-        clearInterval(interval)
+    particles.forEach((p) => p.element.remove())
+    particles = []
 
-        if (--instanceCounter === 0) {
-          container.remove()
-        }
-      }
-    }, 500)
+    if (--instanceCounter === 0) {
+      container.remove()
+    }
   }
 }
 

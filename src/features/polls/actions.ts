@@ -25,17 +25,17 @@ export async function getPoll() {
 
       await db.insert(polls).values({
         id: pollId,
-        question: "Which game you want next?",
+        question: "Which company assessment games should we add next?",
         isActive: true,
         createdAt: now,
         updatedAt: now,
       });
 
       await db.insert(pollOptions).values([
-        { id: randomUUID(), label: "Inductive Challenge", votes: 45, isInput: false, pollId },
-        { id: randomUUID(), label: "Grid Challenge", votes: 32, isInput: false, pollId },
-        { id: randomUUID(), label: "Motion Challenge", votes: 28, isInput: false, pollId },
-        { id: randomUUID(), label: "Suggest new game", isInput: true, votes: 12, pollId },
+        { id: randomUUID(), label: "Accenture Critical Thinking & Attention", votes: 0, isInput: false, pollId },
+        { id: randomUUID(), label: "Deloitte Reasoning & Versant", votes: 0, isInput: false, pollId },
+        { id: randomUUID(), label: "TCS NQT Cognitive Puzzles", votes: 0, isInput: false, pollId },
+        { id: randomUUID(), label: "Suggest another company / game", isInput: true, votes: 0, pollId },
       ]);
 
       const options = await db

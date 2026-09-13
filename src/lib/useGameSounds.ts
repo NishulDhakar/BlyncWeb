@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 export type GameSound =
   | 'correct'     // right answer / level solved
@@ -85,6 +85,15 @@ function noisePop(ctx: AudioContext, dur: number, gain: number, at: number) {
 
 export function useGameSounds() {
   const ctxRef = useRef<AudioContext | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (ctxRef.current && ctxRef.current.state !== 'closed') {
+        ctxRef.current.close().catch(() => {});
+        ctxRef.current = null;
+      }
+    };
+  }, []);
 
   const play = useCallback((sound: GameSound) => {
     const ctx = getCtx(ctxRef);

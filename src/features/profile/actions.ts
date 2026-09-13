@@ -4,12 +4,16 @@ import { db } from "@/lib/db";
 import { gameScores, users } from "@/lib/schema";
 import { desc, eq, max } from "drizzle-orm";
 
+import { getGame } from "@/games/registry";
+
 const GAME_NAMES: Record<string, string> = {
   "switch-challenge": "Switch Challenge",
+  "grid-challenge": "Grid Challenge",
   "digit-challenge": "Digit Challenge",
   "deductive-challenge": "Deductive Challenge",
   "motion-challenge": "Motion Challenge",
   "inductive-challenge": "Inductive Challenge",
+  "shape-switch-challenge": "Shape Switch Challenge",
 };
 
 export interface GameStat {
@@ -54,7 +58,7 @@ export async function getProfileStats(userId: string): Promise<ProfileStats> {
 
   const gameStats: GameStat[] = Array.from(bestByGame.entries()).map(([gameId, bestScore]) => ({
     gameId,
-    gameName: GAME_NAMES[gameId] ?? gameId,
+    gameName: getGame(gameId)?.name ?? GAME_NAMES[gameId] ?? gameId,
     bestScore,
     gamesPlayed: countByGame.get(gameId) ?? 0,
   }));

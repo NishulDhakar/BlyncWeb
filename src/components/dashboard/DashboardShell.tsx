@@ -134,6 +134,8 @@ function SidebarInner({
   onToggleCollapse?: () => void;
   onNavigate?: () => void;
 }) {
+  const user = useUser();
+
   return (
     <div className="flex h-full flex-col justify-between">
       <div>
@@ -198,6 +200,9 @@ function SidebarInner({
                 <span className="text-sm font-bold tracking-tight text-foreground truncate block leading-tight">
                   CognitiveGames<span className="text-primary font-semibold"></span>
                 </span>
+                <span className="text-[10px] text-muted-foreground truncate block">
+                  Placement Prep
+                </span>
               </div>
             </Link>
 
@@ -238,12 +243,12 @@ function SidebarInner({
           ))}
         </nav>
 
-        {/* Others Section */}
-        <div className="mt-4 border-t border-border/60 pt-3">
+        {/* Secondary navigation */}
+        <div className="mt-6 border-t border-border/60 pt-4">
           {!isCollapsed && (
-            <p className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-              Settings & Docs
-            </p>
+            <span className="px-3 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
+              General
+            </span>
           )}
           <div
             className={cn(
@@ -264,9 +269,39 @@ function SidebarInner({
         </div>
       </div>
 
-      {/* Upgrade to Pro */}
+      {/* Pro Membership / Upgrade Callout */}
       <div className="mt-4">
-        {isCollapsed ? (
+        {user?.isPro ? (
+          isCollapsed ? (
+            <div className="flex justify-center">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-500">
+                    <Crown className="h-4 w-4" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={12}>
+                  <span>Pro Member (Active)</span>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/[0.06] p-3.5">
+              <div className="flex items-center justify-between gap-1.5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                  <Crown className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                  <span>Pro Member</span>
+                </div>
+                <span className="rounded border border-amber-500/40 bg-amber-500/20 px-1.5 py-0.2 text-[9px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
+                  Active
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
+                All mock tests, detailed analytics, and company batteries unlocked.
+              </p>
+            </div>
+          )
+        ) : isCollapsed ? (
           <div className="flex justify-center">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -287,10 +322,6 @@ function SidebarInner({
         ) : (
           <div className="rounded-xl border border-border/70 bg-muted/20 p-3.5">
             <div className="flex items-center justify-between gap-1.5">
-              {/* <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
-                <Crown className="h-3.5 w-3.5 text-amber-500 shrink-0" />
-                <span>Upgrade to Pro</span>
-              </div> */}
               <span className="rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.2 text-[9px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
                 All Access
               </span>

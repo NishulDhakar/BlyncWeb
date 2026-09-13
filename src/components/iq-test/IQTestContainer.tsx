@@ -10,6 +10,7 @@ import { authClient } from "@/lib/auth-client";
 import { Loader2, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import GamePaywall from "../games/GamePaywall";
 
 type ViewState = 'start' | 'playing' | 'result';
 
@@ -71,6 +72,11 @@ export default function IQTestContainer() {
                 </div>
             </div>
         );
+    }
+
+    const isPro = (session.user as any)?.isPro === true;
+    if (!isPro) {
+        return <GamePaywall gameName="IQ Assessment & Cognitive Breakdown" />;
     }
 
     return (

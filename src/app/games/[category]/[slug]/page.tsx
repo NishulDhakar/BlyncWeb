@@ -116,7 +116,7 @@ export default async function GameLandingPage({ params }: Props) {
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             <Play className="size-4" aria-hidden="true" />
-            Play {game.name} Free
+            Start {game.name} (Pro)
           </Link>
           {game.hasRulesPage && (
             <Link
@@ -131,14 +131,14 @@ export default async function GameLandingPage({ params }: Props) {
         <section className="mb-12">
           <h2 className="mb-4 text-2xl font-semibold">What is {game.name}?</h2>
           <p className="leading-7 text-muted-foreground">
-            {game.name} is a free, browser-based {category} exercise: {game.tagline.toLowerCase()}{" "}
+            {game.name} is a comprehensive, browser-based {category} exercise: {game.tagline.toLowerCase()}{" "}
             It trains {game.skills.map((s) => s.toLowerCase()).join(", ")}, and mirrors the format
             used in real placement assessments, so the pacing you practise against is the pacing
             you will face.
           </p>
           <p className="mt-4 leading-7 text-muted-foreground">
             A session runs about {game.duration}. Nothing to download or install — it runs in the
-            browser on desktop and mobile, and you can repeat it as often as you like.
+            browser on desktop and mobile, with unlimited practice for Pro members.
           </p>
         </section>
 
@@ -146,7 +146,7 @@ export default async function GameLandingPage({ params }: Props) {
           <h2 className="mb-3 text-lg font-semibold">Why practise {game.name}?</h2>
           <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
             <li>Matches the {game.name} format used in real assessment rounds</li>
-            <li>Free and unlimited — no payment, no download</li>
+            <li>Unlimited drills & exam simulation with Blync Pro</li>
             <li>Timed sessions that reproduce actual test pressure</li>
             <li>Instant scoring and a leaderboard placement after every run</li>
             <li>Trains {game.skills.slice(0, 2).map((s) => s.toLowerCase()).join(" and ")} directly</li>
@@ -179,7 +179,7 @@ export default async function GameLandingPage({ params }: Props) {
 
         {related.length > 0 && (
           <section>
-            <h2 className="mb-4 text-xl font-semibold">Related free games</h2>
+            <h2 className="mb-4 text-xl font-semibold">Related games &amp; challenges</h2>
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {related.map((item) => (
                 <li key={item.slug}>
@@ -191,7 +191,7 @@ export default async function GameLandingPage({ params }: Props) {
                     <span className="mt-1 line-clamp-2 text-xs text-muted-foreground">
                       {item.tagline}
                     </span>
-                    <span className="mt-2 text-xs font-medium text-primary">Play free →</span>
+                    <span className="mt-2 text-xs font-medium text-primary">View challenge →</span>
                   </Link>
                 </li>
               ))}

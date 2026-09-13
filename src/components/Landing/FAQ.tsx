@@ -23,7 +23,7 @@ export const faqData = [
   {
     question: "Do I need an account to practice?",
     answer:
-      "No. Basic games are open to everyone. A free account only adds progress tracking and practice history.",
+      "Yes. Create a Blync account to track your progress, build your streak, and unlock the assessment games.",
   },
   {
     question: "How should I prepare for the actual assessment?",
@@ -31,9 +31,9 @@ export const faqData = [
       "Practice regularly, focus on speed and accuracy, and rotate through every challenge type — Switch, Grid, Inductive and Deductive especially.",
   },
   {
-    question: "Is the platform free?",
+    question: "How does pricing work?",
     answer:
-      "Yes. All core Capgemini and Cognizant practice games are free to access.",
+      "Company guides, game rules, and public candidate leaderboards are free. Full interactive assessment games and timed challenge rounds are unlocked with Blync Pro starting at just ₹49/month.",
   },
   {
     question: "Will practicing here improve my chances?",

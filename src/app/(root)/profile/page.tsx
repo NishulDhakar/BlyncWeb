@@ -49,10 +49,10 @@ export default async function ProfilePage() {
 
   // Compute average accuracy from scores
   const allScores = Object.values(stats.scoreHistory ?? {}).flat();
-  let averageAccuracy = 87;
+  let averageAccuracy = 0;
   if (allScores.length > 0) {
     const avg = allScores.reduce((acc, s) => acc + s.score, 0) / allScores.length;
-    averageAccuracy = Math.min(96, Math.max(65, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
+    averageAccuracy = Math.min(100, Math.max(10, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
   }
 
   return (

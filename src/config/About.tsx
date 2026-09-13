@@ -1,7 +1,7 @@
 export const about = {
   name: 'Blync',
   description: `
-    **Blync** is a free online platform built to help students **practice, prepare, and excel** in placement tests, 
+    **Blync** is the premier online platform built to help students **practice, prepare, and excel** in placement tests, 
     especially those conducted by companies like **Capgemini** and **Cognizant**.
 
     🎮 **What Blync Offers**  

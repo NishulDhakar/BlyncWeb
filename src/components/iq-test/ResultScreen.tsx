@@ -6,6 +6,7 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { CoolMode } from "@/components/ui/cool-mode";
 import { Download, RefreshCcw, Home, Share2 } from "lucide-react";
 import Link from "next/link";
+import { iqTestQuestions } from "@/lib/iq-test-data";
 
 interface ResultScreenProps {
     results: {
@@ -19,7 +20,6 @@ interface ResultScreenProps {
 }
 
 export default function ResultScreen({ results, onRetry }: ResultScreenProps) {
-    // Determine category based on IQ (Mock Logic)
     let category = "Average";
     let color = "text-yellow-500";
 
@@ -36,6 +36,25 @@ export default function ResultScreen({ results, onRetry }: ResultScreenProps) {
         category = "Lower Intelligence";
         color = "text-orange-500";
     }
+
+    // Compute real breakdown based on user's actual answers
+    const patternQuestions = iqTestQuestions.map((q, i) => ({ ...q, index: i })).filter(q => q.type === 'pattern');
+    const spatialQuestions = iqTestQuestions.map((q, i) => ({ ...q, index: i })).filter(q => q.type === 'spatial');
+    const memoryQuestions = iqTestQuestions.map((q, i) => ({ ...q, index: i })).filter(q => q.type === 'memory');
+
+    const calcAccuracy = (qs: { index: number; correctAnswer: number }[]) => {
+        if (qs.length === 0) return 0;
+        const correct = qs.filter(q => results.answers && results.answers[q.index] === q.correctAnswer).length;
+        return Math.round((correct / qs.length) * 100);
+    };
+
+    const patternAcc = calcAccuracy(patternQuestions);
+    const spatialAcc = calcAccuracy(spatialQuestions);
+    const memoryAcc = calcAccuracy(memoryQuestions);
+
+    const totalAnswered = results.answers?.length ?? 1;
+    const avgSecondsPerQ = results.totalTime / Math.max(1, totalAnswered);
+    const speedAcc = Math.min(100, Math.max(15, Math.round(100 - Math.max(0, avgSecondsPerQ - 15) * 2.5)));
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-4xl mx-auto px-4 py-8">
@@ -88,7 +107,7 @@ export default function ResultScreen({ results, onRetry }: ResultScreenProps) {
                     </div>
                 </motion.div>
 
-                {/* Breakdown Card (Mock Data) */}
+                {/* Breakdown Card (Real Calculated Data) */}
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -101,37 +120,37 @@ export default function ResultScreen({ results, onRetry }: ResultScreenProps) {
                             <div>
                                 <div className="flex justify-between mb-2 text-sm font-medium">
                                     <span>Pattern Recognition</span>
-                                    <span>85%</span>
+                                    <span>{patternAcc}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-blue-500 rounded-full" style={{ width: '85%' }} />
+                                    <div className="h-full bg-blue-500 rounded-full" style={{ width: `${patternAcc}%` }} />
                                 </div>
                             </div>
                             <div>
                                 <div className="flex justify-between mb-2 text-sm font-medium">
                                     <span>Spatial Reasoning</span>
-                                    <span>70%</span>
+                                    <span>{spatialAcc}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-purple-500 rounded-full" style={{ width: '70%' }} />
+                                    <div className="h-full bg-purple-500 rounded-full" style={{ width: `${spatialAcc}%` }} />
                                 </div>
                             </div>
                             <div>
                                 <div className="flex justify-between mb-2 text-sm font-medium">
                                     <span>Memory Recall</span>
-                                    <span>92%</span>
+                                    <span>{memoryAcc}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: '92%' }} />
+                                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${memoryAcc}%` }} />
                                 </div>
                             </div>
                             <div>
                                 <div className="flex justify-between mb-2 text-sm font-medium">
                                     <span>Speed & Processing</span>
-                                    <span>78%</span>
+                                    <span>{speedAcc}%</span>
                                 </div>
                                 <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-amber-500 rounded-full" style={{ width: '78%' }} />
+                                    <div className="h-full bg-amber-500 rounded-full" style={{ width: `${speedAcc}%` }} />
                                 </div>
                             </div>
                         </div>

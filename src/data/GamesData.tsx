@@ -17,7 +17,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Deduce the hidden operator that transforms the input row of symbols into the target output sequence.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Solve rapid mental math equations using given single digits under strict time constraints.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Apply Latin square constraints to deduce missing symbols in a grid without repeating rows or columns.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Slide blocking obstacles to clear a path for the key ball to reach the target exit in minimal moves.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ export const gameCards: GameCardData[] = [
     description:
       "Identify the hidden geometric transformation rule between paired diagrams to pick the matching pair.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
   {
     id: 5,
@@ -67,6 +67,6 @@ export const gameCards: GameCardData[] = [
     description:
       "Dual-task working memory challenge: memorize dot coordinates while evaluating grid symmetry under clock pressure.",
     isAvailable: true,
-    isPremium: false,
+    isPremium: true,
   },
 ];

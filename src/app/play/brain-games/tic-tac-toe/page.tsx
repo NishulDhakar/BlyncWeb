@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "Tic Tac Toe — Free Online Strategy Game | Blync",
+  title: "Tic Tac Toe — Strategy & Logic Challenge | Blync Pro",
   description:
-    "Play Tic Tac Toe free online against the computer. Classic strategy brain game. No download needed.",
+    "Play Tic Tac Toe online against the computer. Classic strategy brain game with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/tic-tac-toe` },
   openGraph: {
-    title: "Tic Tac Toe | Blync Brain Games",
-    description: "Play Tic Tac Toe free online — classic strategy game.",
+    title: "Tic Tac Toe | Blync Pro Brain Games",
+    description: "Play Tic Tac Toe online — classic strategy game with Blync Pro.",
     url: `${siteConfig.url}/games/brain/tic-tac-toe`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Tic Tac Toe — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "Tic Tac Toe",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/tic-tac-toe`,
-  description: "Classic Tic Tac Toe strategy game — free online brain training.",
+  description: "Classic Tic Tac Toe strategy game — online brain training with Blync Pro.",
 };
 
 export default function TicTacToePage() {

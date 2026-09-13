@@ -39,24 +39,39 @@ export function ActivityList({ activities, className }: ActivityListProps) {
         </Link>
       </div>
 
-      <div className="mt-4 divide-y divide-border/60">
-        {activities.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0"
+      {activities.length === 0 ? (
+        <div className="py-8 text-center">
+          <p className="text-xs text-muted-foreground">
+            No assessment activity recorded yet.
+          </p>
+          <Link
+            href="/games"
+            className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
           >
-            <div className="min-w-0 pr-3">
-              <p className="truncate text-xs font-medium text-foreground">{item.title}</p>
-              <p className="text-[11px] text-muted-foreground">{item.timeAgo}</p>
+            <span>Play your first challenge</span>
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+      ) : (
+        <div className="mt-4 divide-y divide-border/60">
+          {activities.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0"
+            >
+              <div className="min-w-0 pr-3">
+                <p className="truncate text-xs font-medium text-foreground">{item.title}</p>
+                <p className="text-[11px] text-muted-foreground">{item.timeAgo}</p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="inline-flex items-center rounded-md border border-border/60 bg-muted/40 px-2 py-0.5 text-xs font-semibold tabular-nums text-foreground">
+                  Score {item.score}%
+                </span>
+              </div>
             </div>
-            <div className="flex shrink-0 items-center gap-2">
-              <span className="inline-flex items-center rounded-md border border-border/60 bg-muted/40 px-2 py-0.5 text-xs font-semibold tabular-nums text-foreground">
-                Score {item.score}%
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

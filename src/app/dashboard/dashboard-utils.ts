@@ -1,4 +1,4 @@
-import { getGame, playHref } from "@/games/registry";
+import { getGame, playHref, gamesForCompany } from "@/games/registry";
 import type { GameStat, ScoreEntry } from "@/features/profile/actions";
 import { getCompany } from "@/data/companies";
 import type { CompanyEntry } from "@/data/companies";
@@ -15,36 +15,36 @@ export function computePerformanceOverview(
   gameStats: readonly GameStat[],
   scoreHistory?: Record<string, ScoreEntry[]>
 ): PerformanceOverview {
-  let accuracy = 87;
-  let practiceHours = "18h";
+  let accuracy = 0;
+  let practiceHours = "0h";
 
   if (totalGamesPlayed > 0) {
     const scores = Object.values(scoreHistory ?? {}).flat();
     if (scores.length > 0) {
       const avg = scores.reduce((acc, s) => acc + s.score, 0) / scores.length;
-      accuracy = Math.min(96, Math.max(65, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
+      accuracy = Math.min(100, Math.max(10, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
     }
-    const estimatedMinutes = totalGamesPlayed * 4;
+    const estimatedMinutes = totalGamesPlayed * 3.5;
     const hours = (estimatedMinutes / 60).toFixed(1);
     practiceHours = `${hours}h`;
   }
 
   return {
     gamesPracticed: {
-      value: totalGamesPlayed > 0 ? totalGamesPlayed : 12,
-      trend: "↑ 2 this week",
+      value: totalGamesPlayed,
+      trend: totalGamesPlayed > 0 ? `${totalGamesPlayed} rounds total` : "Play your first game",
     },
     averageAccuracy: {
       value: accuracy,
-      trend: "↑ 5% this week",
+      trend: totalGamesPlayed > 0 ? "Overall average" : "No rounds yet",
     },
     practiceTime: {
-      value: totalGamesPlayed > 0 ? practiceHours : "18h",
-      trend: "+3.5h this week",
+      value: practiceHours,
+      trend: totalGamesPlayed > 0 ? "Estimated drill time" : "Start practicing",
     },
     mockTests: {
-      value: Math.max(1, Math.min(8, Math.floor((totalGamesPlayed || 12) / 3))),
-      trend: "2 completed",
+      value: 0,
+      trend: "Coming soon",
     },
   };
 }
@@ -59,43 +59,11 @@ export interface ContinuePracticeItem {
   href: string;
 }
 
-interface DefaultGameConfig {
-  slug: string;
-  name: string;
-  duration: string;
-  defaultAccuracy: number;
-  defaultLastPlayed: string;
-}
-
-const PRIMARY_GAMES: DefaultGameConfig[] = [
-  {
-    slug: "switch-challenge",
-    name: "Switch Challenge",
-    duration: "3–5 min",
-    defaultAccuracy: 82,
-    defaultLastPlayed: "2h ago",
-  },
-  {
-    slug: "grid-challenge",
-    name: "Grid Challenge",
-    duration: "3–5 min",
-    defaultAccuracy: 91,
-    defaultLastPlayed: "Yesterday",
-  },
-  {
-    slug: "digit-challenge",
-    name: "Digit Challenge",
-    duration: "3–5 min",
-    defaultAccuracy: 76,
-    defaultLastPlayed: "3d ago",
-  },
-  {
-    slug: "motion-challenge",
-    name: "Motion Challenge",
-    duration: "5–10 min",
-    defaultAccuracy: 84,
-    defaultLastPlayed: "5d ago",
-  },
+const PRIMARY_GAMES = [
+  { slug: "switch-challenge", name: "Switch Challenge", duration: "3–5 min" },
+  { slug: "grid-challenge", name: "Grid Challenge", duration: "3–5 min" },
+  { slug: "digit-challenge", name: "Digit Challenge", duration: "3–5 min" },
+  { slug: "motion-challenge", name: "Motion Challenge", duration: "5–10 min" },
 ];
 
 export function buildContinuePractice(
@@ -109,8 +77,8 @@ export function buildContinuePractice(
     const stat = statsMap.get(pg.slug);
     const attempts = stat?.gamesPlayed ?? 0;
 
-    let accuracy: number = pg.defaultAccuracy;
-    let lastPlayed: string = pg.defaultLastPlayed;
+    let accuracy = 0;
+    let lastPlayed = "Not played yet";
 
     if (stat && stat.gamesPlayed > 0) {
       const history = scoreHistory?.[pg.slug];
@@ -129,7 +97,7 @@ export function buildContinuePractice(
             : `${Math.round(diffHours / 24)}d ago`;
 
         const avg = history.reduce((acc, h) => acc + h.score, 0) / history.length;
-        accuracy = Math.min(98, Math.max(60, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
+        accuracy = Math.min(100, Math.max(10, Math.round(avg > 20 ? (avg / 30) * 100 : avg * 10)));
       }
     }
 
@@ -162,20 +130,34 @@ export function computePlacementReadiness(
   totalGamesPlayed: number,
   averageAccuracy: number
 ): PlacementReadinessData {
-  const gamesCompleted = totalGamesPlayed > 0 ? Math.min(20, totalGamesPlayed) : 12;
-  const mockTestsCompleted = Math.max(1, Math.min(10, Math.floor(gamesCompleted / 2.5)));
-  const score = Math.min(94, Math.round((gamesCompleted / 20) * 40 + (averageAccuracy / 100) * 40 + (mockTestsCompleted / 10) * 20));
+  if (totalGamesPlayed === 0) {
+    return {
+      score: 0,
+      gamesCompleted: 0,
+      gamesTotal: 20,
+      mockTestsCompleted: 0,
+      mockTestsTotal: 0,
+      accuracy: 0,
+      consistency: "Getting Started",
+      milestoneTitle: "Complete your first game",
+      milestoneProgress: 0,
+      milestoneTarget: 5,
+    };
+  }
+
+  const gamesCompleted = Math.min(20, totalGamesPlayed);
+  const score = Math.min(100, Math.round((gamesCompleted / 20) * 50 + (averageAccuracy / 100) * 50));
 
   return {
-    score: score > 0 ? score : 68,
+    score,
     gamesCompleted,
     gamesTotal: 20,
-    mockTestsCompleted,
-    mockTestsTotal: 10,
-    accuracy: averageAccuracy || 87,
-    consistency: gamesCompleted > 8 ? "Good" : "Building",
+    mockTestsCompleted: 0,
+    mockTestsTotal: 0,
+    accuracy: averageAccuracy,
+    consistency: gamesCompleted >= 10 ? "Strong" : gamesCompleted >= 5 ? "Good" : "Building",
     milestoneTitle: "Complete 5 more games",
-    milestoneProgress: (gamesCompleted % 5) || 2,
+    milestoneProgress: totalGamesPlayed % 5,
     milestoneTarget: 5,
   };
 }
@@ -186,38 +168,37 @@ export interface CompanyPrepItem {
   completedGames: number;
 }
 
-interface DefaultCompanyPrepConfig {
-  slug: string;
-  total: number;
-  completed: number;
-}
-
-const PREPARATION_COMPANY_SLUGS: DefaultCompanyPrepConfig[] = [
-  { slug: "capgemini", total: 4, completed: 3 },
-  { slug: "accenture", total: 5, completed: 4 },
-  { slug: "deloitte", total: 4, completed: 2 },
-  { slug: "tcs", total: 5, completed: 2 },
-  { slug: "cognizant", total: 5, completed: 3 },
-  { slug: "ey", total: 4, completed: 1 },
+const PREPARATION_COMPANY_SLUGS = [
+  { slug: "capgemini", total: 6 },
+  { slug: "cognizant", total: 4 },
+  { slug: "accenture", total: 5 },
+  { slug: "deloitte", total: 4 },
+  { slug: "tcs", total: 5 },
+  { slug: "ey", total: 4 },
 ];
 
 export function buildCompanyPreparation(gameStats: readonly GameStat[]): CompanyPrepItem[] {
   const statsMap = new Map(gameStats.map((g) => [g.gameId, g]));
-
   const items: CompanyPrepItem[] = [];
 
   for (const item of PREPARATION_COMPANY_SLUGS) {
     const company = getCompany(item.slug);
     if (!company) continue;
 
-    let completed: number = item.completed;
-    if (statsMap.size > 0 && company.games.length > 0) {
-      completed = Math.min(item.total, Math.max(1, Math.floor(statsMap.size / 2)));
+    const playableGames = company.registrySlug ? gamesForCompany(company.registrySlug) : [];
+    let completed = 0;
+    if (playableGames.length > 0) {
+      for (const cg of playableGames) {
+        const stat = statsMap.get(cg.slug);
+        if (stat && stat.gamesPlayed > 0) {
+          completed++;
+        }
+      }
     }
 
     items.push({
       company,
-      totalGames: item.total,
+      totalGames: playableGames.length > 0 ? playableGames.length : (company.games?.length || item.total),
       completedGames: completed,
     });
   }
@@ -241,8 +222,9 @@ export function buildRecentActivity(scoreHistory?: Record<string, ScoreEntry[]>)
     for (const [gameSlug, entries] of Object.entries(scoreHistory)) {
       const game = getGame(gameSlug);
       for (const entry of entries) {
+        const entryTime = new Date(entry.createdAt).getTime();
         const diffHours = Math.round(
-          (Date.now() - new Date(entry.createdAt).getTime()) / (1000 * 60 * 60)
+          (Date.now() - entryTime) / (1000 * 60 * 60)
         );
         const timeAgo =
           diffHours < 1
@@ -253,10 +235,13 @@ export function buildRecentActivity(scoreHistory?: Record<string, ScoreEntry[]>)
             ? "Yesterday"
             : `${Math.round(diffHours / 24)} days ago`;
 
-        const scorePercent = Math.min(100, Math.max(50, Math.round(entry.score > 20 ? (entry.score / 30) * 100 : entry.score * 10)));
+        const scorePercent = Math.min(
+          100,
+          Math.max(10, Math.round(entry.score > 20 ? (entry.score / 30) * 100 : entry.score * 10))
+        );
 
         realEntries.push({
-          id: `${gameSlug}-${entry.createdAt}`,
+          id: `${gameSlug}-${entryTime}`,
           title: game?.name ?? gameSlug,
           score: scorePercent,
           timeAgo,
@@ -267,40 +252,9 @@ export function buildRecentActivity(scoreHistory?: Record<string, ScoreEntry[]>)
     }
   }
 
-  if (realEntries.length >= 2) {
-    return realEntries.slice(0, 4);
-  }
-
-  return [
-    {
-      id: "act-1",
-      title: "Grid Challenge",
-      score: 92,
-      timeAgo: "2 hours ago",
-      type: "game",
-    },
-    {
-      id: "act-2",
-      title: "Switch Challenge",
-      score: 78,
-      timeAgo: "5 hours ago",
-      type: "game",
-    },
-    {
-      id: "act-3",
-      title: "Motion Challenge",
-      score: 85,
-      timeAgo: "Yesterday",
-      type: "game",
-    },
-    {
-      id: "act-4",
-      title: "Capgemini Mock Test",
-      score: 76,
-      timeAgo: "2 days ago",
-      type: "mock",
-    },
-  ];
+  // Sort descending by most recent
+  realEntries.sort((a, b) => b.id.localeCompare(a.id));
+  return realEntries.slice(0, 5);
 }
 
 export interface PersonalRecommendationData {
@@ -311,21 +265,21 @@ export interface PersonalRecommendationData {
 }
 
 export function buildPersonalRecommendation(continuePractice: ContinuePracticeItem[]): PersonalRecommendationData {
-  const lowest = [...continuePractice].sort((a, b) => a.accuracy - b.accuracy)[0];
-
-  if (lowest) {
+  const played = continuePractice.filter((g) => g.attempts > 0);
+  if (played.length > 0) {
+    const lowest = [...played].sort((a, b) => a.accuracy - b.accuracy)[0];
     return {
       insight: `Your ${lowest.name} accuracy is ${lowest.accuracy}%.`,
-      rationale: `Practice 2 more rounds to improve your speed before attempting the Capgemini mock test.`,
+      rationale: `Practice 2 more rounds to sharpen your speed and score consistency.`,
       actionLabel: `Practice ${lowest.name} →`,
       actionHref: lowest.href,
     };
   }
 
   return {
-    insight: "Your Switch Challenge accuracy is 78%.",
-    rationale: "Practice 2 more rounds to improve your speed before attempting the Capgemini mock test.",
-    actionLabel: "Practice Switch Challenge →",
+    insight: "Begin your placement preparation with Switch Challenge.",
+    rationale: "Switch Challenge is the primary cognitive flexibility test in Capgemini and Cognizant rounds.",
+    actionLabel: "Start Switch Challenge →",
     actionHref: "/play/switch-challenge",
   };
 }
@@ -339,9 +293,12 @@ export interface UserGoalData {
 
 export function buildUserGoal(readinessScore: number): UserGoalData {
   return {
-    goalTitle: "Get placed at your target company.",
-    progressPercent: readinessScore || 68,
-    nextStep: "Complete 3 mock tests this week.",
-    planHref: "/dashboard/mock-tests",
+    goalTitle: "Ace your target company assessment round.",
+    progressPercent: readinessScore,
+    nextStep:
+      readinessScore === 0
+        ? "Complete your first 3 cognitive game drills."
+        : "Practice daily to reach 90%+ readiness.",
+    planHref: "/games",
   };
 }

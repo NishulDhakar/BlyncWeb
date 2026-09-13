@@ -31,21 +31,21 @@ export default function IQTestPage() {
                     real H1 and indexable copy whether or not JS has run. */}
                 <section className="mx-auto mb-10 max-w-3xl">
                     <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-                        Free Online IQ Test — Logical Reasoning &amp; Pattern Recognition
+                        Online IQ Assessment — Logical Reasoning &amp; Pattern Recognition
                     </h1>
                     <p className="leading-7 text-muted-foreground">
-                        Take a free IQ-style assessment covering logical reasoning, number
+                        Take an IQ-style assessment covering logical reasoning, number
                         sequences, pattern recognition and spatial ability — the same skill
                         groups placement tests measure. Answer each question against the clock
-                        and get a scored breakdown at the end.
+                        and receive a comprehensive scored breakdown with Blync Pro.
                     </p>
                     <p className="mt-4 leading-7 text-muted-foreground">
-                        No download and no payment. If you are preparing for a specific
-                        employer, the{" "}
+                        Included with your Blync Pro membership. If you are preparing for a specific
+                        employer, explore our{" "}
                         <Link href="/games/cognitive" className="underline hover:text-foreground">
-                            Capgemini and Cognizant cognitive games
+                            Capgemini and Cognizant cognitive challenges
                         </Link>{" "}
-                        match those rounds more closely than a general IQ test does.
+                        to practice exact hiring rounds.
                     </p>
                 </section>
 

@@ -49,6 +49,9 @@ function GameCard({ game }: { game: GameDefinition }) {
           >
             {game.difficulty}
           </span>
+          <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-500 dark:text-amber-400">
+            Pro
+          </span>
         </div>
 
         {/* h3 — the category page owns the h1, section headings are h2. */}
@@ -89,7 +92,7 @@ function GameCard({ game }: { game: GameDefinition }) {
             href={playHref(game)}
             className="inline-flex items-center rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Play free
+            Play Challenge
           </Link>
         </div>
       </article>

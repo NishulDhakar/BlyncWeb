@@ -7,15 +7,35 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 
+import { submitPublicSupportTicket } from "@/features/admin/supportActions";
+
 export default function FeedbackPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-
-    // You can send this to backend / API
+    setSubmitting(true);
+    try {
+      await submitPublicSupportTicket({
+        name,
+        email,
+        type: "feedback",
+        subject: `Placement Feedback from ${name}`,
+        message,
+        rating: rating || undefined,
+      });
+      setSubmitted(true);
+    } catch {
+      // Still show thanks to user
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -38,10 +58,24 @@ export default function FeedbackPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input type="text" placeholder="Your Name" required />
-              <Input type="email" placeholder="Your Email" required />
+              <Input
+                type="text"
+                placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <Input
+                type="email"
+                placeholder="Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
               <Textarea
                 placeholder="Write your feedback..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 rows={4}
                 required
               />

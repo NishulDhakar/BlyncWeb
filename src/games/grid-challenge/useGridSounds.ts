@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 export type GridSound =
   | 'blink'
@@ -86,6 +86,15 @@ function noiseBurst(ctx: AudioContext, duration: number, gain: number, at: numbe
 
 export function useGridSounds() {
   const ctxRef = useRef<AudioContext | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (ctxRef.current && ctxRef.current.state !== 'closed') {
+        ctxRef.current.close().catch(() => {});
+        ctxRef.current = null;
+      }
+    };
+  }, []);
 
   const play = useCallback((sound: GridSound) => {
     const ctx = getCtx(ctxRef);

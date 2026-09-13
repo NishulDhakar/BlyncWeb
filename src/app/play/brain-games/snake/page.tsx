@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "Snake — Free Online Reflex & Strategy Game | Blync",
+  title: "Snake — Reflex & Strategy Challenge | Blync Pro",
   description:
-    "Play the classic Snake game free online. Navigate the growing snake to eat food while avoiding collisions. Free brain game.",
+    "Play the classic Snake game online. Navigate the growing snake to eat food while avoiding collisions with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/snake` },
   openGraph: {
-    title: "Snake | Blync Brain Games",
-    description: "Play Snake free online — classic reflex and spatial awareness game.",
+    title: "Snake | Blync Pro Brain Games",
+    description: "Play Snake online — classic reflex and spatial awareness game with Blync Pro.",
     url: `${siteConfig.url}/games/brain/snake`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Snake — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "Snake",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/snake`,
-  description: "Classic Snake game — free online reflex and spatial awareness training.",
+  description: "Classic Snake game — online reflex and spatial awareness training with Blync Pro.",
 };
 
 export default function SnakePage() {

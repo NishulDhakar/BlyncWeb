@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "Sudoku — Free Online Brain Puzzle | Blync",
+  title: "Sudoku — 9×9 Number Logic Challenge | Blync Pro",
   description:
-    "Play classic Sudoku puzzles free online. Fill the 9×9 grid using logic and deduction. Free brain game, no download.",
+    "Play classic Sudoku puzzles online. Fill the 9×9 grid using logic and deduction with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/sudoku` },
   openGraph: {
-    title: "Sudoku | Blync Brain Games",
-    description: "Play Sudoku free online — classic 9×9 number logic puzzle.",
+    title: "Sudoku | Blync Pro Brain Games",
+    description: "Play Sudoku online — classic 9×9 number logic puzzle with Blync Pro.",
     url: `${siteConfig.url}/games/brain/sudoku`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Sudoku — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "Sudoku",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/sudoku`,
-  description: "Classic 9×9 Sudoku number logic puzzle — free online brain training.",
+  description: "Classic 9×9 Sudoku number logic puzzle — online brain training with Blync Pro.",
 };
 
 export default function SudokuPage() {

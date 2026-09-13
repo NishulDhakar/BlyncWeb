@@ -3,24 +3,24 @@ import { deductiveChallengeRules } from "@/data/rules";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Deductive Challenge Practice Free 2026 — Capgemini Prep | Blync",
-  description: "Master Deductive Challenge for Capgemini cognitive test. Free practice games, logic reasoning tips & complete guide. Improve deductive thinking fast. Start now!",
+  title: "Deductive Challenge Practice Guide 2026 — Capgemini Prep | Blync",
+  description: "Master Deductive Challenge for Capgemini cognitive test. Logic reasoning tips, rules & complete strategy guide with Blync Pro. Improve deductive thinking fast.",
   keywords: [
     "deductive challenge",
     "deductive challenge practice",
     "capgemini deductive challenge",
-    "deductive reasoning game free",
+    "deductive reasoning game",
     "deductive challenge capgemini",
     "logical reasoning game",
     "capgemini game based aptitude test",
-    "deductive challenge free"
+    "deductive challenge rules"
   ],
   alternates: {
     canonical: "https://www.cognitivegames.me/rules/deductive-challenge",
   },
   openGraph: {
-    title: "Deductive Challenge Practice Free 2026 — Capgemini Prep",
-    description: "Free Deductive Challenge practice for Capgemini placement. Logic tips & unlimited attempts.",
+    title: "Deductive Challenge Practice Guide 2026 — Capgemini Prep",
+    description: "Deductive Challenge practice guide for Capgemini placement. Logic tips & mock tests with Blync Pro.",
     url: "https://www.cognitivegames.me/rules/deductive-challenge",
     type: "article",
   },

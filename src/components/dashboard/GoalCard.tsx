@@ -14,9 +14,9 @@ export interface GoalCardProps {
 export function GoalCard({
   title = "Your goal",
   goalTitle = "Get placed at your target company.",
-  progressPercent = 68,
-  nextStep = "Complete 3 mock tests this week.",
-  planHref = "/dashboard/mock-tests",
+  progressPercent = 0,
+  nextStep = "Start practicing cognitive challenges today.",
+  planHref = "/games",
   className,
 }: GoalCardProps) {
   return (

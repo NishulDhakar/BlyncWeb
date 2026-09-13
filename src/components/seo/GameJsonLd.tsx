@@ -42,7 +42,7 @@ export default function GameJsonLd({
     genre: ["Educational", "Cognitive", "Brain Training"],
     operatingSystem: "Web Browser",
     applicationCategory: "Game",
-    isAccessibleForFree: true,
+    isAccessibleForFree: false,
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
@@ -50,7 +50,7 @@ export default function GameJsonLd({
     },
     offers: {
       "@type": "Offer",
-      price: "0",
+      price: "49",
       priceCurrency: "INR",
       availability: "https://schema.org/InStock",
     },

@@ -67,7 +67,7 @@ export function AccountPlanCard({
             <p className="text-xs text-muted-foreground mt-0.5">
               {isPro
                 ? expiryStr
-                : "Standard aptitude drills. Upgrade for full company mock tests."}
+                : "Upgrade to Blync Pro to unlock all 26+ games, exam simulations, and analytics."}
             </p>
           </div>
         </div>

@@ -3,29 +3,29 @@ import { siteConfig, gamesConfig } from "@/config/site";
 import GamesHubClient from "@/components/games/GamesHubClient";
 
 export const metadata: Metadata = {
-  title: "Free Cognitive Games Online — Brain Training & Aptitude Practice",
+  title: "Cognitive Games Hub — Aptitude Practice & Brain Training | Blync Pro",
   description:
-    "Play free cognitive games online. Practice memory, deductive reasoning, pattern recognition & number sequences. Perfect for Capgemini & Cognizant placement prep. Free, no download.",
+    "Master cognitive games online. Practice memory, deductive reasoning, pattern recognition & number sequences. Tailored for Capgemini & Cognizant placement prep with Blync Pro.",
   keywords: [
-    "free cognitive games online",
-    "memory games online free",
+    "cognitive games online",
+    "memory games online",
     "brain training games",
-    "IQ test online free",
+    "IQ test online",
     "placement aptitude games",
     "capgemini game practice",
   ],
   alternates: { canonical: `${siteConfig.url}/games` },
   openGraph: {
-    title: "Free Cognitive Games Online | Blync",
+    title: "Cognitive Games Hub — Aptitude Practice & Brain Training | Blync Pro",
     description:
-      "Play free cognitive games for Capgemini & Cognizant placement prep. Memory, deductive, pattern games.",
+      "Master cognitive games for Capgemini & Cognizant placement prep. Memory, deductive, pattern games with Blync Pro.",
     url: `${siteConfig.url}/games`,
     images: [
       {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Blync — Free Cognitive Games Online",
+        alt: "Blync — Cognitive Games Hub",
       },
     ],
   },
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
 const itemListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Free Cognitive Games Online",
+  name: "Blync Cognitive Games Suite",
   description:
-    "Free online cognitive games for Capgemini & Cognizant placement aptitude test practice.",
+    "Online cognitive games for Capgemini & Cognizant placement aptitude test practice with Blync Pro.",
   url: `${siteConfig.url}/games`,
   numberOfItems: gamesConfig.length,
   itemListElement: gamesConfig.map((game, i) => ({

@@ -91,7 +91,7 @@ export default async function Image() {
             marginBottom: 48,
           }}
         >
-          Practice Switch, Grid, Digit, Motion &amp; more — free exam-style games for placements
+          Practice Switch, Grid, Digit, Motion &amp; more — exam-style challenge suite for placements
         </div>
 
         {/* Game tags */}

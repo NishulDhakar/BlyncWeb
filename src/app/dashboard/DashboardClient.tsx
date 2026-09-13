@@ -65,7 +65,7 @@ export default function DashboardClient({
   recommendation,
   goal,
 }: Props) {
-  const currentStreakDays = streak.currentStreak > 0 ? streak.currentStreak : 7;
+  const currentStreakDays = streak.currentStreak;
 
   return (
     <div className="flex flex-col gap-6">
@@ -95,7 +95,7 @@ export default function DashboardClient({
               href="/games"
               className="flex items-center gap-1 text-[11px] font-medium text-primary hover:underline cursor-pointer"
             >
-              <span>Keep going</span>
+              <span>{currentStreakDays > 0 ? "Keep going" : "Start today"}</span>
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>

@@ -11,6 +11,13 @@ export default function Music() {
       audioRef.current = new Audio("/music/game.mp3");
       audioRef.current.loop = true;
     }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   const toggleMusic = () => {

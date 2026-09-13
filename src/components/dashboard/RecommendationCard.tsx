@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, Lightbulb } from "lucide-react";
+import { ArrowRight, Lightbulb, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
 
 export interface RecommendationCardProps {
   title?: string;
@@ -19,6 +20,12 @@ export function RecommendationCard({
   actionHref,
   className,
 }: RecommendationCardProps) {
+  const user = useUser();
+  const isPro = user?.isPro ?? false;
+  const isGameLink = actionHref.startsWith("/play/") || actionHref.startsWith("/memory-game/");
+  const targetHref = !isPro && isGameLink ? "/pricing" : actionHref;
+  const targetLabel = !isPro && isGameLink ? "Unlock with Pro" : actionLabel;
+
   return (
     <div
       className={cn(
@@ -36,13 +43,20 @@ export function RecommendationCard({
 
       <div className="mt-4 pt-1">
         <Link
-          href={actionHref}
-          className="inline-flex h-8 items-center justify-center gap-1.5 rounded-lg border border-border/80 bg-secondary/50 px-3 text-xs font-medium text-foreground transition-colors hover:bg-secondary hover:text-foreground cursor-pointer"
+          href={targetHref}
+          className={cn(
+            "inline-flex h-8 items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-medium transition-colors cursor-pointer",
+            !isPro && isGameLink
+              ? "border-amber-500/30 bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25"
+              : "border-border/80 bg-secondary/50 text-foreground hover:bg-secondary hover:text-foreground"
+          )}
         >
-          <span>{actionLabel}</span>
+          {!isPro && isGameLink && <Lock className="h-3 w-3" />}
+          <span>{targetLabel}</span>
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>
   );
 }
+

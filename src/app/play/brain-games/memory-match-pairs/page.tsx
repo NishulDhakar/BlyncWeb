@@ -3,13 +3,13 @@ import { siteConfig } from "@/config/site";
 import BrainGamePlayer from "@/components/games/BrainGamePlayer";
 
 export const metadata: Metadata = {
-  title: "Memory Match Pairs — Free Online Memory Game | Blync",
+  title: "Memory Match Pairs — Memory & Recall Challenge | Blync Pro",
   description:
-    "Flip cards and find matching pairs. Improve memory, focus, and recall speed. Free online brain game, no download.",
+    "Flip cards and find matching pairs. Improve memory, focus, and recall speed with Blync Pro.",
   alternates: { canonical: `${siteConfig.url}/games/brain/memory-match-pairs` },
   openGraph: {
-    title: "Memory Match Pairs | Blync Brain Games",
-    description: "Play Memory Match Pairs free online — classic card matching memory game.",
+    title: "Memory Match Pairs | Blync Pro Brain Games",
+    description: "Play Memory Match Pairs online — card matching memory challenge with Blync Pro.",
     url: `${siteConfig.url}/games/brain/memory-match-pairs`,
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Memory Match Pairs — Blync" }],
   },
@@ -21,9 +21,9 @@ const schema = {
   name: "Memory Match Pairs",
   operatingSystem: "Web",
   applicationCategory: "GameApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  offers: { "@type": "Offer", price: "49", priceCurrency: "INR" },
   url: `${siteConfig.url}/games/brain/memory-match-pairs`,
-  description: "Classic card matching memory game — free online brain training.",
+  description: "Classic card matching memory game — online brain training with Blync Pro.",
 };
 
 export default function MemoryMatchPairsPage() {
