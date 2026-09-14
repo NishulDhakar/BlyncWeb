@@ -5,9 +5,11 @@ import { MetricCard } from "@/components/admin/MetricCard";
 import { DataTable, type Column } from "@/components/admin/DataTable";
 import type { SubscriptionItem } from "@/features/admin/subscriptionActions";
 import { getSubscriptions } from "@/features/admin/subscriptionActions";
-import { Repeat, UserCheck, UserX, TrendingUp, AlertTriangle } from "lucide-react";
+import { Repeat, UserCheck, UserX, TrendingUp, AlertTriangle, Crown } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { GrantPremiumDialog } from "@/components/admin/GrantPremiumDialog";
 
 export interface SubscriptionClientProps {
   initialData: {
@@ -160,13 +162,28 @@ export function SubscriptionClient({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-foreground">
-          Subscriptions & Recurring Revenue
-        </h1>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          Real subscription lifecycle managed via Razorpay webhooks. Total registered subscriptions: {total.toLocaleString()}
-        </p>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-foreground">
+            Subscriptions & Recurring Revenue
+          </h1>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Real subscription lifecycle managed via Razorpay webhooks. Total registered subscriptions: {total.toLocaleString()}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <GrantPremiumDialog
+            trigger={
+              <Button
+                size="sm"
+                className="h-8 text-xs gap-1.5 cursor-pointer bg-amber-500 hover:bg-amber-600 text-black border border-amber-600 font-semibold"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                Grant Premium
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       {/* 5 Metrics Cards */}

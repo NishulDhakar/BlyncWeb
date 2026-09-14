@@ -8,6 +8,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { GrantPremiumDialog } from "@/components/admin/GrantPremiumDialog";
+import { Button } from "@/components/ui/button";
+import { Crown } from "lucide-react";
 
 export interface UserTableClientProps {
   initialData: {
@@ -242,7 +245,7 @@ export function UserTableClient({ initialData }: UserTableClientProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground">
             User Management
@@ -250,6 +253,19 @@ export function UserTableClient({ initialData }: UserTableClientProps) {
           <p className="text-xs text-muted-foreground mt-0.5">
             Manage student registrations, plans, cognitive test access, and account status. Total: {total.toLocaleString()}
           </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <GrantPremiumDialog
+            trigger={
+              <Button
+                size="sm"
+                className="h-8 text-xs gap-1.5 cursor-pointer bg-amber-500 hover:bg-amber-600 text-black border border-amber-600 font-semibold"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                Grant Premium
+              </Button>
+            }
+          />
         </div>
       </div>
 

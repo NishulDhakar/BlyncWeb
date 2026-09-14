@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { subscriptions, users } from "@/lib/schema";
 import { requireAdmin } from "./auth";
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, gte, sql } from "drizzle-orm";
 
 export interface SubscriptionItem {
   id: string;
@@ -111,7 +111,7 @@ export async function getSubscriptionMetrics() {
     .where(
       and(
         eq(subscriptions.status, "active"),
-        sql`${subscriptions.createdAt} >= ${thirtyDaysAgo}`
+        gte(subscriptions.createdAt, thirtyDaysAgo)
       )
     );
 

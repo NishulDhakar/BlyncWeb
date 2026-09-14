@@ -12,8 +12,9 @@ import {
 } from "@/lib/schema";
 import { requireAdmin } from "./auth";
 import { logAdminAction } from "./audit";
-import { eq, desc, asc, and, ilike, or, sql, inArray } from "drizzle-orm";
+import { eq, desc, asc, and, ilike, or, sql, inArray, gte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { randomUUID } from "crypto";
 
 export interface UserRow {
   id: string;
@@ -290,6 +291,131 @@ export async function updateUserPlan(userId: string, isPro: boolean) {
   revalidatePath("/admin/users");
   revalidatePath(`/admin/users/${userId}`);
   return { success: true };
+}
+
+export async function grantPremiumAccess({
+  email,
+  days,
+  reasonTag = "Given by Admin",
+}: {
+  email: string;
+  days: number;
+  reasonTag?: string;
+}) {
+  const admin = await requireAdmin("admin");
+
+  if (!email || !email.trim()) {
+    throw new Error("Student email address is required");
+  }
+
+  const parsedDays = Number(days);
+  if (isNaN(parsedDays) || parsedDays <= 0) {
+    throw new Error("Duration must be a positive number of days");
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+  const [targetUser] = await db
+    .select()
+    .from(users)
+    .where(ilike(users.email, cleanEmail))
+    .limit(1);
+
+  if (!targetUser) {
+    throw new Error(`No registered student account found with email "${cleanEmail}"`);
+  }
+
+  // Check if they currently have an active subscription with a future expiry
+  const [latestActiveSub] = await db
+    .select()
+    .from(subscriptions)
+    .where(
+      and(
+        eq(subscriptions.userId, targetUser.id),
+        eq(subscriptions.status, "active"),
+        gte(subscriptions.expiresAt, new Date())
+      )
+    )
+    .orderBy(desc(subscriptions.expiresAt))
+    .limit(1);
+
+  const baseDate =
+    latestActiveSub?.expiresAt && latestActiveSub.expiresAt > new Date()
+      ? new Date(latestActiveSub.expiresAt)
+      : new Date();
+
+  const expiresAt = new Date(baseDate.getTime() + parsedDays * 24 * 60 * 60 * 1000);
+  const tag = (reasonTag && reasonTag.trim()) || "Given by Admin";
+
+  // Create an admin-grant subscription entry so it logs in subscriptions ledger
+  const subId = `grant_${randomUUID().slice(0, 10)}`;
+  await db.insert(subscriptions).values({
+    id: subId,
+    userId: targetUser.id,
+    planType: "admin_grant",
+    razorpaySubscriptionId: subId,
+    status: "active",
+    expiresAt,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  // Prepare updated notes with timestamped audit trail
+  const timestamp = new Date().toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const auditLine = `[${timestamp}] Granted ${parsedDays} days Pro (Tag: "${tag}", expires: ${expiresAt.toLocaleDateString("en-IN")}) by ${admin.email}`;
+  const updatedNotes = targetUser.notes ? `${targetUser.notes}\n${auditLine}` : auditLine;
+
+  // Update user pro status
+  await db
+    .update(users)
+    .set({
+      isPro: true,
+      subscriptionStatus: "active",
+      notes: updatedNotes,
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, targetUser.id));
+
+  // Log to audit log
+  await logAdminAction({
+    adminId: admin.id,
+    adminEmail: admin.email,
+    adminName: admin.name,
+    action: "user.grant_premium",
+    targetType: "user",
+    targetId: targetUser.id,
+    metadata: {
+      userEmail: targetUser.email,
+      userName: targetUser.name,
+      days: parsedDays,
+      tag,
+      expiresAt: expiresAt.toISOString(),
+      grantedByAdmin: admin.email,
+    },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/users");
+  revalidatePath(`/admin/users/${targetUser.id}`);
+  revalidatePath("/admin/subscriptions");
+  revalidatePath("/dashboard");
+
+  return {
+    success: true,
+    user: {
+      id: targetUser.id,
+      name: targetUser.name,
+      email: targetUser.email,
+    },
+    days: parsedDays,
+    tag,
+    expiresAt,
+  };
 }
 
 export async function updateUserStatus(

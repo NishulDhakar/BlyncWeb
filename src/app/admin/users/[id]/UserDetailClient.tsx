@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { GrantPremiumDialog } from "@/components/admin/GrantPremiumDialog";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -148,6 +149,18 @@ export function UserDetailClient({ data }: UserDetailClientProps) {
         </Link>
 
         <div className="flex items-center gap-2">
+          <GrantPremiumDialog
+            defaultEmail={user.email}
+            trigger={
+              <Button
+                size="sm"
+                className="h-8 text-xs gap-1.5 cursor-pointer bg-amber-500 hover:bg-amber-600 text-black border border-amber-600 font-semibold"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                Grant Premium (Days)
+              </Button>
+            }
+          />
           <Button
             size="sm"
             variant="outline"
@@ -155,7 +168,7 @@ export function UserDetailClient({ data }: UserDetailClientProps) {
             className="h-8 text-xs cursor-pointer"
           >
             <Crown className="mr-1.5 h-3.5 w-3.5 text-amber-500" />
-            {user.isPro ? "Demote to Free" : "Upgrade to Pro"}
+            {user.isPro ? "Demote to Free" : "Toggle Pro"}
           </Button>
           <Button
             size="sm"

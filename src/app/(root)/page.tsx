@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import About from "@/components/Landing/About";
 import FAQ, { faqData } from "@/components/Landing/FAQ";
 import Hero from "@/components/Landing/Hero";
+import WhyUs from "@/components/Landing/WhyUs";
 import LogoMarquee from "@/components/Landing/LogoMarquee";
 import HowItWorks from "@/components/Landing/Howitwork";
 import NumbersSpeak from "@/components/Landing/NumbersSpeak";
@@ -78,6 +79,7 @@ export default function Home() {
       />
       <div>
         <Hero />
+        <WhyUs />
         <LogoMarquee />
         <About />
         <NumbersSpeak />

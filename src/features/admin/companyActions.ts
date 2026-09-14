@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { companies, games, mockTests, gameScores, mockTestAttempts } from "@/lib/schema";
 import { requireAdmin } from "./auth";
 import { logAdminAction } from "./audit";
-import { eq, desc, sql, inArray } from "drizzle-orm";
+import { eq, desc, sql, inArray, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function getCompanies() {
@@ -58,7 +58,7 @@ export async function getCompanyDetails(idOrSlug: string) {
   const [company] = await db
     .select()
     .from(companies)
-    .where(sql`${companies.id} = ${idOrSlug} OR ${companies.slug} = ${idOrSlug}`)
+    .where(or(eq(companies.id, idOrSlug), eq(companies.slug, idOrSlug)))
     .limit(1);
 
   if (!company) return null;

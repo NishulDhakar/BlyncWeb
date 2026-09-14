@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { users, subscriptions } from "./schema";
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { cache } from "react";
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID!;
@@ -36,7 +36,39 @@ export const getUserIsPro = cache(async (userId: string): Promise<boolean> => {
       .where(eq(users.id, userId))
       .limit(1);
 
-    if (user?.isPro === true && user?.subscriptionStatus === "active") return true;
+    if (user?.isPro === true && user?.subscriptionStatus === "active") {
+      // Check if there is an active subscription with a defined expiration date
+      const [latestSub] = await db
+        .select({
+          expiresAt: subscriptions.expiresAt,
+          planType: subscriptions.planType,
+        })
+        .from(subscriptions)
+        .where(
+          and(
+            eq(subscriptions.userId, userId),
+            eq(subscriptions.status, "active")
+          )
+        )
+        .orderBy(desc(subscriptions.expiresAt))
+        .limit(1);
+
+      if (latestSub?.expiresAt && new Date(latestSub.expiresAt) < new Date()) {
+        await Promise.all([
+          db
+            .update(subscriptions)
+            .set({ status: "completed", updatedAt: new Date() })
+            .where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, "active"))),
+          db
+            .update(users)
+            .set({ isPro: false, subscriptionStatus: "expired", updatedAt: new Date() })
+            .where(eq(users.id, userId)),
+        ]);
+        return false;
+      }
+
+      return true;
+    }
 
     // Webhook may not have fired — verify directly with Razorpay
     const rzpSubId = user?.razorpaySubscriptionId;

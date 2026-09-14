@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { users, subscriptions, gameScores, payments, mockTestAttempts } from "@/lib/schema";
 import { requireAdmin } from "./auth";
-import { sql, eq, and, gte, desc } from "drizzle-orm";
+import { sql, eq, and, gte, lt, desc } from "drizzle-orm";
 
 export interface OverviewMetrics {
   totalUsers: number;
@@ -47,6 +47,7 @@ export async function getOverviewData() {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+  const oneYearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
 
   // 1. Total users
   const [totalUsersRes] = await db
@@ -68,7 +69,7 @@ export async function getOverviewData() {
     .where(
       and(
         gte(users.createdAt, sixtyDaysAgo),
-        sql`${users.createdAt} < ${thirtyDaysAgo}`
+        lt(users.createdAt, thirtyDaysAgo)
       )
     );
   const prevUsers = prevUsersRes?.count ?? 0;
@@ -218,7 +219,7 @@ export async function getOverviewData() {
   // Sort descending by timestamp
   activity.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
-  // 9. Revenue timeline (last 30 days grouped by day)
+  // 9. Revenue timeline (last 365 days grouped by day)
   const revenueTimeline = await db
     .select({
       date: sql<string>`to_char("createdAt", 'YYYY-MM-DD')`,
@@ -226,7 +227,7 @@ export async function getOverviewData() {
       refunds: sql<number>`coalesce(sum("refundedAmount"), 0)::int`,
     })
     .from(payments)
-    .where(gte(payments.createdAt, thirtyDaysAgo))
+    .where(gte(payments.createdAt, oneYearAgo))
     .groupBy(sql`to_char("createdAt", 'YYYY-MM-DD')`)
     .orderBy(sql`to_char("createdAt", 'YYYY-MM-DD')`);
 
@@ -237,14 +238,14 @@ export async function getOverviewData() {
     net: Math.round(Math.max(0, r.gross - r.refunds) / 100),
   }));
 
-  // 10. User growth timeline (last 30 days grouped by day)
+  // 10. User growth timeline (last 365 days grouped by day)
   const userTimeline = await db
     .select({
       date: sql<string>`to_char("createdAt", 'YYYY-MM-DD')`,
       count: sql<number>`count(*)::int`,
     })
     .from(users)
-    .where(gte(users.createdAt, thirtyDaysAgo))
+    .where(gte(users.createdAt, oneYearAgo))
     .groupBy(sql`to_char("createdAt", 'YYYY-MM-DD')`)
     .orderBy(sql`to_char("createdAt", 'YYYY-MM-DD')`);
 

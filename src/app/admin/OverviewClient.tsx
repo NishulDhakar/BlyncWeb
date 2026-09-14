@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { MetricCard } from "@/components/admin/MetricCard";
 import {
   Users,
@@ -25,6 +25,7 @@ import type {
 } from "@/features/admin/overviewActions";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { GrantPremiumDialog } from "@/components/admin/GrantPremiumDialog";
 
 export interface OverviewClientProps {
   initialData: {
@@ -55,6 +56,92 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
     return "₹" + (paise / 100).toLocaleString("en-IN", { maximumFractionDigits: 0 });
   };
 
+  // 1. Filtered & Aggregated Revenue Points
+  const revenueFilterData = useMemo(() => {
+    const daysBack =
+      revenueRange === "7d"
+        ? 7
+        : revenueRange === "30d"
+        ? 30
+        : revenueRange === "90d"
+        ? 90
+        : 365;
+
+    const cutoffStr = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+
+    const filtered = revenuePoints.filter((p) => p.date >= cutoffStr);
+
+    if (revenueRange === "12m") {
+      const monthlyMap = new Map<
+        string,
+        { date: string; gross: number; refunds: number; net: number }
+      >();
+      for (const p of filtered) {
+        const monthKey = p.date.slice(0, 7);
+        const existing = monthlyMap.get(monthKey) || {
+          date: monthKey,
+          gross: 0,
+          refunds: 0,
+          net: 0,
+        };
+        existing.gross += p.gross;
+        existing.refunds += p.refunds;
+        existing.net += p.net;
+        monthlyMap.set(monthKey, existing);
+      }
+      const points = Array.from(monthlyMap.values()).sort((a, b) =>
+        a.date.localeCompare(b.date)
+      );
+      const totalGross = points.reduce((acc, p) => acc + p.gross, 0);
+      const totalRefunds = points.reduce((acc, p) => acc + p.refunds, 0);
+      const totalNet = Math.max(0, totalGross - totalRefunds);
+      return { points, totalGross, totalRefunds, totalNet };
+    }
+
+    const totalGross = filtered.reduce((acc, p) => acc + p.gross, 0);
+    const totalRefunds = filtered.reduce((acc, p) => acc + p.refunds, 0);
+    const totalNet = Math.max(0, totalGross - totalRefunds);
+    return { points: filtered, totalGross, totalRefunds, totalNet };
+  }, [revenuePoints, revenueRange]);
+
+  // 2. Filtered & Aggregated User Growth Points
+  const growthFilterData = useMemo(() => {
+    const daysBack =
+      growthRange === "7d"
+        ? 7
+        : growthRange === "30d"
+        ? 30
+        : growthRange === "90d"
+        ? 90
+        : 365;
+
+    const cutoffStr = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+
+    const filtered = userGrowthPoints.filter((p) => p.date >= cutoffStr);
+
+    if (growthRange === "1y") {
+      const monthlyMap = new Map<string, { date: string; newUsers: number }>();
+      for (const p of filtered) {
+        const monthKey = p.date.slice(0, 7);
+        const existing = monthlyMap.get(monthKey) || { date: monthKey, newUsers: 0 };
+        existing.newUsers += p.newUsers;
+        monthlyMap.set(monthKey, existing);
+      }
+      const points = Array.from(monthlyMap.values()).sort((a, b) =>
+        a.date.localeCompare(b.date)
+      );
+      const totalUsers = points.reduce((acc, p) => acc + p.newUsers, 0);
+      return { points, totalUsers };
+    }
+
+    const totalUsers = filtered.reduce((acc, p) => acc + p.newUsers, 0);
+    return { points: filtered, totalUsers };
+  }, [userGrowthPoints, growthRange]);
+
   return (
     <div className="space-y-8">
       {/* Top Header */}
@@ -69,6 +156,17 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
         </div>
 
         <div className="flex items-center gap-2">
+          <GrantPremiumDialog
+            trigger={
+              <Button
+                size="sm"
+                className="h-8 text-xs gap-1.5 cursor-pointer bg-amber-500 hover:bg-amber-600 text-black border border-amber-600 font-semibold"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                Grant Premium
+              </Button>
+            }
+          />
           <Link href="/admin/users">
             <Button size="sm" variant="outline" className="h-8 text-xs cursor-pointer">
               Manage Users
@@ -158,7 +256,13 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
                   Revenue Breakdown
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  Captured transactions and subscription cashflow
+                  {revenueRange === "7d"
+                    ? "Captured transactions over the past 7 days"
+                    : revenueRange === "30d"
+                    ? "Captured transactions over the past 30 days"
+                    : revenueRange === "90d"
+                    ? "Captured transactions over the past 90 days"
+                    : "Monthly captured transactions over the past 12 months"}
                 </p>
               </div>
 
@@ -183,10 +287,10 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border-y border-border/60 py-3 mb-4 text-xs font-mono">
               <div>
                 <span className="text-muted-foreground block text-[11px] font-sans">
-                  Gross Revenue
+                  Gross ({revenueRange.toUpperCase()})
                 </span>
                 <span className="text-sm font-semibold text-foreground">
-                  {formatRupees(metrics.grossRevenuePaise)}
+                  ₹{revenueFilterData.totalGross.toLocaleString("en-IN")}
                 </span>
               </div>
               <div>
@@ -194,15 +298,15 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
                   Refunds
                 </span>
                 <span className="text-sm font-semibold text-rose-600 dark:text-rose-400">
-                  {formatRupees(metrics.refundedRevenuePaise)}
+                  ₹{revenueFilterData.totalRefunds.toLocaleString("en-IN")}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block text-[11px] font-sans">
-                  Net Revenue
+                  Net Cashflow
                 </span>
                 <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                  {formatRupees(metrics.netRevenuePaise)}
+                  ₹{revenueFilterData.totalNet.toLocaleString("en-IN")}
                 </span>
               </div>
               <div>
@@ -215,19 +319,19 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
               </div>
             </div>
 
-            {/* Visual Bars for Recent Days */}
+            {/* Visual Bars for Selected Interval */}
             <div className="space-y-2">
               <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider block mb-2">
-                Daily Trend (Recent Days)
+                {revenueRange === "12m" ? "Monthly Breakdown (Past 12 Months)" : `Timeline Trend (${revenueRange.toUpperCase()})`}
               </span>
-              {revenuePoints.length === 0 ? (
+              {revenueFilterData.points.length === 0 ? (
                 <div className="py-8 text-center text-xs text-muted-foreground">
                   No captured payment events in this interval
                 </div>
               ) : (
-                <div className="space-y-1.5">
-                  {revenuePoints.slice(-7).map((pt) => {
-                    const maxGross = Math.max(...revenuePoints.map((p) => p.gross), 1);
+                <div className="space-y-1.5 max-h-[300px] overflow-y-auto pr-1">
+                  {revenueFilterData.points.map((pt) => {
+                    const maxGross = Math.max(...revenueFilterData.points.map((p) => p.gross), 1);
                     const pct = Math.min(100, Math.max(10, (pt.gross / maxGross) * 100));
                     return (
                       <div key={pt.date} className="flex items-center gap-3 text-xs">
@@ -268,7 +372,9 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
                   User Acquisition Trend
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  Daily student registrations over the past 30 days
+                  {growthRange === "1y"
+                    ? `Monthly student registrations over the past 1 year (+${growthFilterData.totalUsers.toLocaleString("en-IN")} total)`
+                    : `Daily student registrations over the past ${growthRange.toUpperCase()} (+${growthFilterData.totalUsers.toLocaleString("en-IN")} total)`}
                 </p>
               </div>
               <div className="flex items-center rounded-lg border border-border/70 bg-muted/40 p-0.5 text-xs">
@@ -288,28 +394,34 @@ export function OverviewClient({ initialData }: OverviewClientProps) {
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              {userGrowthPoints.slice(-7).map((pt) => {
-                const maxUsers = Math.max(...userGrowthPoints.map((p) => p.newUsers), 1);
-                const pct = Math.min(100, Math.max(12, (pt.newUsers / maxUsers) * 100));
-                return (
-                  <div key={pt.date} className="flex items-center gap-3 text-xs">
-                    <span className="w-20 shrink-0 font-mono text-muted-foreground text-[11px]">
-                      {pt.date}
-                    </span>
-                    <div className="flex-1 bg-muted/40 h-5 rounded-md overflow-hidden relative flex items-center px-2">
-                      <div
-                        className="absolute left-0 top-0 bottom-0 bg-emerald-500/20 rounded-md"
-                        style={{ width: `${pct}%` }}
-                      />
-                      <span className="relative z-10 font-mono text-[11px] font-medium text-foreground">
-                        +{pt.newUsers} users
+            {growthFilterData.points.length === 0 ? (
+              <div className="py-8 text-center text-xs text-muted-foreground">
+                No new student registrations in this interval
+              </div>
+            ) : (
+              <div className="space-y-1.5 max-h-[300px] overflow-y-auto pr-1">
+                {growthFilterData.points.map((pt) => {
+                  const maxUsers = Math.max(...growthFilterData.points.map((p) => p.newUsers), 1);
+                  const pct = Math.min(100, Math.max(12, (pt.newUsers / maxUsers) * 100));
+                  return (
+                    <div key={pt.date} className="flex items-center gap-3 text-xs">
+                      <span className="w-20 shrink-0 font-mono text-muted-foreground text-[11px]">
+                        {pt.date}
                       </span>
+                      <div className="flex-1 bg-muted/40 h-5 rounded-md overflow-hidden relative flex items-center px-2">
+                        <div
+                          className="absolute left-0 top-0 bottom-0 bg-emerald-500/20 rounded-md"
+                          style={{ width: `${pct}%` }}
+                        />
+                        <span className="relative z-10 font-mono text-[11px] font-medium text-foreground">
+                          +{pt.newUsers} users
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 

@@ -3,29 +3,10 @@
 import { db } from "@/lib/db";
 import { users, broadcasts, broadcastRecipients } from "@/lib/schema";
 import nodemailer from "nodemailer";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { eq, and } from "drizzle-orm";
+import { requireAdmin } from "./auth";
+import { logAdminAction } from "./audit";
+import { eq, and, desc, sql } from "drizzle-orm";
 import { randomUUID } from "crypto";
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
-async function getSessionUser() {
-  const h = await headers();
-  const session = await auth.api.getSession({ headers: h });
-  return session?.user ?? null;
-}
-
-async function isAdmin(email: string | undefined | null) {
-  if (!email) return false;
-  if (ADMIN_EMAIL && email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) return true;
-  const [dbUser] = await db
-    .select({ role: users.role })
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1);
-  return dbUser?.role === "super_admin" || dbUser?.role === "admin";
-}
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST ?? "smtp.gmail.com",
@@ -49,7 +30,7 @@ async function sendBatch(
   for (const { recipientId, email } of emails) {
     try {
       await transporter.sendMail({
-        from: `"Blync" <${process.env.SMTP_USER}>`,
+        from: `"CognitiveGames.me" <${process.env.SMTP_USER}>`,
         to: email,
         subject,
         text,
@@ -60,7 +41,7 @@ async function sendBatch(
       results.push({ recipientId, ok: false, error: String(err) });
     }
     // Small delay between sends to respect SMTP rate limits
-    await new Promise((r) => setTimeout(r, 120));
+    await new Promise((r) => setTimeout(r, 100));
   }
 
   return results;
@@ -77,8 +58,7 @@ export async function sendBroadcast({
   imageBase64?: string;
   imageName?: string;
 }) {
-  const user = await getSessionUser();
-  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
+  const admin = await requireAdmin("admin");
 
   const allUsers = await db.select({ id: users.id, email: users.email }).from(users);
   if (allUsers.length === 0) return { success: false, error: "No users found." };
@@ -141,19 +121,33 @@ export async function sendBroadcast({
     .set({ sentCount, failedCount })
     .where(eq(broadcasts.id, broadcastId));
 
+  await logAdminAction({
+    adminId: admin.id,
+    adminEmail: admin.email,
+    adminName: admin.name,
+    action: "broadcast.sent",
+    targetType: "broadcast",
+    targetId: broadcastId,
+    metadata: {
+      subject,
+      totalCount: allUsers.length,
+      sentCount,
+      failedCount,
+    },
+  });
+
   return { success: true, broadcastId, sentCount, failedCount, total: allUsers.length };
 }
 
 export async function retryFailed(broadcastId: string) {
-  const user = await getSessionUser();
-  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
+  const admin = await requireAdmin("admin");
 
-  const broadcast = await db
+  const [broadcast] = await db
     .select()
     .from(broadcasts)
     .where(eq(broadcasts.id, broadcastId))
     .limit(1);
-  if (!broadcast[0]) return { success: false, error: "Broadcast not found." };
+  if (!broadcast) return { success: false, error: "Broadcast not found." };
 
   const failed = await db
     .select()
@@ -169,8 +163,8 @@ export async function retryFailed(broadcastId: string) {
 
   const results = await sendBatch(
     failed.map((r) => ({ recipientId: r.id, email: r.email })),
-    broadcast[0].subject,
-    broadcast[0].message,
+    broadcast.subject,
+    broadcast.message,
     []
   );
 
@@ -196,30 +190,46 @@ export async function retryFailed(broadcastId: string) {
   await db
     .update(broadcasts)
     .set({
-      sentCount: broadcast[0].sentCount + sentCount,
-      failedCount: broadcast[0].failedCount - sentCount,
+      sentCount: broadcast.sentCount + sentCount,
+      failedCount: broadcast.failedCount - sentCount,
     })
     .where(eq(broadcasts.id, broadcastId));
+
+  await logAdminAction({
+    adminId: admin.id,
+    adminEmail: admin.email,
+    adminName: admin.name,
+    action: "broadcast.retried",
+    targetType: "broadcast",
+    targetId: broadcastId,
+    metadata: {
+      subject: broadcast.subject,
+      retriedCount: failed.length,
+      newlySent: sentCount,
+      stillFailing: failedCount,
+    },
+  });
 
   return { success: true, sentCount, failedCount };
 }
 
 export async function getBroadcastHistory() {
-  const user = await getSessionUser();
-  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized", data: [] };
+  await requireAdmin("support");
 
   const rows = await db
     .select()
     .from(broadcasts)
-    .orderBy(broadcasts.createdAt);
+    .orderBy(desc(broadcasts.createdAt));
 
-  return { success: true, data: rows.reverse() };
+  return { success: true, data: rows };
 }
 
 export async function getUserCount() {
-  const user = await getSessionUser();
-  if (!(await isAdmin(user?.email))) return { success: false, error: "Unauthorized" };
+  await requireAdmin("support");
 
-  const result = await db.select({ email: users.email }).from(users);
-  return { success: true, count: result.length };
+  const [result] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(users);
+
+  return { success: true, count: result?.count ?? 0 };
 }

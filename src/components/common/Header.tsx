@@ -100,6 +100,10 @@ function Navbar() {
 
   const close = useCallback(() => setMobileOpen(false), []);
 
+  if (pathname === "/") {
+    return null;
+  }
+
   return (
     <>
       {/* Tap-outside backdrop (mobile only) */}

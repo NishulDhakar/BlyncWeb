@@ -34,78 +34,79 @@ const previewGames = [
   { title: "Deductive Logic", detail: "Constraint solving", Icon: Brain },
 ];
 
-function AppShowcase() {
-  return (
-    <div className="mx-auto mt-16 w-full max-w-5xl">
-      <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-[0_30px_80px_-40px_rgb(0_0_0/0.35)]">
-        <div className="grid min-h-[360px] lg:grid-cols-[220px_1fr]">
-          <aside className="hidden flex-col border-r border-border bg-secondary/50 p-5 lg:flex">
-            <p className="font-heading text-lg font-bold text-foreground">Blync</p>
-            <nav className="mt-8 space-y-1.5">
-              {["Practice", "Streaks", "Progress", "Leaderboard"].map((label, i) => (
-                <div
-                  key={label}
-                  className={`rounded-lg px-3 py-2 text-sm font-semibold ${
-                    i === 0
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  {label}
-                </div>
-              ))}
-            </nav>
-            <div className="mt-auto rounded-lg border border-border bg-card p-3">
-              <p className="text-xs font-semibold text-muted-foreground">Today</p>
-              <p className="mt-1 text-base font-bold text-foreground">4 rounds cleared</p>
-            </div>
-          </aside>
+// function AppShowcase() {
+//   return (
+//     <div className="mx-auto mt-16 w-full max-w-5xl">
+//       <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-[0_30px_80px_-40px_rgb(0_0_0/0.35)]">
+//         <div className="grid min-h-[360px] lg:grid-cols-[220px_1fr]">
+//           <aside className="hidden flex-col border-r border-border bg-secondary/50 p-5 lg:flex">
+//             <p className="font-heading text-lg font-bold text-foreground">Blync</p>
+//             <nav className="mt-8 space-y-1.5">
+//               {["Practice", "Streaks", "Progress", "Leaderboard"].map((label, i) => (
+//                 <div
+//                   key={label}
+//                   className={`rounded-lg px-3 py-2 text-sm font-semibold ${
+//                     i === 0
+//                       ? "bg-primary text-primary-foreground"
+//                       : "text-muted-foreground"
+//                   }`}
+//                 >
+//                   {label}
+//                 </div>
+//               ))}
+//             </nav>
+//             <div className="mt-auto rounded-lg border border-border bg-card p-3">
+//               <p className="text-xs font-semibold text-muted-foreground">Today</p>
+//               <p className="mt-1 text-base font-bold text-foreground">4 rounds cleared</p>
+//             </div>
+//           </aside>
 
-          <div className="flex min-w-0 flex-col p-5 sm:p-7">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  Practice dashboard
-                </p>
-                <p className="mt-1 font-heading text-xl font-bold text-foreground sm:text-2xl">
-                  Placement rounds ready
-                </p>
-              </div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs font-bold text-foreground">
-                <span className="size-1.5 rounded-full bg-foreground" />
-                Live
-              </span>
-            </div>
+//           <div className="flex min-w-0 flex-col p-5 sm:p-7">
+//             <div className="flex flex-wrap items-center justify-between gap-3">
+//               <div>
+//                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+//                   Practice dashboard
+//                 </p>
+//                 <p className="mt-1 font-heading text-xl font-bold text-foreground sm:text-2xl">
+//                   Placement rounds ready
+//                 </p>
+//               </div>
+//               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs font-bold text-foreground">
+//                 <span className="size-1.5 rounded-full bg-foreground" />
+//                 Live
+//               </span>
+//             </div>
 
-            <div className="flex flex-1 flex-col items-center justify-center py-10 text-center">
-              <div className="flex items-end gap-3">
-                <span className="font-serif text-7xl italic leading-none text-foreground sm:text-8xl">
-                  13
-                </span>
-                <span className="mb-2 text-xl font-bold text-muted-foreground">games</span>
-              </div>
-              <p className="mt-4 max-w-sm text-sm font-medium leading-6 text-muted-foreground">
-                Cognitive drills, puzzle rounds and timed mocks in one quiet workspace.
-              </p>
-            </div>
+//             <div className="flex flex-1 flex-col items-center justify-center py-10 text-center">
+//               <div className="flex items-end gap-3">
+//                 <span className="font-serif text-7xl italic leading-none text-foreground sm:text-8xl">
+//                   13
+//                 </span>
+//                 <span className="mb-2 text-xl font-bold text-muted-foreground">games</span>
+//               </div>
+//               <p className="mt-4 max-w-sm text-sm font-medium leading-6 text-muted-foreground">
+//                 Cognitive drills, puzzle rounds and timed mocks in one quiet workspace.
+//               </p>
+//             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {previewGames.map(({ title, detail, Icon }) => (
-                <div key={title} className="rounded-xl border border-border bg-secondary/40 p-4">
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <Icon className="size-4" />
-                  </div>
-                  <p className="mt-3 text-sm font-bold text-foreground">{title}</p>
-                  <p className="mt-0.5 text-xs font-medium text-muted-foreground">{detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+//             <div className="grid gap-3 sm:grid-cols-3">
+//               {previewGames.map(({ title, detail, Icon }) => (
+//                 <div key={title} className="rounded-xl border border-border bg-secondary/40 p-4">
+//                   <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+//                     <Icon className="size-4" />
+//                   </div>
+//                   <p className="mt-3 text-sm font-bold text-foreground">{title}</p>
+//                   <p className="mt-0.5 text-xs font-medium text-muted-foreground">{detail}</p>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 export default function Hero() {
   const { canInstall, isInstalled, isIOS, install } = usePWAInstall();
@@ -185,10 +186,31 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-16 -z-10 h-72 w-[70%] -translate-x-1/2 rounded-full bg-foreground/[0.06] blur-3xl"
       />
+      
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 pb-16 text-center sm:pt-36 lg:pt-40">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 pt-24 pb-16 text-center sm:pt-28 lg:pt-32">
+        <a
+          href="https://www.nishul.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 rounded-full py-1 pl-1.5 pr-3 text-md font-semibold text-foreground transition-all active:scale-95 shadow-xs"
+        >
+          <div className="relative size-10 overflow-hidden rounded-full border border-white/20 shrink-0">
+            <Image
+              src="/nishulhero.jpg"
+              alt="Nishul"
+              fill
+              className="object-cover"
+              sizes="24px"
+              priority
+            />
+          </div>
+          <span className="text-md font-bold text-foreground">
+            By Nishul
+          </span>
+        </a>
 
-        <h1 className={`mt-7 max-w-6xl ${landingHeadingClass}`}>
+        <h1 className={`mt-6 max-w-6xl ${landingHeadingClass}`}>
           A quiet practice space for
           <br />
           <span>game-based aptitude tests.</span>
@@ -203,7 +225,7 @@ export default function Hero() {
         <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
           <CoolMode>
             <ShimmerButton
-              href="/games/cognitive"
+              href="/dashboard"
               className="h-12 px-7 text-sm font-semibold shadow-lg"
             >
               Start practising now
@@ -233,7 +255,7 @@ export default function Hero() {
           </div>
         )}
 
-        <dl className="mt-12 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+        {/* <dl className="mt-12 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
           {heroStats.map((stat) => (
             <div
               key={stat.label}
@@ -248,9 +270,7 @@ export default function Hero() {
               </p>
             </div>
           ))}
-        </dl>
-
-        <AppShowcase />
+        </dl> */}
       </div>
     </section>
   );
