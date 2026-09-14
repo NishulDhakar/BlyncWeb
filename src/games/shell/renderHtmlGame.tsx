@@ -23,26 +23,48 @@ function escapeInlineScript(script: string): string {
 }
 
 /**
- * The site renders dark-only. This makes the framed document agree, before
- * first paint, without giving it access to the parent document.
+ * Bridges parent theme (dark / light) to the sandboxed iframe so it renders
+ * matching colors on initial paint and on theme toggles.
  */
 const THEME_BRIDGE = `
-<style>
-  html, body { color-scheme: dark; }
-</style>
 <script>
   (function () {
+    function getParentTheme() {
+      try {
+        if (window.parent && window.parent.document && window.parent.document.documentElement) {
+          return window.parent.document.documentElement.classList.contains("dark") ? "dark" : "light";
+        }
+      } catch (e) {}
+      try {
+        var stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") return stored;
+      } catch (e) {}
+      return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    }
+
     function apply(theme) {
-      var t = theme === "light" ? "light" : "dark";
+      var t = theme === "dark" ? "dark" : "light";
       document.documentElement.dataset.theme = t;
       document.documentElement.style.colorScheme = t;
       document.documentElement.classList.toggle("dark", t === "dark");
-      if (document.body) document.body.classList.toggle("dark", t === "dark");
+      if (document.body) {
+        document.body.classList.toggle("dark", t === "dark");
+        document.body.style.colorScheme = t;
+      }
     }
-    apply("dark");
-    document.addEventListener("DOMContentLoaded", function () { apply("dark"); });
+
+    // Apply immediately to head/document before first paint
+    var initialTheme = getParentTheme();
+    apply(initialTheme);
+
+    document.addEventListener("DOMContentLoaded", function () {
+      apply(getParentTheme());
+    });
+
     window.addEventListener("message", function (event) {
-      if (event.data && event.data.type === "blync-theme") apply(event.data.theme);
+      if (event.data && event.data.type === "blync-theme") {
+        apply(event.data.theme);
+      }
     });
   })();
 </script>

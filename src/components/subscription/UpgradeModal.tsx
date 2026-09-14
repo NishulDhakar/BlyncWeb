@@ -70,7 +70,7 @@ export default function UpgradeModal() {
         prefill,
         theme: { color: "#000000" },
         handler: () => {
-          window.location.reload();
+          window.location.href = "/dashboard";
         },
       });
       rzp.open();

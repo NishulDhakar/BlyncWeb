@@ -160,10 +160,10 @@ export default function PricingClient() {
           }
 
           if (activated) {
-            window.location.href = "/games/cognitive";
+            window.location.href = "/dashboard";
           } else {
             // Webhook took too long — still redirect, user can refresh if needed
-            window.location.href = "/games/cognitive";
+            window.location.href = "/dashboard";
           }
         },
       });

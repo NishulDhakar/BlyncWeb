@@ -118,7 +118,7 @@ export default async function WhyUs() {
 
               <div className="pt-1">
                 <p className="text-xs sm:text-sm font-semibold text-foreground">
-                  Akshay Sharma
+                  Shivansh tiwari
                 </p>
                 <p className="text-[11px] sm:text-xs text-muted-foreground">
                   Placed Candidate · TIT Bhopal
@@ -143,7 +143,7 @@ export default async function WhyUs() {
               {cards.map((card) => (
                 <div
                   key={card.label}
-                  className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-border/80 bg-secondary/30 dark:bg-card/70 p-6 sm:p-7 flex flex-col justify-between min-h-[260px] sm:min-h-[290px] lg:min-h-[320px] transition-all duration-300 hover:border-foreground/20 hover:shadow-lg hover:-translate-y-1"
+                  className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-border/80 bg-secondary/30 dark:bg-card/70 p-6 sm:p-7 flex flex-col justify-between min-h-[260px] sm:min-h-[290px] lg:min-h-[320px] transition-all duration-300"
                 >
                   {/* Giant Watermark Ghost Number */}
                   <span

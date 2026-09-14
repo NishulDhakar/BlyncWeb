@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useTheme } from "next-themes";
 
 /**
  * Sandboxed host for the self-contained HTML assessments (debugging rounds,
@@ -24,6 +25,42 @@ export default function HtmlGameFrame({
   const holderRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [visible, setVisible] = useState(false);
+  const { resolvedTheme } = useTheme();
+
+  const syncTheme = useCallback(() => {
+    // Determine active theme from resolvedTheme or direct parent DOM class
+    const isDark =
+      resolvedTheme === "dark" ||
+      (typeof document !== "undefined" &&
+        document.documentElement.classList.contains("dark"));
+    const currentTheme = isDark ? "dark" : "light";
+
+    // 1. Direct same-origin DOM access (instant, zero lag, no race condition)
+    try {
+      const frameDoc = frameRef.current?.contentDocument;
+      if (frameDoc && frameDoc.documentElement) {
+        frameDoc.documentElement.dataset.theme = currentTheme;
+        frameDoc.documentElement.style.colorScheme = currentTheme;
+        frameDoc.documentElement.classList.toggle("dark", isDark);
+        if (frameDoc.body) {
+          frameDoc.body.classList.toggle("dark", isDark);
+          frameDoc.body.style.colorScheme = currentTheme;
+        }
+      }
+    } catch {
+      // Ignored if cross-origin
+    }
+
+    // 2. Post message backup
+    try {
+      frameRef.current?.contentWindow?.postMessage(
+        { type: "blync-theme", theme: currentTheme },
+        "*"
+      );
+    } catch {
+      // Ignored
+    }
+  }, [resolvedTheme]);
 
   useEffect(() => {
     const node = holderRef.current;
@@ -49,15 +86,24 @@ export default function HtmlGameFrame({
     return () => observer.disconnect();
   }, []);
 
-  // The site is dark-only (<html class="dark">); tell the frame so its own
-  // stylesheet paints to match instead of flashing white.
+  // Sync theme to iframe on visibility, mount, and theme changes
   useEffect(() => {
     if (!visible) return;
-    frameRef.current?.contentWindow?.postMessage(
-      { type: "blync-theme", theme: "dark" },
-      "*"
-    );
-  }, [visible]);
+    syncTheme();
+  }, [visible, syncTheme]);
+
+  // Observe root class changes when user clicks the theme toggle
+  useEffect(() => {
+    if (typeof MutationObserver === "undefined" || !visible) return;
+    const observer = new MutationObserver(() => {
+      syncTheme();
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
+    return () => observer.disconnect();
+  }, [visible, syncTheme]);
 
   const frameClass =
     "block h-[calc(100vh-4rem)] min-h-[720px] w-full border-0 bg-background sm:h-[calc(100vh-5rem)] lg:h-[calc(100vh-6rem)]";
@@ -71,6 +117,7 @@ export default function HtmlGameFrame({
           title={title}
           className={frameClass}
           allow={allow}
+          onLoad={syncTheme}
           // allow-same-origin is required, not incidental: the debugging
           // assessments persist progress to localStorage (cm_debug_state_*) and
           // the speaking rounds call navigator.mediaDevices.getUserMedia, both of

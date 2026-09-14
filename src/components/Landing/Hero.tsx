@@ -154,8 +154,8 @@ export default function Hero() {
         variant="outline"
         className="h-12 rounded-full px-6 text-sm font-semibold"
       >
-        <Link href="/games">
-          Browse all games
+        <Link href="https://www.linkedin.com/in/nishuldhakar/">
+          Let's Connect
           <ChevronRight className="size-4" />
         </Link>
       </Button>

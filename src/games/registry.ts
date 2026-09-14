@@ -1002,7 +1002,14 @@ export function gamesInCategory(category: GameCategory): GameDefinition[] {
 }
 
 export function gamesForCompany(company: CompanySlug): GameDefinition[] {
-  return liveGames().filter((game) => game.company === company);
+  const all = liveGames();
+  if (company === "capgemini" || company === "cognizant") {
+    // Capgemini and Cognizant assessments both test the cognitive puzzle battery and communication rounds
+    return all.filter(
+      (game) => game.company === "capgemini" || game.company === "cognizant"
+    );
+  }
+  return all.filter((game) => game.company === company);
 }
 
 /**

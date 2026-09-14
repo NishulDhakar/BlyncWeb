@@ -17,6 +17,7 @@ import {
   Minimize2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 interface ChatMessage {
   id: string;
@@ -37,6 +38,9 @@ const STARTER_QUESTIONS = [
 ];
 
 export default function BlyncChatbot() {
+  const { data: session } = authClient.useSession();
+  const user = session?.user as { name?: string | null; email?: string; isPro?: boolean } | undefined;
+
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -52,6 +56,41 @@ export default function BlyncChatbot() {
       ],
     },
   ]);
+
+  // Personalize welcome message when authenticated user is detected
+  useEffect(() => {
+    if (user?.name) {
+      const firstName = user.name.split(" ")[0];
+      setMessages((prev) => {
+        if (prev.length === 1 && prev[0].id === "welcome-msg") {
+          return [
+            {
+              id: "welcome-msg",
+              role: "bot",
+              text: `Hey ${firstName}! 👋 I am **BlyncBot**, your personalized cognitive & placement mentor.\n\n${
+                user.isPro
+                  ? "🌟 **Blync Pro is Active** — You have full access to all 26+ games, official test timers, and solution guides!\n\n"
+                  : "Ready to prepare for **Capgemini, Accenture, TCS & Cognizant** rounds? Let's get you placed!\n\n"
+              }Ask me anything about game strategies, test patterns, or winning shortcuts.`,
+              timestamp: "Just now",
+              suggestions: user.isPro
+                ? [
+                    "How to eliminate wrong branches in Switch Challenge?",
+                    "Capgemini 4-game test pattern breakdown",
+                    "Digit Challenge speed calculation tricks",
+                  ]
+                : [
+                    "How does the Capgemini Game Round work?",
+                    "What is included in Blync Pro for ₹49?",
+                    "Switch Challenge winning tips",
+                  ],
+            },
+          ];
+        }
+        return prev;
+      });
+    }
+  }, [user?.name, user?.isPro]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -233,7 +272,14 @@ export default function BlyncChatbot() {
       });
 
       if (!response.ok) {
-        throw new Error(`Chat error: ${response.status}`);
+        let serverError = "";
+        try {
+          const errData = await response.json();
+          serverError = errData.error;
+        } catch {
+          // ignore
+        }
+        throw new Error(serverError || `Chat error: ${response.status}`);
       }
 
       const reader = response.body?.getReader();
@@ -295,18 +341,27 @@ export default function BlyncChatbot() {
           }
         }
       }
-    } catch (error) {
-      if ((error as { name?: string })?.name === "AbortError") {
+    } catch (error: any) {
+      if (error?.name === "AbortError") {
         return;
       }
       console.error("Chat error:", error);
+      const friendlyError = error?.message?.startsWith("Chat error:")
+        ? "BlyncBot is momentarily busy. Please try asking again in a few seconds."
+        : error?.message || "Unable to reach the assistant right now. Please check your connection or try again.";
+
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === botMsgId
             ? {
                 ...msg,
-                text: "Unable to reach the assistant. Please verify your connection or try again.",
+                text: `⚠️ **${friendlyError}**\n\nYou can also read our complete [Placement Game Guides & Rules](/rules) or practice directly at [/games/cognitive](/games/cognitive).`,
                 isStreaming: false,
+                suggestions: [
+                  "How does the Capgemini Game Round work?",
+                  "What is included in Blync Pro (₹49)?",
+                  "Switch Challenge winning tips",
+                ],
               }
             : msg
         )
@@ -395,18 +450,27 @@ export default function BlyncChatbot() {
           {/* ─── HEADER ─── */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/40">
             <div className="flex items-center gap-2.5 pl-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+              <div className="relative flex items-center justify-center">
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <div className="absolute w-4 h-4 rounded-full bg-emerald-500/20 animate-ping" />
+              </div>
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="text-xs font-semibold text-zinc-100 tracking-tight">
                     Blync AI
                   </h3>
-                  <span className="text-[10px] font-mono text-zinc-400 px-1 py-0.2 rounded bg-zinc-800/80 border border-zinc-700/50">
-                    Groq
-                  </span>
+                  {user?.isPro ? (
+                    <span className="text-[10px] font-semibold text-amber-400 px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30">
+                      PRO MENTOR
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-mono text-emerald-400 px-1.5 py-0.2 rounded bg-emerald-500/10 border border-emerald-500/20">
+                      Online
+                    </span>
+                  )}
                 </div>
                 <p className="text-[11px] text-zinc-400">
-                  Placement & Games Guide
+                  {user?.name ? `Personalized for ${user.name.split(" ")[0]}` : "Placement & Games Guide"}
                 </p>
               </div>
             </div>

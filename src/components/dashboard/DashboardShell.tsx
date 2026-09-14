@@ -24,6 +24,7 @@ import {
   PanelLeftOpen,
   PanelLeft,
   Trophy,
+  Mic,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -50,7 +51,8 @@ const NAV_ITEMS = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Companies", href: "/dashboard/companies", icon: Building2 },
   { label: "Games", href: "/dashboard/games", icon: Gamepad2 },
-  {label:"Leaderboard",href:"/dashboard/leaderboard",icon:Trophy},
+  { label: "Communication", href: "/dashboard/communication", icon: Mic },
+  { label: "Leaderboard", href: "/dashboard/leaderboard", icon: Trophy },
   // { label: "Practice", href: "/games", icon: ClipboardList },
   { label: "Mock Tests", href: "/dashboard/mock-tests", icon: FileQuestion },
   { label: "Progress", href: "/profile", icon: LineChart },
