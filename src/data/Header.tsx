@@ -18,18 +18,18 @@ export const navbarConfig = {
     //   label: 'Memory Games',
     //   href: '/games/memory',
     // },
-    {
-      label: 'All Games',
-      href: '/games',
-    },
-    {
-      label: 'Leaderboard',
-      href: '/leaderboard',
-    },
-    {
-      label: 'Dashboard',
-      href: '/dashboard',
-    },
+    // {
+    //   label: 'All Games',
+    //   href: '/games',
+    // },
+    // {
+    //   label: 'Leaderboard',
+    //   href: '/leaderboard',
+    // },
+    // {
+    //   label: 'Dashboard',
+    //   href: '/dashboard',
+    // },
     // {
     //   label: 'open to work',
     //   href: 'https://www.nishul.dev/',
