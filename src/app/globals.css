@@ -339,23 +339,22 @@ body {
   @apply opacity-100;
 }
 
-/* Page fade-in animation with blur */
+/* Opacity-only page entrance: avoid filtering the entire content subtree.
+   Keep the existing class name for callers. The base state also stays sharp
+   and fully visible when reduced motion disables the animation. */
 @keyframes fadeInBlur {
   0% {
     opacity: 0.2;
-    filter: blur(5px);
   }
   100% {
     opacity: 1;
-    filter: none;
   }
 }
 
 .animate-fade-in-blur {
-  animation: fadeInBlur 0.5s ease-out forwards;
-  animation-delay: 0.3s;
-  opacity: 0.4;
-  filter: blur(3px);
+  opacity: 1;
+  filter: none;
+  animation: fadeInBlur 0.5s ease-out 0.3s backwards;
 }
 
 /* GPU Acceleration and Layer Isolation Utility */
